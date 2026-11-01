@@ -55,6 +55,38 @@ a cozy kitchen with warm cream tiles, wooden shelves with a few jars, a window w
 slightly blurred and soft, plenty of calm empty space in the center for big text, no people, no text.
 ```
 
+**Zbliżenie blatu** (pionowe; widać je, gdy uczeń wyjmie wszystko i robi mini-grę, np. obiera jabłka):
+```
+Vertical 1080x1500 close-up background for a children's cooking game, same cartoon style:
+a top-down view of a light wooden kitchen countertop with soft wood grain and a few warm cream tiles
+at the very top edge. Completely EMPTY: no objects, no food, no tools, no people, no text.
+Calm, light colors so game objects placed on top stay readable.
+```
+
+---
+
+## Część 4: pojedyncze jabłko
+
+Do mini-gry z obieraniem (na desce leży 5 osobnych jabłek). Przezroczyste tło:
+```
+One single red apple with a small green leaf, same cute cartoon style (thick dark-brown outlines #3b2314,
+flat bright colors, one simple shade), TRANSPARENT background, centered, no text.
+```
+
+---
+
+## Gdzie co trafia (nazwy plików w `img/`)
+
+| Plik | Co to |
+| --- | --- |
+| cuchillo, pelador, bol, cuchara, sarten, rallador, molde, colador, tabla | przybory (część 2) |
+| helado, nata, fresa | rzeczy w lodówce, które tylko przeszkadzają (część 2) |
+| nevera, armario, cajon, horno | drzwi mebli (część 2, wiersz 4) |
+| cocina, fondo, encimera | tła (część 3) |
+| manzana | jedno jabłko (część 4) |
+
+Półki w szafkach rysuje gra sama, nie trzeba do nich obrazków.
+
 ---
 
 ## STYL (gdybyś zaczynał nową rozmowę)
