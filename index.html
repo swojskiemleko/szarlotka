@@ -308,11 +308,19 @@ img.th{width:100%;height:100%;object-fit:contain}
 .door{position:absolute;inset:-3px;z-index:2;cursor:pointer;border:3px solid var(--line);border-radius:12px;
   background:linear-gradient(#e6ad73,#c98a52);transform-origin:left center;transition:transform .5s cubic-bezier(.3,.8,.35,1.15);box-shadow:0 4px 0 var(--line)}
 .door>i{position:absolute;right:10px;top:50%;translate:0 -50%;width:8px;height:32%;background:#7a4a20;border:2px solid var(--line);border-radius:5px}
-.door.has-img{background:none;border:0;box-shadow:none}
-.door.has-img>.pic{width:100%;height:100%;object-fit:fill}
+.door.has-img{background-color:var(--line);background-repeat:repeat;border:0;box-shadow:none}
+.f-horno .door.has-img{background-color:#efebe6}
+.door.has-img.fit-contain{background-color:transparent}
+/* lo de dentro solo se ve con la puerta abierta */
+.furn:not(.open) .inside{visibility:hidden}
+.furn:has(> .door.fit-contain):not(.open){background:transparent;box-shadow:none;border-color:transparent}
+.f-horno .door.has-img .ov-glass{background:transparent;border-color:transparent}
+.f-horno.baking .door.has-img .ov-glass{background:radial-gradient(#ffb15a,#a2370e 70%,#3d1407);border-color:var(--line)}
 .f-nevera .door{background:linear-gradient(90deg,#f8fbfd,#d9e4ec)}
 .f-nevera .door>i{background:#9fb0bf;height:40%}
 .furn.open .door{transform:rotateY(-108deg)}
+/* la puerta abierta se aparta y desaparece: no tapa nada */
+.furn.open:not(.f-cajon):not(.f-horno) .door{opacity:0;pointer-events:none;transition:transform .45s ease-in,opacity .2s .25s}
 .f-cajon .door{transform-origin:center bottom}
 .f-cajon .door>i{right:auto;left:50%;top:12%;translate:-50% 0;width:34%;height:8px}
 .f-cajon.open .door{transform:translateY(80%)}
@@ -325,12 +333,27 @@ img.th{width:100%;height:100%;object-fit:contain}
 .f-horno.baking .ov-glass{background:radial-gradient(#ffb15a,#a2370e 70%,#3d1407);box-shadow:0 0 18px #ff7b00}
 .furn.drop{animation:nudge .6s ease-in-out infinite alternate}
 .counter{position:relative;display:flex;flex-direction:column;border:3px solid var(--line);border-radius:12px;overflow:hidden;
-  background:linear-gradient(to top,var(--wood2) 0 5px,var(--wood) 5px 18px,transparent 18px),
-    linear-gradient(90deg,rgba(255,255,255,.55) 1px,transparent 1px) 0 0/26px 26px,
-    linear-gradient(rgba(255,255,255,.55) 1px,transparent 1px) 0 0/26px 26px,#fbe9d6}
+  /* la superficie: dibujo de piedra (img/piedra.png) o, si no hay, puntitos con CSS */
+  --surf:radial-gradient(rgba(90,70,50,.10) 1.2px,transparent 1.8px) 0 0/13px 13px,
+    radial-gradient(rgba(255,255,255,.7) 1.2px,transparent 1.8px) 6px 7px/17px 17px,
+    linear-gradient(160deg,#f3ece2,#e3d8c9);
+  background:linear-gradient(to top,var(--wood2) 0 5px,var(--wood) 5px 18px,transparent 18px),var(--surf)}
+/* en primer plano: azulejos detrás y la encimera de piedra delante */
+.zoom .counter{background:linear-gradient(to top,var(--wood2) 0 6px,var(--wood) 6px 22px,transparent 22px),var(--surf);border-radius:6px 6px 0 0}
+/* el blat forma parte de la cocina: sin marco */
+.counter{border:0!important;box-shadow:0 3px 0 rgba(59,35,20,.35)}
+/* lo sacado se pone de verdad sobre la encimera: sin tarjeta blanca, con su sombra */
+.taken .tile-pic{background:none;border:0;box-shadow:none;padding:0;filter:drop-shadow(0 4px 2px rgba(59,35,20,.35))}
+/* sin rótulo: solo el objeto sobre la encimera */
+.taken .tile-lbl{display:none}
+/* las cosas están delante, sobre el borde de la encimera */
+.counter .taken{order:2;align-items:flex-end;padding:0 6px 20px}
+.counter .taken:empty{display:none}
+.counter .work{padding-bottom:4px}
+.kitchen2.zoom .work{padding-bottom:4px}
 .taken{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;padding:4px 4px 0}
 .work{flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;flex-wrap:wrap;gap:8px;padding:2px 6px 20px}
-.counter.locked .work{opacity:.5;pointer-events:none}
+.counter.locked .work{visibility:hidden;pointer-events:none}
 .tile{width:56px;display:flex;flex-direction:column;align-items:center;cursor:grab;touch-action:none}
 .tile-pic{width:42px;height:42px;padding:3px;background:#fff;border:3px solid var(--line);border-radius:12px;box-shadow:0 3px 0 var(--line);display:grid;place-items:center}
 .tile-pic .th{font-size:24px}
@@ -387,7 +410,12 @@ img.th{width:100%;height:100%;object-fit:contain}
 .zoom .counter .bowl .mini .th{width:36px;height:36px;font-size:28px}
 .zoom .counter .ball.big{width:120px;height:120px}
 .zoom .counter .ball.small{width:68px;height:68px}
-.zoom .counter .molde{width:min(58vw,230px)}
+.zoom .counter .molde{width:min(72vw,280px)}
+/* dos cosas a la vez en la encimera: más pequeñas */
+.zoom .counter .work.pair .sarten{width:min(42vw,160px);height:min(42vw,160px);padding:34px}
+.zoom .counter .work.pair .molde{width:min(56vw,210px)}
+.zoom .counter .work.pair .board{width:min(44vw,200px);min-height:110px}
+.zoom .counter .work.pair .trozos>img{width:min(30vw,120px)}
 .zoom .counter .grater{width:74px;height:120px}
 .zoom .counter .clock{font-size:1.4rem;padding:4px 14px}
 .zoom .counter .sieve .th{width:50px;height:50px;font-size:38px}
@@ -569,11 +597,11 @@ img.th{width:100%;height:100%;object-fit:contain}
 .sarten.img::after{display:none}
 .sarten.cooked .cube{background:#e2a94f;box-shadow:inset -2px -2px 0 #b97c2b}
 .sarten.sizzle.img{animation:jig .25s infinite alternate}
-.bowl.img{background:center/contain no-repeat;border:0;border-radius:0;box-shadow:none;align-items:center;align-content:center;padding:24%}
+.bowl.img{background:center/contain no-repeat;border:0;border-radius:0;box-shadow:none;align-items:center;align-content:center;padding:0}
 .zoom .counter .bowl.img{width:min(64vw,250px);height:min(64vw,250px)}
 .ball.img{background:none;box-shadow:none;border:0}
 .ball.img>img{width:100%;height:100%;object-fit:contain}
-.molde.img{background:center/contain no-repeat;box-shadow:none}
+.molde.img{background:center/contain no-repeat;box-shadow:none;border:0}
 .molde.img .in{display:none}
 .molde .cuts{position:absolute;inset:9px;pointer-events:none}
 .fade{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;pointer-events:none}
@@ -581,6 +609,50 @@ img.th{width:100%;height:100%;object-fit:contain}
 .dust{width:6px;height:6px;background:#fff;box-shadow:0 0 2px rgba(0,0,0,.3)}
 .crumb-p{width:9px;height:9px;background:#f0cf86;border:1px solid #c99a45}
 @keyframes dust{to{transform:translateY(46px);opacity:0}}
+/* ---------- móvil en horizontal: todo en su sitio, solo más compacto ---------- */
+@media (orientation:landscape) and (max-height:540px){
+  .game{max-width:none}
+  .hud{padding:4px 10px 2px;min-height:0}
+  .mist{padding:1px 8px;font-size:.85rem}
+  .stage{padding:3px 8px 0}
+  .host{padding:4px 10px 5px;gap:8px;align-items:center}
+  .host .face{width:40px;height:40px;font-size:24px;border-width:3px}
+  .bubble{padding:4px 12px;margin-bottom:0}
+  .bubble .instr{font-size:clamp(.9rem,2.2vw,1.1rem)}
+  .bubble .tip{font-size:clamp(.78rem,1.8vw,.92rem);margin-top:1px}
+  .kitchen2{grid-template-rows:27% 1fr 33%;gap:5px}
+  /* muebles anchos y bajos: las cosas en una fila */
+  .inside{overflow:hidden}
+  .slot{min-height:0}
+  .f-armario1 .inside,.f-armario2 .inside,.f-cajon .inside{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:1fr;grid-auto-rows:auto;grid-template-rows:1fr}
+  .f-armario3 .inside{grid-template-columns:repeat(3,1fr)}
+  /* primer plano: los tamaños siguen la altura de la pantalla */
+  .zoom .tile{width:50px}
+  .zoom .tile-pic{width:38px;height:38px}
+  .zoom .tile-pic .th{font-size:22px}
+  .zoom .tile-lbl{font-size:9px}
+  .kitchen2.zoom .work{padding-bottom:20px;gap:6px}
+  .big-apple{width:min(36dvh,170px)}
+  .zoom .counter .board.tall{min-height:min(40dvh,230px)}
+  .zoom .counter .molde{width:min(52dvh,280px)}
+  .zoom .counter .sarten{width:min(46dvh,220px);height:min(46dvh,220px);padding:min(10dvh,48px)}
+  .zoom .counter .bowl.img{width:min(42dvh,250px);height:min(42dvh,250px)}
+  .counter .molde{width:min(22dvh,118px)}
+  .counter .ball.big{width:min(18dvh,74px);height:min(18dvh,74px)}
+  .zoom .counter .ball.big{width:min(28dvh,120px);height:min(28dvh,120px)}
+  .zoom .counter .work.pair .sarten{width:min(36dvh,160px);height:min(36dvh,160px);padding:min(8dvh,34px)}
+  .zoom .counter .work.pair .molde{width:min(42dvh,210px)}
+  .zoom .counter .work.pair .board{min-height:min(28dvh,110px)}
+  .grater-wrap>img{width:min(24dvh,120px)}
+  .oven-modal .box{max-height:100%;overflow:auto;padding:8px;gap:5px}
+}
+/* ---------- móvil en vertical: se pide girarlo ---------- */
+.rotate{position:fixed;inset:0;z-index:80;background:rgba(255,248,236,.97);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px}
+.rotate .ico{font-size:4.5rem;animation:turn 1.8s ease-in-out infinite}
+.rotate h2{margin:0}
+.rotate p{margin:0;font-size:1.1rem}
+@keyframes turn{40%,60%{transform:rotate(-90deg)}}
+@media (orientation:portrait) and (max-width:600px){ body:not(.portrait-ok) .game .rotate{display:flex} }
 </style>
 </head>
 <body>
@@ -732,10 +804,10 @@ const NAME = {
 /* dónde está cada cosa en la cocina */
 const PLACES = {
   nevera:   { img: 'nevera',  de: 'de la nevera',          items: ['manzanas', 'mantequilla', 'huevo', 'queso', 'pescado', 'helado', 'nata', 'fresa'] },
-  armario1: { img: 'armario', de: 'del armario de arriba', items: ['harina', 'fecula', 'azucarGlas', 'arroz', 'tomate', 'cebolla'] },
-  armario2: { img: 'armario', de: 'del armario de arriba', items: ['vainilla', 'canela', 'levadura', 'sal', 'zanahoria'] },
-  cajon:    { img: 'cajon',   de: 'del cajón',             items: ['cuchillo', 'pelador', 'cuchara'] },
-  armario3: { img: 'armario', de: 'del armario de abajo',  items: ['tabla', 'bol', 'sarten', 'molde', 'rallador', 'colador'] },
+  armario1: { img: 'armario', front: 'armarioArriba3', de: 'del armario de arriba', items: ['harina', 'fecula', 'azucarGlas', 'arroz', 'tomate', 'cebolla'] },
+  armario2: { img: 'armario', front: 'armarioArriba2', de: 'del armario de arriba', items: ['vainilla', 'canela', 'levadura', 'sal', 'zanahoria'] },
+  cajon:    { img: 'cajon',   front: 'cajones', de: 'del cajón',             items: ['cuchillo', 'pelador', 'cuchara'] },
+  armario3: { img: 'armario', front: 'armarioAbajo2', de: 'del armario de abajo',  items: ['tabla', 'bol', 'sarten', 'molde', 'rallador', 'colador'] },
 };
 const TOOLS = {
   tabla:    { e: '🟫', n: 'la tabla' },
@@ -962,15 +1034,13 @@ function stir(el, { turns = 3, tool, prog, done }) {
 /* espolvorear / rallar: mover de un lado a otro (x) o de arriba abajo (y) */
 function shake(el, { axis = 'x', count = 8, tool, follow, prog, done }) {
   el.classList.add('mg');
-  const hint = h('div', { class: 'swing ' + axis }, axis === 'x' ? '↔️' : '↕️');
-  el.append(hint);
   const tl = follow || follower(el, tool);
   let down = false, dir = 0, ext = 0, n = 0, fin = false, moved = false;
   const v = e => axis === 'x' ? e.clientX : e.clientY;
   const step = () => {
     if (fin) return;
     n++; prog && prog(n / count, tl.p); beep(380 + n * 30, .05, 'triangle', .06);
-    if (n >= count) { fin = true; hint.remove(); done(); }
+    if (n >= count) { fin = true; done(); }
   };
   el.addEventListener('pointerdown', e => {
     down = true; dir = 0; ext = v(e); moved = false; el.classList.add('started'); tl.at(pct(el, e));
@@ -1003,20 +1073,23 @@ function progress() {
    Objetos de la cocina
    ========================================================= */
 /* Imágenes opcionales en img/<nombre>.png. Si no existen, se usa el emoji. */
-const IMG = {};
+const IMG = {}, IMG_SIZE = {};
 const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO),
-  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana', 'encimera',
+  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana',
+  'armarioArriba3', 'armarioArriba2', 'armarioAbajo2', 'cajones', 'piedra',
   /* minijuegos */
   'manzanaPelada', 'manzanaTrozos', 'masa', 'masaPeque', 'tablaTop',
   'sartenTop', 'sartenManzanas', 'sartenCanela', 'bolTop', 'bolMezcla', 'bolMasa',
   'moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado'];
+/* los fondos son dibujos grandes: en JPG pesan mucho menos */
+const BG_JPG = ['cocina', 'fondo', 'piedra'];
 function loadImages() {
   return Promise.race([
     Promise.all(IMG_KEYS.map(k => new Promise(r => {
       const i = new Image();
-      i.onload = () => { IMG[k] = i.src; r(); };
+      i.onload = () => { IMG[k] = i.src; IMG_SIZE[k] = i.naturalWidth / i.naturalHeight; r(); };
       i.onerror = r;
-      i.src = 'img/' + k + '.png';
+      i.src = 'img/' + k + (BG_JPG.includes(k) ? '.jpg' : '.png');
     }))),
     sleep(5000),
   ]);
@@ -1046,7 +1119,7 @@ function setPan(p, st) {
 }
 function sarten(st = 'empty') { const p = h('div', { class: 'sarten' }); setPan(p, st); return p; }
 function setBowl(b, st) {
-  const k = { empty: 'bolTop', mix: 'bolMezcla' }[st];
+  const k = { empty: 'bolTop' }[st];
   if (IMG[k]) { b.classList.add('img'); b.style.backgroundImage = `url(${IMG[k]})`; }
 }
 function ballEl(big) {
@@ -1136,12 +1209,46 @@ function thing(k) {
   const d = IT[k] || TOOLS[k] || DECO[k];
   return pic(k, d.e, 'th');
 }
-const doorFace = k => IMG[k] ? h('img', { class: 'pic', src: IMG[k], alt: '', draggable: 'false' }) : h('i');
+const doorFace = k => IMG[k] ? null : h('i');
+/* el frente del mueble no se estira: se repite (puerta doble, nevera de dos puertas, varios cajones) */
+function fitDoors() {
+  if (!K) return;
+  K.root.querySelectorAll('.door[data-img]').forEach(d => {
+    const k = d.dataset.img, r = d.getBoundingClientRect();
+    if (!r.width || !IMG[k]) return;
+    d.style.backgroundImage = `url(${IMG[k]})`;
+    const a = r.width / r.height, ai = IMG_SIZE[k] || 1, q = a / ai;
+    /* parte del mueble que ocupa el dibujo (para el cristal del horno) */
+    let box = { x: 0, y: 0, w: r.width, h: r.height };
+    d.classList.remove('fit-contain');
+    if (q > .78 && q < 1.28) {
+      /* el dibujo casi tiene la forma del mueble: lo llena entero */
+      Object.assign(d.style, { backgroundSize: '100% 100%', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' });
+    } else if (k === 'nevera' || k === 'horno') {
+      /* nevera y horno no se repiten: se ponen enteros, de pie, en el centro */
+      d.classList.add('fit-contain');
+      const bw = q > 1 ? r.height * ai : r.width, bh = q > 1 ? r.height : r.width / ai;
+      box = { x: (r.width - bw) / 2, y: r.height - bh, w: bw, h: bh };
+      Object.assign(d.style, { backgroundSize: `${bw}px ${bh}px`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center bottom' });
+    } else {
+      /* puertas o cajones repetidos (en pantallas con otra forma) */
+      const nx = Math.max(1, Math.round(q)), ny = Math.min(6, Math.max(1, Math.round(1 / q)));
+      Object.assign(d.style, { backgroundSize: `${100 / nx}% ${100 / ny}%`, backgroundRepeat: 'repeat', backgroundPosition: 'left top' });
+    }
+    if (k === 'horno') {
+      /* el cristal del juego (brillo al hornear, minutos) va justo encima del cristal del dibujo */
+      Object.assign(K.ovenWin.style, { left: box.x + box.w * .13 + 'px', width: box.w * .74 + 'px', right: 'auto',
+        top: box.y + box.h * .40 + 'px', height: box.h * .48 + 'px', bottom: 'auto' });
+    }
+  });
+}
+addEventListener('resize', () => setTimeout(fitDoors, 0));
 function buildKitchen() {
   const root = h('div', { class: 'kitchen2' }), places = {};
   for (const k of Object.keys(PLACES)) {
     const inside = h('div', { class: 'inside' });
-    const door = h('div', { class: 'door' + (IMG[PLACES[k].img] ? ' has-img' : '') }, doorFace(PLACES[k].img));
+    const f = IMG[PLACES[k].front] ? PLACES[k].front : PLACES[k].img;
+    const door = h('div', { class: 'door' + (IMG[f] ? ' has-img' : ''), 'data-img': IMG[f] ? f : null }, doorFace(f));
     const el = h('div', { class: 'furn f-' + k }, inside, door);
     door.onclick = () => openPlace(k);
     inside.onclick = e => { if (!e.target.closest('.slot')) closePlaces(); };
@@ -1149,11 +1256,12 @@ function buildKitchen() {
     root.append(el);
   }
   const ovenWin = h('div', { class: 'ov-glass' });
-  const ovenDoor = h('div', { class: 'door' + (IMG.horno ? ' has-img' : '') },
-    IMG.horno ? doorFace('horno') : h('div', { class: 'knobs' }, h('i'), h('i'), h('i')), ovenWin);
+  const ovenDoor = h('div', { class: 'door' + (IMG.horno ? ' has-img' : ''), 'data-img': IMG.horno ? 'horno' : null },
+    IMG.horno ? null : h('div', { class: 'knobs' }, h('i'), h('i'), h('i')), ovenWin);
   const oven = h('div', { class: 'furn f-horno' }, h('div', { class: 'inside' }), ovenDoor);
   ovenDoor.onclick = () => { if (!oven.classList.contains('drop')) say('Ahora no se necesita el horno.'); };
   const counter = h('div', { class: 'counter' });
+  if (IMG.piedra) counter.style.setProperty('--surf', `url(${IMG.piedra}) 0 0/260px 260px repeat`);
   root.append(counter, oven);
   K = { root, places, counter, oven, ovenWin };
   return root;
@@ -1221,7 +1329,6 @@ function ready() {
   /* primer plano: la cocina desaparece y solo se ve la encimera */
   if (!NO_ZOOM.includes(st.s.k)) {
     K.root.classList.add('zoom');
-    if (IMG.encimera) K.counter.style.background = `url(${IMG.encimera}) center/cover`;
   }
   G.ui.tip.textContent = st.s.tip;
   if (st.s.get) say('¡Ya tienes todo! 👍');
@@ -1245,15 +1352,19 @@ const RUN = {
         cnt.textContent = '🍎 ' + (n + 1) + ' / ' + N;
         const skin = art('manzana', h('span', { class: 'th' }, '🍎'));
         skin.classList.add('skin');
-        const ap = h('div', { class: 'big-apple pop' }, art('manzanaPelada', h('div', { class: 'peeled' })), skin);
+        const flesh = art('manzanaPelada', h('div', { class: 'peeled' }));
+        const ap = h('div', { class: 'big-apple pop' }, flesh, skin);
+        const cut = q => `conic-gradient(from -90deg, #000 ${q * 360}deg, transparent 0)`;
+        flesh.style.maskImage = flesh.style.webkitMaskImage = cut(0);
         b.replaceChildren(ap);
         stir(ap, { turns: 1.25, tool: 'pelador',
           prog: q => {
             const m = `conic-gradient(from -90deg, transparent ${q * 360}deg, #000 0)`;
             skin.style.maskImage = m; skin.style.webkitMaskImage = m;
+            flesh.style.maskImage = flesh.style.webkitMaskImage = cut(q);
             if (Math.random() < .05) floaty(ap, '〰️');
           },
-          done: () => { skin.remove(); a.ok(); if (++n < N) setTimeout(next, 450); else a.done(); } });
+          done: () => { skin.remove(); flesh.style.maskImage = flesh.style.webkitMaskImage = 'none'; a.ok(); if (++n < N) setTimeout(next, 450); else a.done(); } });
       };
       next();
     };
@@ -1274,7 +1385,7 @@ const RUN = {
   /* freír: los trozos a la sartén y remover en círculos */
   fry(w, a) {
     const b = boardEl(trozos());
-    w.append(b);
+    w.append(b); w.classList.add('pair');
     a.onReady = () => {
       a.consume('sarten');
       const pan = sarten('empty'); pan.classList.add('drop'); w.append(pan);
@@ -1309,8 +1420,16 @@ const RUN = {
       a.consume('bol');
       const bowl = h('div', { class: 'bowl drop' });
       setBowl(bowl, 'empty');
-      const fade = bowl.classList.contains('img') && IMG.bolMasa ? fadeImg(bowl, 'bolMasa') : null;
-      const ball = fade ? null : h('div', { class: 'ball big inbowl', style: 'transform:scale(0)' });
+      const pics = bowl.classList.contains('img') && IMG.bolMezcla && IMG.bolMasa;
+      const mix = pics ? fadeImg(bowl, 'bolMezcla') : null, fade = pics ? fadeImg(bowl, 'bolMasa') : null;
+      /* dónde está cada montoncito en el dibujo del bol */
+      const SPOT = { harina: [32, 33], mantequilla: [63, 27], huevo: [50, 48], fecula: [32, 70], azucarGlas: [69, 68], levadura: [52, 82] };
+      const shown = [];
+      const reveal = () => {
+        const m = shown.map(k => `radial-gradient(circle at ${SPOT[k][0]}% ${SPOT[k][1]}%, #000 17%, transparent 19%)`).join(',');
+        mix.style.opacity = 1; mix.style.maskImage = mix.style.webkitMaskImage = m;
+      };
+      const ball = pics ? null : h('div', { class: 'ball big inbowl', style: 'transform:scale(0)' });
       if (ball) bowl.append(ball);
       w.append(bowl);
       const need = ['harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'];
@@ -1318,16 +1437,16 @@ const RUN = {
       for (const k of need) drag(a.tiles[k], t => {
         if (t !== bowl || !a.tiles[k]) return;
         a.consume(k);
-        bowl.insertBefore(h('span', { class: 'mini' }, thing(k)), ball || fade);
+        if (pics) { shown.push(k); reveal(); } else bowl.insertBefore(h('span', { class: 'mini' }, thing(k)), ball);
         a.ok();
         if (++n < need.length) return;
         bowl.classList.remove('drop');
-        setBowl(bowl, 'mix');
+        if (pics) mix.style.maskImage = mix.style.webkitMaskImage = 'none';
         a.tip('🥄 Mezcla: da vueltas con el dedo en el bol.');
         stir(bowl, { turns: 3,
           prog: q => {
-            bowl.querySelectorAll('.mini').forEach(m => { m.style.opacity = 1 - q; });
-            if (fade) fade.style.opacity = q; else ball.style.transform = `scale(${q})`;
+            if (fade) fade.style.opacity = q;
+            else { bowl.querySelectorAll('.mini').forEach(m => { m.style.opacity = 1 - q; }); ball.style.transform = `scale(${q})`; }
           },
           done: () => a.done() });
       });
@@ -1374,13 +1493,13 @@ const RUN = {
     drag(mo, t => { if (t === K.oven) ovenModal(a, o, mo); });
   },
   apples(w, a) {
-    const pan = sarten('cooked'), mo = molde(); mo.classList.add('drop');
+    const pan = sarten('cooked'), mo = molde(); mo.classList.add('drop'); w.classList.add('pair');
     drag(pan, t => { if (t !== mo) return; pan.remove(); CAKE.apples = true; paint(mo); a.done(); });
     w.append(pan, mo);
   },
   /* rallar: la bola pequeña sube y baja por el rallador; las migas caen en el molde */
   grate(w, a) {
-    const mo = molde(); w.append(mo);
+    const mo = molde(); w.append(mo); w.classList.add('pair');
     a.onReady = () => {
       a.consume('bola'); a.consume('rallador');
       const gr = h('div', { class: 'grater-wrap' }, art('rallador', h('div', { class: 'grater' })));
@@ -1437,9 +1556,14 @@ function startGame({ name, room, demo }) {
   restart(
     demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); clearInterval(OVEN_IV); G = null; startTV(); } }, '⟵ 📺') : null,
     h('div', { class: 'game', style: IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
-      h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, num, mist),
+      h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, h('span'), mist),
       stage,
-      h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble)));
+      h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble),
+      h('div', { class: 'rotate' },
+        h('div', { class: 'ico' }, '📱'),
+        h('h2', {}, '¡Gira el móvil!'),
+        h('p', {}, 'Se juega en horizontal.'),
+        h('button', { class: 'btn small light', onclick: () => { document.body.classList.add('portrait-ok'); setTimeout(fitDoors, 50); } }, 'Seguir en vertical'))));
   if (room && !demo) phoneNet(room);
   runStep();
 }
@@ -1452,7 +1576,7 @@ function runStep() {
   const s = STEPS[G.i], u = G.ui;
   SEL = null; hideWait();
   CAKE = cakeFor(G.i); G.places = placesFor(G.i); G.tStep = Date.now();
-  K.root.classList.remove('zoom'); K.counter.style.background = '';
+  K.root.classList.remove('zoom'); setTimeout(fitDoors, 0);
   u.num.textContent = 'Paso ' + (G.i + 1) + ' de ' + STEPS.length;
   u.instr.textContent = s.t; u.tip.textContent = s.tip;
   closePlaces();
@@ -1616,6 +1740,14 @@ function showJoin(code) {
     beep(880, .1);
     const c = codeIn.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
     store.set('szarlotka-name', n);
+    /* en el móvil: pantalla completa y en horizontal (Android; en iPhone se gira a mano) */
+    try {
+      const d = document.documentElement;
+      if (matchMedia('(pointer:coarse)').matches && d.requestFullscreen)
+        d.requestFullscreen({ navigationUI: 'hide' })
+          .then(() => screen.orientation && screen.orientation.lock && screen.orientation.lock('landscape'))
+          .catch(() => {});
+    } catch (e) {}
     startGame({ name: n, room: c || null });
   };
   name.value = store.get('szarlotka-name') || '';
