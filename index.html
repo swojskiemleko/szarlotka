@@ -77,6 +77,9 @@ input{font-family:inherit}
   box-shadow:0 3px 0 rgba(0,0,0,.15);margin-bottom:8px;
 }
 .bubble.pop{animation:pop .3s}
+.host .bubble{flex:1;min-width:0}
+.bubble .instr{margin:0;font-weight:700;font-size:clamp(1.1rem,4.4vw,1.5rem);line-height:1.15}
+.bubble .tip{margin:3px 0 0;font-size:clamp(.9rem,3.4vw,1.1rem);color:var(--ink2);line-height:1.2}
 .row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center}
 .col{display:flex;flex-direction:column;gap:12px;align-items:center}
 .shelf{
@@ -1161,13 +1164,13 @@ function startGame({ name, room, demo }) {
   const mist = h('div', { class: 'mist' }, '❌ 0');
   const num = h('span', { class: 'num' }), instr = h('p', { class: 'instr' }), tip = h('p', { class: 'tip' });
   const stage = h('div', { class: 'stage' }, buildKitchen());
-  const bubble = h('div', { class: 'bubble' }, '¡Hola, ' + name + '! ¡Vamos a cocinar!');
+  /* el cocinero dice la frase del paso y, debajo, la pista o el comentario */
+  const bubble = h('div', { class: 'bubble' }, instr, tip);
   G.ui = { mist, num, instr, tip, scene: stage, bubble };
   restart(
     demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); clearInterval(OVEN_IV); G = null; startTV(); } }, '⟵ 📺') : null,
     h('div', { class: 'game', style: IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
       h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, num, mist),
-      h('div', { class: 'ribbon' }, instr, tip),
       stage,
       h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble)));
   if (room && !demo) phoneNet(room);
@@ -1175,7 +1178,7 @@ function startGame({ name, room, demo }) {
 }
 function say(txt) {
   if (!G) return;
-  const b = G.ui.bubble; b.textContent = txt;
+  const b = G.ui.bubble; G.ui.tip.textContent = txt;
   b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
 }
 function runStep() {
