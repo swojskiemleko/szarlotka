@@ -1,98 +1,154 @@
-# Grafiki do gry: prompty do ChatGPT
+# Brakujące grafiki do gry: prompty do dowolnego AI
 
-Gra działa bez tych obrazków, bo w ich miejscu pokazuje emoji albo proste rysunki. Wystarczy, że wkleisz mi gotowe obrazki w czacie, a ja je potnę i podłączę.
+W grze jest już 18 obrazków w jednym stylu (kucharz, szarlotka, składniki). Brakuje przyborów, deserów, frontów mebli, obrazków do mini-gier (plansze 4–6) i teł. Bez nich gra pokazuje emoji i proste rysunki.
 
----
+**Jak to zrobić, żeby styl się zgadzał:**
+1. Użyj AI, które przyjmuje obrazek jako wzór, na przykład ChatGPT albo Gemini.
+2. Na początku rozmowy **wgraj 2 obrazki z gry jako wzór stylu**: `img/manzanas.png` i `img/queso.png`. Możesz je zapisać z https://swojskiemleko.github.io/szarlotka/img/manzanas.png i …/img/queso.png.
+3. Wklej najpierw **STYL**, a potem kolejne prompty, wszystkie w tej samej rozmowie.
+4. Gotowe obrazki wklej mi w czacie. Potnę je, wytnę tło i podłączę.
 
-## ✅ Część 1: składniki, kucharz, ciasto (GOTOWE)
-
-Zrobione już wcześniej, jest w folderze `img/`.
-
----
-
-## Część 2: przybory, dodatki i meble (jedna plansza 4×4)
-
-Wklej do ChatGPT **w tej samej rozmowie co poprzednio** (żeby styl był ten sam), albo najpierw STYL z dołu tej strony:
-
-```
-Make ONE sprite sheet image: a grid of 4 rows x 4 columns, 16 separate objects,
-same cute cartoon style as before (thick dark-brown outlines #3b2314, flat bright colors,
-one simple shade), TRANSPARENT background, plenty of empty space between objects so they
-do not touch, no text, no labels. Exact order, left to right, top to bottom:
-
-Row 1: a kitchen knife; a vegetable peeler; an empty mixing bowl; a wooden spoon.
-Row 2: an empty frying pan with a handle; a box grater; an empty square metal baking tin; a small fine-mesh sieve.
-Row 3: a wooden cutting board; a scoop of vanilla ice cream in a small bowl; a swirl of whipped cream; one strawberry.
-Row 4 (flat FRONT views that fill their whole cell, no perspective, no shadow):
-  a white fridge door with a vertical handle on the right;
-  a wooden cupboard door with a vertical handle on the right;
-  a wooden drawer front with a horizontal handle in the middle;
-  a small white oven front with three knobs on top and a dark glass window.
-```
-
-Wiersz 4 to **przednie ściany mebli**. W grze stają się drzwiami, które się otwierają, więc mają być płaskie, na wprost, bez perspektywy.
-
-Ważne: kolejność musi się zgadzać, bo po niej rozpoznaję obrazki. Jeśli ChatGPT coś pomiesza, napisz mi, co jest gdzie.
+Jeśli AI pomiesza kolejność albo zrobi inną liczbę przedmiotów, wygeneruj jeszcze raz albo napisz mi, co jest gdzie.
 
 ---
 
-## Część 3: dwa tła
+## Wzory stylu (wgraj oba do AI)
 
-Każde tło osobno (to zwykłe obrazki, **bez** przezroczystości):
+| manzanas.png | queso.png |
+| --- | --- |
+| ![Wzór: jabłka](https://swojskiemleko.github.io/szarlotka/img/manzanas.png) | ![Wzór: ser](https://swojskiemleko.github.io/szarlotka/img/queso.png) |
 
-**Tło na telefon** (pionowe):
+Więcej obrazków w tym stylu (jeśli AI potrzebuje):
+
+![kucharz](https://swojskiemleko.github.io/szarlotka/img/chef.png) ![szarlotka](https://swojskiemleko.github.io/szarlotka/img/tarta.png) ![masło](https://swojskiemleko.github.io/szarlotka/img/mantequilla.png) ![jajko](https://swojskiemleko.github.io/szarlotka/img/huevo.png)
+
+## STYL (wklej jako pierwszy, razem z 2 obrazkami-wzorami)
+
 ```
-Vertical 1080x1920 background for a children's cooking game, same cartoon style:
-a cozy empty kitchen wall with warm cream tiles, a window with sunlight in the upper part,
-a long wooden countertop across the bottom quarter. NO fridge, NO cabinets, NO objects
-on the counter, no people, no text. Soft colors so game objects placed on top stay readable.
+I attached two images from my game. Make every next image in EXACTLY the same style:
+cute cartoon illustration, thick dark-brown outlines (#3b2314), flat bright colors with one simple
+lighter highlight, rounded friendly shapes, like a casual browser cooking game.
+No text, no letters, no labels, no shadows on the background.
 ```
 
-**Tło na telewizor** (poziome):
+## Plansza 1: przybory (3×3)
+
 ```
-Horizontal 1920x1080 background for a children's cooking game slideshow, same cartoon style:
-a cozy kitchen with warm cream tiles, wooden shelves with a few jars, a window with sunlight,
-slightly blurred and soft, plenty of calm empty space in the center for big text, no people, no text.
+One image: a grid of 3 rows x 3 columns, 9 separate objects in that same style, each centered in its
+own cell with lots of empty space around it, objects never touch. Plain pure white background.
+Exact order, left to right, top to bottom:
+Row 1: a wooden cutting board with a handle; a kitchen knife; a vegetable peeler.
+Row 2: a wooden spoon; a box grater; a small round fine-mesh sieve with a handle.
+Row 3: an empty mixing bowl; an empty frying pan with a handle; an empty square metal baking tin.
 ```
 
-**Zbliżenie blatu** (pionowe; widać je, gdy uczeń wyjmie wszystko i robi mini-grę, np. obiera jabłka):
+## Plansza 2: jabłko i desery (2×2)
+
 ```
-Vertical 1080x1500 close-up background for a children's cooking game, same cartoon style:
-a top-down view of a light wooden kitchen countertop with soft wood grain and a few warm cream tiles
-at the very top edge. Completely EMPTY: no objects, no food, no tools, no people, no text.
-Calm, light colors so game objects placed on top stay readable.
+One image: a grid of 2 rows x 2 columns, 4 separate objects in that same style, each centered in its
+own cell with lots of empty space around it, objects never touch. Plain pure white background.
+Exact order:
+Row 1: one single red apple with a green leaf; a scoop of vanilla ice cream in a small glass bowl.
+Row 2: a swirl of white whipped cream; one red strawberry.
+```
+
+## Plansza 3: drzwi mebli (2×2)
+
+Te obrazki stają się w grze drzwiami, które się otwierają. Muszą być **płaskie, na wprost, bez perspektywy** i wypełniać całą komórkę.
+
+```
+One image: a grid of 2 rows x 2 columns, 4 flat FRONT views in that same style, each one fills its
+whole cell, no perspective, no shadow, small white gap between cells. Exact order:
+Row 1: a tall white fridge door with a long vertical handle on the right;
+a wooden kitchen cupboard door with a vertical handle on the right.
+Row 2: a wooden drawer front with a horizontal handle near the top;
+a small white oven front with three knobs on top and a dark glass window.
 ```
 
 ---
 
-## Część 4: pojedyncze jabłko
+## Mini-gry (obieranie, krojenie, mieszanie, pieczenie)
 
-Do mini-gry z obieraniem (na desce leży 5 osobnych jabłek). Przezroczyste tło:
+Te obrazki widać w zbliżeniu blatu, gdy uczeń obiera, kroi, miesza i piecze. Ważne:
+- **Plansze 5 i 6 są widziane z góry**, prosto z góry, bez perspektywy.
+- Na planszy 6 forma ma być **ta sama, w tym samym miejscu i rozmiarze** w każdej komórce, bo w grze obrazki płynnie się przenikają.
+
+## Plansza 4: obrane jabłko i ciasto (1×3)
+
 ```
-One single red apple with a small green leaf, same cute cartoon style (thick dark-brown outlines #3b2314,
-flat bright colors, one simple shade), TRANSPARENT background, centered, no text.
+One image: 1 row x 3 columns, 3 separate objects in that same style, each centered in its own cell
+with lots of empty space around it, objects never touch. Plain pure white background.
+Exact order, left to right:
+a peeled apple (pale cream-yellow flesh, no skin, small stem on top, same size and shape as the red apple);
+a big smooth ball of light-yellow shortcrust dough;
+a small smooth ball of the same dough (half the size).
+```
+
+## Plansza 5: deska, patelnia i miska z góry (2×4)
+
+```
+One image: a grid of 2 rows x 4 columns, 8 separate objects in that same style, ALL SEEN STRAIGHT
+FROM ABOVE (top-down view, no perspective), each centered in its own cell with lots of empty space
+around it, objects never touch. Plain pure white background. Exact order, left to right, top to bottom:
+Row 1: an empty wooden cutting board (wide rectangle, short handle on the right side);
+an empty black frying pan with the handle pointing right;
+the same frying pan with raw pale-yellow apple cubes;
+the same frying pan with golden caramelized apple cubes and brown cinnamon specks.
+Row 2: an empty round light-blue mixing bowl;
+the same bowl with separate small piles of yellow corn flour, white potato starch, white powdered sugar,
+butter pieces and one egg yolk (not mixed);
+the same bowl with one smooth ball of light-yellow dough;
+a small pile of peeled apple cubes (pale yellow).
+```
+
+## Plansza 6: szarlotka w formie, krok po kroku (2×4)
+
+```
+One image: a grid of 2 rows x 4 columns. In EVERY cell the SAME square metal baking tin, SEEN STRAIGHT
+FROM ABOVE (top-down, no perspective), same size, same position, same light, filling most of the cell.
+Same cartoon style. Plain pure white background between cells. Exact order, left to right, top to bottom:
+Row 1: 1) the tin empty; 2) the tin with raw pale dough pressed flat as the base;
+3) the base baked light golden; 4) the baked base covered with cooked yellow apple pieces with cinnamon specks.
+Row 2: 5) the apples covered with raw pale crumbly dough crumbs; 6) the same cake baked: golden-brown crumble top;
+7) the baked cake dusted with white powdered sugar; 8) the same sugared cake cut into 9 square pieces (3 x 3).
+```
+
+---
+
+## Tła (każde osobno)
+
+**Telefon** (pionowe):
+```
+Vertical 1080x1920 background in that same cartoon style: a cozy empty kitchen wall with warm cream
+tiles and a window with sunlight in the upper part. NO furniture, NO objects, no people, no text.
+Soft, calm colors so game objects placed on top stay readable.
+```
+
+**Telewizor** (poziome):
+```
+Horizontal 1920x1080 background in that same cartoon style: a cozy kitchen with warm cream tiles,
+wooden shelves with a few jars and a window with sunlight. Soft and calm, plenty of empty space
+in the center for big text, no people, no text.
+```
+
+**Blat w zbliżeniu** (pionowe; widać go, gdy uczeń robi mini-grę):
+```
+Vertical 1080x1500 background in that same cartoon style: a top-down view of a light wooden kitchen
+countertop with simple wood grain. Completely EMPTY: no objects, no food, no tools, no text.
 ```
 
 ---
 
 ## Gdzie co trafia (nazwy plików w `img/`)
 
-| Plik | Co to |
+| Plansza | Pliki (w kolejności) |
 | --- | --- |
-| cuchillo, pelador, bol, cuchara, sarten, rallador, molde, colador, tabla | przybory (część 2) |
-| helado, nata, fresa | rzeczy w lodówce, które tylko przeszkadzają (część 2) |
-| nevera, armario, cajon, horno | drzwi mebli (część 2, wiersz 4) |
-| cocina, fondo, encimera | tła (część 3) |
-| manzana | jedno jabłko (część 4) |
+| 1 | tabla, cuchillo, pelador, cuchara, rallador, colador, bol, sarten, molde |
+| 2 | manzana, helado, nata, fresa |
+| 3 | nevera, armario, cajon, horno |
+| 4 | manzanaPelada, masa, masaPeque |
+| 5 | tablaTop, sartenTop, sartenManzanas, sartenCanela, bolTop, bolMezcla, bolMasa, manzanaTrozos |
+| 6 | moldeVacio, moldeMasa, moldeBase, moldeManzanas, moldeCrumble, moldeHorneado, moldeAzucar, moldeCortado |
+| tła | cocina (telefon), fondo (telewizor), encimera (blat) |
 
-Półki w szafkach rysuje gra sama, nie trzeba do nich obrazków.
-
----
-
-## STYL (gdybyś zaczynał nową rozmowę)
-
-```
-I will ask you for a series of images for a children's cooking game. Use the SAME style for all of them:
-cute cartoon illustration, thick dark-brown outlines (#3b2314), flat bright colors with one simple shade,
-rounded friendly shapes, like a casual browser cooking game for kids. No text, no letters.
-```
+Już są i nie trzeba ich robić: chef, tarta, manzanas, mantequilla, huevo, harina, fecula, azucarGlas, levadura, vainilla, canela, tomate, cebolla, pescado, queso, zanahoria, sal, arroz.

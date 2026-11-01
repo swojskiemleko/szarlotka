@@ -527,6 +527,60 @@ img.th{width:100%;height:100%;object-fit:contain}
 .p-stu.away{opacity:.5}
 .p-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .p-nav .btn{font-size:2rem;padding:16px 0}
+/* ---------- minijuegos: gestos como en los juegos de cocina ---------- */
+.mg{position:relative;touch-action:none}
+.guides{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:5}
+.guide{fill:none;stroke:#fff;stroke-width:4;stroke-dasharray:10 8;stroke-linecap:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1.5px #3b2314);animation:dash .8s linear infinite}
+.guide.done{stroke:#7a4a20;stroke-dasharray:none;stroke-width:3;animation:none;filter:none}
+@keyframes dash{to{stroke-dashoffset:-18}}
+.hand{position:absolute;z-index:7;pointer-events:none;font-size:38px;line-height:1;left:var(--x1);top:var(--y1);animation:handline 1.6s ease-in-out infinite}
+@keyframes handline{0%{left:var(--x1);top:var(--y1);opacity:0}15%{opacity:1}80%{left:var(--x2);top:var(--y2);opacity:1}100%{left:var(--x2);top:var(--y2);opacity:0}}
+.ring{position:absolute;inset:-6%;border:4px dashed #fff;border-radius:50%;pointer-events:none;z-index:4;filter:drop-shadow(0 0 1.5px #3b2314);animation:spin 8s linear infinite}
+.orbit{position:absolute;inset:0;pointer-events:none;z-index:7;animation:spin 2.2s linear infinite}
+.orbit span{position:absolute;left:50%;top:-4%;font-size:36px;translate:-50% -50%}
+.swing{position:absolute;left:50%;top:50%;translate:-50% -50%;font-size:44px;pointer-events:none;z-index:7;filter:drop-shadow(0 0 2px #fff)}
+.swing.x{animation:swx .7s ease-in-out infinite alternate}
+.swing.y{animation:swy .7s ease-in-out infinite alternate}
+@keyframes swx{from{margin-left:-50px}to{margin-left:50px}}
+@keyframes swy{from{margin-top:-40px}to{margin-top:40px}}
+.mg.started .hand,.mg.started .orbit,.mg.started .swing{display:none}
+.tool-follow{position:absolute;z-index:6;pointer-events:none;width:64px;height:64px;translate:-25% -75%;display:grid;place-items:center;font-size:46px;line-height:1}
+.tool-follow[hidden]{display:none}
+.tool-follow img,.tool-follow .th{width:100%;height:100%;object-fit:contain;font-size:46px}
+.tool-follow.chop{animation:chop .2s}
+.tool-follow .ball{translate:0 30%}
+.big-apple{position:relative;width:min(44vw,170px);aspect-ratio:1;flex:none}
+.big-apple>img,.big-apple>.th,.big-apple>.peeled{position:absolute;inset:0;margin:auto}
+.big-apple>img{width:100%;height:100%;object-fit:contain}
+.big-apple>.th{display:grid;place-items:center;font-size:min(36vw,140px);line-height:1}
+.big-apple>.peeled{width:76%!important;height:76%}
+.big-apple .skin{-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.zoom .counter .board.tall{min-height:min(60vw,230px);padding:12px;justify-content:center}
+.board.img{background:center/100% 100% no-repeat;border:0;box-shadow:none}
+.board.img::after{display:none}
+.trozos{display:grid;place-items:center}
+.trozos>img{width:min(40vw,150px)}
+.trozos .cubes{display:flex;flex-wrap:wrap;gap:3px;width:110px;justify-content:center}
+.count{background:#fff;border:3px solid var(--line);border-radius:12px;padding:2px 14px;font-weight:700}
+.dough-wrap{position:relative;display:flex;align-items:center;justify-content:center;gap:12px;min-width:150px;min-height:130px}
+.grater-wrap{position:relative;display:grid;place-items:center;padding:20px 10px;touch-action:none}
+.grater-wrap>img{width:min(30vw,120px)}
+.sarten.img{background:center/contain no-repeat;border:0;border-radius:0;box-shadow:none}
+.sarten.img::after{display:none}
+.sarten.cooked .cube{background:#e2a94f;box-shadow:inset -2px -2px 0 #b97c2b}
+.sarten.sizzle.img{animation:jig .25s infinite alternate}
+.bowl.img{background:center/contain no-repeat;border:0;border-radius:0;box-shadow:none;align-items:center;align-content:center;padding:24%}
+.zoom .counter .bowl.img{width:min(64vw,250px);height:min(64vw,250px)}
+.ball.img{background:none;box-shadow:none;border:0}
+.ball.img>img{width:100%;height:100%;object-fit:contain}
+.molde.img{background:center/contain no-repeat;box-shadow:none}
+.molde.img .in{display:none}
+.molde .cuts{position:absolute;inset:9px;pointer-events:none}
+.fade{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;pointer-events:none}
+.dust,.crumb-p{position:absolute;border-radius:50%;pointer-events:none;z-index:5;animation:dust .9s ease-in forwards}
+.dust{width:6px;height:6px;background:#fff;box-shadow:0 0 2px rgba(0,0,0,.3)}
+.crumb-p{width:9px;height:9px;background:#f0cf86;border:1px solid #c99a45}
+@keyframes dust{to{transform:translateY(46px);opacity:0}}
 </style>
 </head>
 <body>
@@ -704,20 +758,20 @@ for (const [k, v] of Object.entries({ ...TOOLS, ...DECO })) NAMES[k] = v.n;
 
 /* get: lo que hay que sacar de los muebles antes de la acción */
 const STEPS = [
-  { k: 'peel',   get: ['tabla', 'manzanas', 'pelador'], t: 'Se pelan las manzanas.', tip: '👆 Toca cada manzana.' },
-  { k: 'cut',    get: ['cuchillo'], t: 'Se cortan las manzanas en trozos.', tip: '🔪 Toca la tabla muchas veces.' },
+  { k: 'peel',   get: ['tabla', 'manzanas', 'pelador'], t: 'Se pelan las manzanas.', tip: '🔄 Da vueltas con el dedo alrededor de la manzana.' },
+  { k: 'cut',    get: ['cuchillo'], t: 'Se cortan las manzanas en trozos.', tip: '🔪 Corta por las líneas de puntos.' },
   { k: 'fry',    get: ['sarten', 'cuchara'], t: 'Se fríen las manzanas 15 minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
   { k: 'add',    get: ['vainilla', 'canela'], t: 'Se añaden el azúcar de vainilla y la canela.', tip: '✋ Arrastra el azúcar y la canela a la sartén.' },
   { k: 'dough',  get: ['bol', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'], t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema de huevo, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
-  { k: 'divide', get: ['cuchillo'], t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Toca la masa.' },
+  { k: 'divide', get: ['cuchillo'], t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Corta por la línea de puntos.' },
   { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: '✋ Arrastra la bola pequeña a la nevera.' },
   { k: 'mold',   get: ['molde'], t: 'Se pone la bola grande en el molde.', tip: '✋ Arrastra la bola al molde.' },
   { k: 'oven1',  t: 'Se hornea la base 15 minutos a 180 grados.', tip: '✋ Arrastra el molde al horno.' },
   { k: 'apples', t: 'Se ponen las manzanas sobre la base.', tip: '✋ Arrastra la sartén al molde.' },
-  { k: 'grate',  get: ['bola', 'rallador'], t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '✋ Frota el rallador.' },
+  { k: 'grate',  get: ['bola', 'rallador'], t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '↕️ Mueve la bola arriba y abajo en el rallador.' },
   { k: 'oven2',  t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: '✋ Arrastra el molde al horno.' },
-  { k: 'sugar',  get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: '✋ Frota la tarta.' },
-  { k: 'cut2',   get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: '🔪 Toca la tarta cuatro veces.' },
+  { k: 'sugar',  get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: '↔️ Mueve el colador de un lado a otro.' },
+  { k: 'cut2',   get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: '🔪 Corta por las líneas de puntos.' },
 ];
 const STEP_AT = k => STEPS.findIndex(s => s.k === k);
 const NEEDED = new Set(STEPS.flatMap(s => s.get || []));
@@ -797,27 +851,148 @@ document.addEventListener('click', e => {
   n._drop && n._drop(d);
 });
 
-/* frotar: suma la distancia que se mueve el dedo */
-function rub(el, { f = 5, prog, done }) {
-  const need = f * Math.min(window.innerWidth, 700);
-  let p = 0, down = false, lx = 0, ly = 0, fin = false;
-  el.style.touchAction = 'none';
+/* =========================================================
+   Gestos de los minijuegos, como en los juegos de cocina:
+   cortar por la línea de puntos, dar vueltas y mover de un
+   lado a otro. Siempre hay un plan B: tocar también vale.
+   ========================================================= */
+const SVG = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, at) => { const e = document.createElementNS(SVG, tag); for (const k in at) e.setAttribute(k, at[k]); return e; };
+const pct = (el, e) => { const r = el.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * 100, y: (e.clientY - r.top) / r.height * 100 }; };
+/* herramienta que sigue al dedo (cuchillo, pelador, cuchara, colador…) */
+function follower(el, tool, keep) {
+  const f = h('div', { class: 'tool-follow', hidden: !keep }, tool ? thing(tool) : null);
+  el.append(f);
+  const t = { el: f, p: { x: 50, y: 50 },
+    at(p) { t.p = p; f.hidden = false; f.style.left = p.x + '%'; f.style.top = p.y + '%'; },
+    hide() { if (!keep) f.hidden = true; } };
+  if (keep) t.at(t.p);
+  return t;
+}
+/* cortar: pasar el cuchillo a lo largo de cada línea de puntos; tocar la línea también corta */
+function cutLines(el, lines, { tool = 'cuchillo', onCut, done }) {
+  el.classList.add('mg');
+  const svg = svgEl('svg', { class: 'guides', viewBox: '0 0 100 100', preserveAspectRatio: 'none' });
+  const L = lines.map(([x1, y1, x2, y2]) => {
+    const g = svgEl('line', { x1, y1, x2, y2, class: 'guide' }); svg.append(g);
+    return { a: { x: x1, y: y1 }, b: { x: x2, y: y2 }, g, cov: new Set(), cut: false };
+  });
+  const hand = h('div', { class: 'hand' }, '👆');
+  el.append(svg, hand);
+  const tl = follower(el, tool);
+  const showHand = () => {
+    const l = L.find(x => !x.cut);
+    if (l) for (const [k, v] of [['--x1', l.a.x], ['--y1', l.a.y], ['--x2', l.b.x], ['--y2', l.b.y]]) hand.style.setProperty(k, v + '%');
+  };
+  showHand();
+  const near = (p, l) => {
+    const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y, t = ((p.x - l.a.x) * dx + (p.y - l.a.y) * dy) / (dx * dx + dy * dy);
+    if (t < -.05 || t > 1.05) return null;
+    return Math.hypot(p.x - l.a.x - t * dx, p.y - l.a.y - t * dy) < 9 ? Math.max(0, Math.min(.999, t)) : null;
+  };
+  const cutOne = l => {
+    if (l.cut) return;
+    l.cut = true; l.g.classList.add('done');
+    chop(tl.el); beep(520 + 60 * L.filter(x => x.cut).length, .07, 'triangle', .1);
+    const n = L.filter(x => x.cut).length;
+    onCut && onCut(n);
+    if (n === L.length) { svg.remove(); hand.remove(); tl.el.remove(); done(); } else showHand();
+  };
+  let last = null, start = null;
+  el.addEventListener('pointerdown', e => {
+    last = start = pct(el, e); el.classList.add('started'); tl.at(last);
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  el.addEventListener('pointermove', e => {
+    if (!last) return;
+    const p = pct(el, e); tl.at(p);
+    for (const l of L) {
+      if (l.cut) continue;
+      const t = near(p, l);
+      if (t != null) { l.cov.add(Math.floor(t * 10)); if (l.cov.size >= 7) cutOne(l); }
+    }
+    last = p;
+  });
+  ['pointerup', 'pointercancel'].forEach(ev => el.addEventListener(ev, e => {
+    if (!last) return;
+    const p = pct(el, e);
+    if (start && Math.hypot(p.x - start.x, p.y - start.y) < 4) { const l = L.find(x => !x.cut && near(p, x) != null); if (l) cutOne(l); }
+    last = start = null; tl.hide();
+  }));
+}
+/* remover / pelar: dar vueltas con el dedo alrededor del centro (cada toque también suma un poco) */
+function stir(el, { turns = 3, tool, prog, done }) {
+  el.classList.add('mg');
+  const ring = h('div', { class: 'ring' }), orbit = h('div', { class: 'orbit' }, h('span', {}, '👆'));
+  el.append(ring, orbit);
+  const tl = follower(el, tool);
+  const need = turns * 2 * Math.PI;
+  let acc = 0, lastA = null, down = false, moved = 0, fin = false;
+  const ang = e => {
+    const r = el.getBoundingClientRect(), dx = e.clientX - r.left - r.width / 2, dy = e.clientY - r.top - r.height / 2;
+    return Math.hypot(dx, dy) < Math.min(r.width, r.height) * .08 ? null : Math.atan2(dy, dx);
+  };
   const add = d => {
     if (fin) return;
-    p = Math.min(need, p + d); prog && prog(p / need);
-    if (Math.random() < .08) beep(300 + Math.random() * 200, .04, 'triangle', .05);
-    if (p >= need) { fin = true; done(); }
+    acc = Math.min(need, acc + d); prog && prog(acc / need);
+    if (Math.random() < .12) beep(300 + Math.random() * 200, .04, 'triangle', .05);
+    if (acc >= need) { fin = true; ring.remove(); orbit.remove(); tl.el.remove(); done(); }
   };
   el.addEventListener('pointerdown', e => {
-    down = true; lx = e.clientX; ly = e.clientY;
+    down = true; moved = 0; lastA = ang(e); el.classList.add('started'); tl.at(pct(el, e));
     try { el.setPointerCapture(e.pointerId); } catch (err) {}
-    add(need * .04);
   });
   el.addEventListener('pointermove', e => {
     if (!down) return;
-    add(Math.hypot(e.clientX - lx, e.clientY - ly)); lx = e.clientX; ly = e.clientY;
+    tl.at(pct(el, e));
+    const a = ang(e);
+    if (a != null && lastA != null) {
+      let d = a - lastA;
+      if (d > Math.PI) d -= 2 * Math.PI;
+      if (d < -Math.PI) d += 2 * Math.PI;
+      if (Math.abs(d) < 1.2) { moved += Math.abs(d); add(Math.abs(d)); }
+    }
+    lastA = a;
   });
-  ['pointerup', 'pointercancel'].forEach(t => el.addEventListener(t, () => { down = false; }));
+  ['pointerup', 'pointercancel'].forEach(ev => el.addEventListener(ev, () => {
+    if (down && moved < .2) add(need / 14);
+    down = false; tl.hide();
+  }));
+}
+/* espolvorear / rallar: mover de un lado a otro (x) o de arriba abajo (y) */
+function shake(el, { axis = 'x', count = 8, tool, follow, prog, done }) {
+  el.classList.add('mg');
+  const hint = h('div', { class: 'swing ' + axis }, axis === 'x' ? '↔️' : '↕️');
+  el.append(hint);
+  const tl = follow || follower(el, tool);
+  let down = false, dir = 0, ext = 0, n = 0, fin = false, moved = false;
+  const v = e => axis === 'x' ? e.clientX : e.clientY;
+  const step = () => {
+    if (fin) return;
+    n++; prog && prog(n / count, tl.p); beep(380 + n * 30, .05, 'triangle', .06);
+    if (n >= count) { fin = true; hint.remove(); done(); }
+  };
+  el.addEventListener('pointerdown', e => {
+    down = true; dir = 0; ext = v(e); moved = false; el.classList.add('started'); tl.at(pct(el, e));
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  el.addEventListener('pointermove', e => {
+    if (!down) return;
+    tl.at(pct(el, e));
+    const c = v(e);
+    if (dir === 0) { if (Math.abs(c - ext) > 10) { dir = Math.sign(c - ext); ext = c; moved = true; } return; }
+    if ((c - ext) * dir > 0) { ext = c; return; }
+    if (Math.abs(c - ext) > 16) { dir = -dir; ext = c; step(); }
+  });
+  ['pointerup', 'pointercancel'].forEach(ev => el.addEventListener(ev, () => {
+    if (down && !moved) step();
+    down = false; tl.hide();
+  }));
+}
+/* polvo o migas que caen donde está la herramienta */
+function sprinkle(el, p, cls) {
+  const d = h('div', { class: cls, style: `left:${p.x + (Math.random() - .5) * 18}%;top:${p.y + Math.random() * 10}%` });
+  el.append(d); setTimeout(() => d.remove(), 950);
 }
 function progress() {
   const i = h('i'), el = h('div', { class: 'bar' }, i);
@@ -830,7 +1005,11 @@ function progress() {
 /* Imágenes opcionales en img/<nombre>.png. Si no existen, se usa el emoji. */
 const IMG = {};
 const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO),
-  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana', 'encimera'];
+  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana', 'encimera',
+  /* minijuegos */
+  'manzanaPelada', 'manzanaTrozos', 'masa', 'masaPeque', 'tablaTop',
+  'sartenTop', 'sartenManzanas', 'sartenCanela', 'bolTop', 'bolMezcla', 'bolMasa',
+  'moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado'];
 function loadImages() {
   return Promise.race([
     Promise.all(IMG_KEYS.map(k => new Promise(r => {
@@ -839,7 +1018,7 @@ function loadImages() {
       i.onerror = r;
       i.src = 'img/' + k + '.png';
     }))),
-    sleep(2500),
+    sleep(5000),
   ]);
 }
 function pic(k, emoji, cls) {
@@ -847,27 +1026,67 @@ function pic(k, emoji, cls) {
     ? h('img', { class: 'pic ' + (cls || ''), src: IMG[k], alt: '', draggable: 'false' })
     : h('span', { class: cls || '' }, emoji);
 }
+/* imagen opcional; si no existe, se usa el dibujo hecho con CSS */
+const art = (k, fallback, cls) => IMG[k] ? h('img', { class: 'art ' + (cls || ''), src: IMG[k], alt: '', draggable: 'false' }) : fallback;
+const fadeImg = (el, k) => { const f = h('img', { class: 'fade', src: IMG[k], alt: '' }); el.append(f); return f; };
 const cubes = n => Array.from({ length: n }, () => h('div', { class: 'cube' }));
-function sarten(full) {
-  const p = h('div', { class: 'sarten' });
-  if (full) p.append(...cubes(16));
-  return p;
+function boardEl(...kids) {
+  const b = h('div', { class: 'board' + (IMG.tablaTop ? ' img' : '') }, ...kids);
+  if (IMG.tablaTop) b.style.backgroundImage = `url(${IMG.tablaTop})`;
+  return b;
+}
+const trozos = () => h('div', { class: 'trozos' }, art('manzanaTrozos', h('div', { class: 'cubes' }, cubes(16))));
+const PAN = { empty: 'sartenTop', raw: 'sartenManzanas', cooked: 'sartenCanela' };
+function setPan(p, st) {
+  p.querySelectorAll('.cube').forEach(c => c.remove());
+  const k = PAN[st];
+  if (IMG[k]) { p.classList.add('img'); p.style.backgroundImage = `url(${IMG[k]})`; return; }
+  if (st !== 'empty') p.append(...cubes(16));
+  p.classList.toggle('cooked', st === 'cooked');
+}
+function sarten(st = 'empty') { const p = h('div', { class: 'sarten' }); setPan(p, st); return p; }
+function setBowl(b, st) {
+  const k = { empty: 'bolTop', mix: 'bolMezcla' }[st];
+  if (IMG[k]) { b.classList.add('img'); b.style.backgroundImage = `url(${IMG[k]})`; }
+}
+function ballEl(big) {
+  const b = h('div', { class: 'ball ' + (big ? 'big' : 'small') }), k = big ? 'masa' : 'masaPeque';
+  if (IMG[k]) { b.classList.add('img'); b.append(art(k)); }
+  return b;
 }
 let CAKE = {};
 function molde(mini) {
   const m = h('div', { class: 'molde' + (mini ? ' mini' : '') },
     h('div', { class: 'in' },
       h('div', { class: 'lay lay-base' }), h('div', { class: 'lay lay-apples' }),
-      h('div', { class: 'lay lay-crumb' }), h('div', { class: 'lay lay-sugar' }),
-      h('div', { class: 'cuts' })));
+      h('div', { class: 'lay lay-crumb' }), h('div', { class: 'lay lay-sugar' })),
+    h('div', { class: 'cuts' }));
   paint(m); return m;
 }
 const CUTS = [['v', 33.3], ['v', 66.6], ['h', 33.3], ['h', 66.6]];
+/* la imagen del molde según cómo va la tarta */
+function cakeKey(c) {
+  if (c.cuts >= 4 && IMG.moldeCortado) return 'moldeCortado';
+  return c.sugar ? 'moldeAzucar' : c.baked2 ? 'moldeHorneado' : c.crumb ? 'moldeCrumble' : c.apples ? 'moldeManzanas'
+    : c.baked1 ? 'moldeBase' : c.base ? 'moldeMasa' : 'moldeVacio';
+}
 function paint(m) {
   for (const f of ['base', 'baked1', 'apples', 'crumb', 'baked2', 'sugar']) m.classList.toggle(f, !!CAKE[f]);
+  m.querySelectorAll('.fade').forEach(x => x.remove());
+  m.querySelectorAll('.lay').forEach(l => { l.style.opacity = ''; });
+  const k = cakeKey(CAKE), img = IMG[k];
+  m.classList.toggle('img', !!img);
+  m.style.backgroundImage = img ? `url(${img})` : '';
   const c = m.querySelector('.cuts'); c.innerHTML = '';
-  CUTS.slice(0, CAKE.cuts || 0).forEach(([d, pos]) =>
+  if (k !== 'moldeCortado') CUTS.slice(0, CAKE.cuts || 0).forEach(([d, pos]) =>
     c.append(h('div', { class: 'cutline ' + d, style: (d === 'v' ? 'left:' : 'top:') + pos + '%' })));
+}
+/* poco a poco hacia el siguiente estado (migas o azúcar): devuelve q => … */
+function moldFade(m, flag) {
+  const k = cakeKey({ ...CAKE, [flag]: true });
+  if (IMG[k] && m.classList.contains('img')) { const f = fadeImg(m, k); return q => { f.style.opacity = q; }; }
+  const lay = m.querySelector(flag === 'sugar' ? '.lay-sugar' : '.lay-crumb');
+  return q => { lay.style.opacity = q; };
 }
 /* horno: el molde entra y se eligen grados y minutos con botones */
 let OVEN_IV = null;
@@ -913,7 +1132,7 @@ function ovenModal(a, { temp, min, flag }, mold) {
    ========================================================= */
 let K = null;
 function thing(k) {
-  if (k === 'bola') return h('div', { class: 'ball small th-ball' });
+  if (k === 'bola') return IMG.masaPeque ? art('masaPeque', null, 'th') : h('div', { class: 'ball small th-ball' });
   const d = IT[k] || TOOLS[k] || DECO[k];
   return pic(k, d.e, 'th');
 }
@@ -1012,101 +1231,122 @@ function ready() {
 /* =========================================================
    Los pasos del juego (todo pasa en la encimera)
    ========================================================= */
-const knifeIcon = () => h('div', { class: 'knife', style: 'position:static' }, thing('cuchillo'));
 function chop(k) { k.classList.remove('chop'); void k.offsetWidth; k.classList.add('chop'); }
 const RUN = {
+  /* pelar: dar vueltas alrededor de cada manzana; la piel se va quitando en círculo */
   peel(w, a) {
     a.onReady = () => {
       a.consume('tabla'); a.consume('manzanas'); a.consume('pelador');
-      const b = h('div', { class: 'board' });
+      const N = 3, cnt = h('div', { class: 'count' }), b = boardEl();
+      b.classList.add('tall');
+      w.append(h('div', { class: 'col' }, cnt, b));
       let n = 0;
-      for (let i = 0; i < 5; i++) {
-        const ap = h('div', { class: 'apple' }, pic('manzana', '🍎', 'th'));
-        ap.onclick = () => {
-          if (ap.dataset.p) return;
-          ap.dataset.p = 1;
-          const pe = h('div', { class: 'peeled pop' }); ap.replaceWith(pe);
-          floaty(pe, '〰️'); a.ok();
-          if (++n === 5) a.done();
-        };
-        b.append(ap);
-      }
-      w.append(b);
+      const next = () => {
+        cnt.textContent = '🍎 ' + (n + 1) + ' / ' + N;
+        const skin = art('manzana', h('span', { class: 'th' }, '🍎'));
+        skin.classList.add('skin');
+        const ap = h('div', { class: 'big-apple pop' }, art('manzanaPelada', h('div', { class: 'peeled' })), skin);
+        b.replaceChildren(ap);
+        stir(ap, { turns: 1.25, tool: 'pelador',
+          prog: q => {
+            const m = `conic-gradient(from -90deg, transparent ${q * 360}deg, #000 0)`;
+            skin.style.maskImage = m; skin.style.webkitMaskImage = m;
+            if (Math.random() < .05) floaty(ap, '〰️');
+          },
+          done: () => { skin.remove(); a.ok(); if (++n < N) setTimeout(next, 450); else a.done(); } });
+      };
+      next();
     };
   },
+  /* cortar: el cuchillo sigue las líneas de puntos */
   cut(w, a) {
-    const b = h('div', { class: 'board' }, Array.from({ length: 5 }, () => h('div', { class: 'peeled' })));
-    const knife = h('div', { class: 'knife' }, thing('cuchillo')); b.append(knife);
-    a.onReady = () => a.consume('cuchillo');
-    let n = 0; const N = 8;
-    b.onclick = () => {
-      if (n >= N) return;
-      n++; chop(knife); beep(500 + n * 40, .06, 'triangle', .1);
-      const pe = b.querySelector('.peeled');
-      if (pe && (n % 2 === 0 || n === N)) pe.replaceWith(...cubes(6));
-      if (n === N) { b.querySelectorAll('.peeled').forEach(x => x.replaceWith(...cubes(6))); a.done(); }
-    };
+    const ap = h('div', { class: 'big-apple' }, art('manzanaPelada', h('div', { class: 'peeled' })));
+    const b = boardEl(ap);
+    b.classList.add('tall');
     w.append(b);
+    a.onReady = () => {
+      a.consume('cuchillo');
+      cutLines(ap, [[36, 4, 36, 96], [64, 4, 64, 96], [4, 38, 96, 38], [4, 64, 96, 64]], {
+        onCut: () => a.ok(),
+        done: () => { ap.replaceWith(h('div', { class: 'pop' }, trozos())); a.done(); } });
+    };
   },
+  /* freír: los trozos a la sartén y remover en círculos */
   fry(w, a) {
-    const b = h('div', { class: 'board' }, cubes(16));
+    const b = boardEl(trozos());
     w.append(b);
     a.onReady = () => {
       a.consume('sarten');
-      const pan = sarten(false); pan.classList.add('drop'); w.append(pan);
+      const pan = sarten('empty'); pan.classList.add('drop'); w.append(pan);
       drag(b, t => {
         if (t !== pan) return;
-        b.remove(); pan.append(...cubes(16)); pan.classList.remove('drop'); pan.classList.add('sizzle'); a.ok();
-        a.tip('🥄 Remueve: frota la sartén con el dedo.');
-        a.consume('cuchara'); pan.append(h('div', { class: 'spoon' }, thing('cuchara')));
+        b.remove(); setPan(pan, 'raw'); pan.classList.remove('drop'); pan.classList.add('sizzle'); a.ok();
+        a.tip('🥄 Remueve: da vueltas con el dedo en la sartén.');
+        a.consume('cuchara');
         const clock = h('div', { class: 'clock' }, "⏱️ 0'"); pan.before(clock);
-        rub(pan, { f: 5, prog: q => { clock.textContent = '⏱️ ' + Math.round(q * 15) + "'"; }, done: () => { pan.classList.remove('sizzle'); a.done(); } });
+        stir(pan, { turns: 3, tool: 'cuchara',
+          prog: q => { clock.textContent = '⏱️ ' + Math.round(q * 15) + "'"; },
+          done: () => { pan.classList.remove('sizzle'); a.done(); } });
       });
     };
   },
   add(w, a) {
-    const pan = sarten(true); pan.classList.add('drop'); w.append(pan);
+    const pan = sarten('raw'); pan.classList.add('drop'); w.append(pan);
     a.onReady = () => {
       let n = 0;
       for (const k of ['vainilla', 'canela']) drag(a.tiles[k], t => {
         if (t !== pan || !a.tiles[k]) return;
         a.consume(k);
         pan.append(h('div', { class: 'spice', style: `left:${30 + Math.random() * 30}%;top:30%` }, thing(k)));
-        a.ok(); if (++n === 2) a.done();
+        a.ok();
+        if (++n === 2) { setTimeout(() => setPan(pan, 'cooked'), 600); a.done(); }
       });
     };
   },
+  /* masa: los ingredientes al bol y mezclar en círculos */
   dough(w, a) {
     a.onReady = () => {
       a.consume('bol');
-      const bowl = h('div', { class: 'bowl drop' }), ball = h('div', { class: 'ball big inbowl', style: 'transform:scale(0)' });
-      bowl.append(ball); w.append(bowl);
+      const bowl = h('div', { class: 'bowl drop' });
+      setBowl(bowl, 'empty');
+      const fade = bowl.classList.contains('img') && IMG.bolMasa ? fadeImg(bowl, 'bolMasa') : null;
+      const ball = fade ? null : h('div', { class: 'ball big inbowl', style: 'transform:scale(0)' });
+      if (ball) bowl.append(ball);
+      w.append(bowl);
       const need = ['harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'];
       let n = 0;
       for (const k of need) drag(a.tiles[k], t => {
         if (t !== bowl || !a.tiles[k]) return;
-        a.consume(k); bowl.insertBefore(h('span', { class: 'mini' }, thing(k)), ball); a.ok();
+        a.consume(k);
+        bowl.insertBefore(h('span', { class: 'mini' }, thing(k)), ball || fade);
+        a.ok();
         if (++n < need.length) return;
         bowl.classList.remove('drop');
-        a.tip('✋ Mezcla: frota el bol con el dedo.');
-        rub(bowl, { f: 5, prog: q => { bowl.querySelectorAll('.mini').forEach(m => m.style.opacity = 1 - q); ball.style.transform = `scale(${q})`; }, done: () => a.done() });
+        setBowl(bowl, 'mix');
+        a.tip('🥄 Mezcla: da vueltas con el dedo en el bol.');
+        stir(bowl, { turns: 3,
+          prog: q => {
+            bowl.querySelectorAll('.mini').forEach(m => { m.style.opacity = 1 - q; });
+            if (fade) fade.style.opacity = q; else ball.style.transform = `scale(${q})`;
+          },
+          done: () => a.done() });
       });
     };
   },
+  /* dividir: un corte por la línea, una bola grande y una pequeña */
   divide(w, a) {
-    const ball = h('div', { class: 'ball big', style: 'transition:transform .2s;cursor:pointer' }), knife = knifeIcon();
-    a.onReady = () => a.consume('cuchillo');
-    let n = 0;
-    ball.onclick = () => {
-      n++; chop(knife); beep(500 + n * 60, .08, 'triangle', .1);
-      if (n < 3) { ball.style.transform = `scaleX(${1 + n * .15})`; return; }
-      w.innerHTML = ''; w.append(h('div', { class: 'ball big pop' }), h('div', { class: 'ball small pop' }));
-      a.done();
+    const wrap = h('div', { class: 'dough-wrap' }, ballEl(true));
+    const b = boardEl(wrap);
+    b.classList.add('tall');
+    w.append(b);
+    a.onReady = () => {
+      a.consume('cuchillo');
+      cutLines(wrap, [[64, 4, 64, 96]], {
+        done: () => { wrap.replaceChildren(ballEl(true), ballEl(false)); wrap.classList.add('pop'); a.done(); } });
     };
-    w.append(ball, knife);
   },
   fridge(w, a) {
-    const big = h('div', { class: 'ball big' }), small = h('div', { class: 'ball small' });
+    const big = ballEl(true), small = ballEl(false);
     const fr = K.places.nevera.el; fr.classList.add('drop');
     drag(big, t => { if (t === fr) a.fail(big, '¡Uy! La bola pequeña, no la grande.'); });
     drag(small, t => {
@@ -1119,7 +1359,7 @@ const RUN = {
     w.append(big, small);
   },
   mold(w, a) {
-    const big = h('div', { class: 'ball big' }); w.append(big);
+    const big = ballEl(true); w.append(big);
     a.onReady = () => {
       a.consume('molde');
       const mo = molde(); mo.classList.add('drop'); w.append(mo);
@@ -1134,39 +1374,48 @@ const RUN = {
     drag(mo, t => { if (t === K.oven) ovenModal(a, o, mo); });
   },
   apples(w, a) {
-    const pan = sarten(true), mo = molde(); mo.classList.add('drop');
+    const pan = sarten('cooked'), mo = molde(); mo.classList.add('drop');
     drag(pan, t => { if (t !== mo) return; pan.remove(); CAKE.apples = true; paint(mo); a.done(); });
     w.append(pan, mo);
   },
+  /* rallar: la bola pequeña sube y baja por el rallador; las migas caen en el molde */
   grate(w, a) {
     const mo = molde(); w.append(mo);
     a.onReady = () => {
       a.consume('bola'); a.consume('rallador');
-      const crumb = mo.querySelector('.lay-crumb');
-      const ball = h('div', { class: 'ball small', style: 'transition:transform .1s;cursor:default' });
-      const gr = h('div', { class: 'grater' });
-      rub(gr, { f: 5, prog: q => { crumb.style.opacity = q; ball.style.transform = `scale(${1 - q * .85})`; }, done: () => { CAKE.crumb = true; crumb.style.opacity = ''; paint(mo); a.done(); } });
-      w.prepend(h('div', { class: 'col' }, ball, gr));
+      const gr = h('div', { class: 'grater-wrap' }, art('rallador', h('div', { class: 'grater' })));
+      const tl = follower(gr, null, true); tl.el.append(ballEl(false)); tl.at({ x: 50, y: 30 });
+      const fade = moldFade(mo, 'crumb');
+      w.prepend(gr);
+      shake(gr, { axis: 'y', count: 10, follow: tl,
+        prog: q => {
+          fade(q); tl.el.firstChild.style.scale = 1 - q * .7;
+          for (let i = 0; i < 4; i++) sprinkle(mo, { x: 15 + Math.random() * 70, y: 10 + Math.random() * 70 }, 'crumb-p');
+        },
+        done: () => { tl.el.remove(); CAKE.crumb = true; paint(mo); a.done(); } });
     };
   },
+  /* azúcar glas: el colador va de un lado a otro sobre la tarta */
   sugar(w, a) {
     const mo = molde(); w.append(mo);
     a.onReady = () => {
       a.consume('azucarGlas'); a.consume('colador');
-      w.prepend(h('div', { class: 'col sieve' }, thing('azucarGlas'), thing('colador')));
-      const lay = mo.querySelector('.lay-sugar');
-      rub(mo, { f: 4, prog: q => { lay.style.opacity = q; if (Math.random() < .15) floaty(mo, '✨'); }, done: () => { CAKE.sugar = true; lay.style.opacity = ''; paint(mo); a.done(); } });
+      const tl = follower(mo, 'colador', true); tl.at({ x: 50, y: 25 });
+      const fade = moldFade(mo, 'sugar');
+      shake(mo, { axis: 'x', count: 8, follow: tl,
+        prog: (q, p) => { fade(q); for (let i = 0; i < 5; i++) sprinkle(mo, { x: p.x, y: p.y + 20 }, 'dust'); },
+        done: () => { tl.el.remove(); CAKE.sugar = true; paint(mo); a.done(); } });
     };
   },
+  /* cortar la tarta: cuatro líneas */
   cut2(w, a) {
-    const mo = molde(), knife = knifeIcon(); mo.style.cursor = 'pointer';
-    a.onReady = () => a.consume('cuchillo');
-    mo.onclick = () => {
-      if ((CAKE.cuts || 0) >= 4) return;
-      CAKE.cuts = (CAKE.cuts || 0) + 1; paint(mo); chop(knife); beep(600 + CAKE.cuts * 80, .08, 'triangle', .1);
-      if (CAKE.cuts === 4) a.done();
+    const mo = molde(); w.append(mo);
+    a.onReady = () => {
+      a.consume('cuchillo');
+      cutLines(mo, CUTS.map(([d, q]) => d === 'v' ? [q, 4, q, 96] : [4, q, 96, q]), {
+        onCut: () => a.ok(),
+        done: () => { CAKE.cuts = 4; paint(mo); a.done(); } });
     };
-    w.append(mo, knife);
   },
 };
 
