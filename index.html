@@ -289,8 +289,11 @@ input{font-family:inherit}
 .f-nevera{background:#e4f1f8}
 .inside{position:absolute;inset:5px;display:grid;grid-template-columns:repeat(2,1fr);align-content:space-evenly;justify-items:center;gap:2px}
 .f-nevera .inside,.f-cajon .inside{grid-template-columns:repeat(3,1fr)}
-.f-cajon .inside{bottom:42%}
-.slot{width:100%;max-width:48px;aspect-ratio:1;border:0;padding:2px;border-radius:8px;background:transparent;cursor:pointer;display:grid;place-items:center}
+.f-cajon{overflow:hidden}
+.f-cajon .inside{bottom:30%}
+.inside{align-content:stretch}
+.slot{width:100%;height:100%;min-height:38px;border:0;padding:2px;border-radius:8px;background:transparent;cursor:pointer;display:grid;place-items:center}
+.slot>.th{max-width:44px;max-height:44px}
 .slot:active{background:rgba(255,255,255,.7)}
 .slot.out{visibility:hidden}
 .th{font-size:clamp(20px,6vw,28px);line-height:1}
@@ -305,8 +308,8 @@ img.th{width:100%;height:100%;object-fit:contain}
 .f-nevera .door>i{background:#9fb0bf;height:40%}
 .furn.open .door{transform:rotateY(-108deg)}
 .f-cajon .door{transform-origin:center bottom}
-.f-cajon .door>i{right:auto;left:50%;top:35%;translate:-50% 0;width:34%;height:8px}
-.f-cajon.open .door{transform:translateY(60%)}
+.f-cajon .door>i{right:auto;left:50%;top:12%;translate:-50% 0;width:34%;height:8px}
+.f-cajon.open .door{transform:translateY(72%)}
 .f-horno{background:#2a1d16}
 .f-horno .door{transform-origin:center bottom;background:linear-gradient(#f0ebe5,#d8cfc6)}
 .f-horno.open .door{transform:rotateX(-70deg)}
@@ -327,13 +330,15 @@ img.th{width:100%;height:100%;object-fit:contain}
 .tile-pic .th{font-size:24px}
 .tile-lbl{font-size:10px;font-weight:700;line-height:1.05;text-align:center;margin-top:2px;background:rgba(255,255,255,.85);border-radius:4px;padding:0 2px}
 .flyer{position:fixed;z-index:999;pointer-events:none;display:grid;place-items:center}
-.counter .board{width:min(58vw,230px);height:92px;padding:8px 42px 8px 8px;gap:4px;box-shadow:0 4px 0 var(--line)}
+.counter .board{width:min(58vw,230px);height:auto;min-height:92px;padding:8px 42px 8px 8px;gap:4px;box-shadow:0 4px 0 var(--line)}
 .counter .board::after{display:none}
-.counter .apple{font-size:30px;cursor:pointer}
+.counter .apple{font-size:32px;cursor:pointer;width:42px;height:42px;display:grid;place-items:center}
 .counter .peeled,.counter .board .peeled{width:30px}
 .counter .knife{font-size:32px;top:6px}
 .counter .cube{width:10px;height:10px}
-.counter .sarten{width:min(30vw,120px);margin-right:46px;padding:22%;box-shadow:0 4px 0 var(--line)}
+.counter .sarten{width:min(30vw,120px);height:min(30vw,120px);min-height:0;margin-right:46px;padding:24px;overflow:hidden;box-shadow:0 4px 0 var(--line)}
+.counter .sarten .spoon{position:absolute;right:8%;top:6%;font-size:30px;pointer-events:none;transform:rotate(25deg)}
+.counter .sarten .spoon .th{width:34px;height:34px}
 .counter .sarten::after{width:48px;height:12px}
 .counter .bowl{width:min(44vw,170px);height:min(24vw,92px);box-shadow:0 0 0 3px var(--line),0 4px 0 var(--line)}
 .counter .bowl .ball.inbowl{width:64px;height:64px;margin-left:-32px}
@@ -343,6 +348,8 @@ img.th{width:100%;height:100%;object-fit:contain}
 .counter .ball.small{width:44px;height:44px}
 .counter .molde{width:min(30vw,118px);box-shadow:0 4px 0 var(--line)}
 .counter .grater{width:54px;height:88px}
+.counter .sieve{gap:2px}
+.counter .sieve .th{width:36px;height:36px;font-size:28px}
 .counter .clock{font-size:1rem;padding:2px 10px}
 .counter .spice .th{width:30px;height:30px;font-size:24px}
 .counter .btn{padding:8px 16px;font-size:1rem}
@@ -351,7 +358,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .oven-modal .ov-panel{display:flex;gap:8px;justify-content:center}
 .oven-modal .disp{background:#1e2a22;color:#7dffa6;font-weight:700;border-radius:10px;padding:4px 10px;border:3px solid var(--line)}
 .pop-h{display:flex;align-items:center;justify-content:space-between;font-size:1.15rem}
-.x{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);background:#fff;font-weight:700;cursor:pointer;color:var(--ink)}
+.x{width:42px;height:42px;border-radius:50%;border:3px solid var(--line);background:#fff;font-weight:700;cursor:pointer;color:var(--ink)}
 @keyframes nudge{to{transform:translateY(4px)}}
 /* ---------- servir ---------- */
 .plate{width:min(40vw,160px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle,#fff 55%,#e9eef2 56% 64%,#fff 65%);border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
@@ -449,7 +456,7 @@ img.th{width:100%;height:100%;object-fit:contain}
   .molde.mini{width:64px}
   .ctrls{gap:6px}
   .ctrl{padding:4px 8px;gap:3px}
-  .chip{padding:6px 0;font-size:1.05rem}
+  .chip{padding:8px 0;min-height:42px;font-size:1.05rem}
   .ctrls .btn{padding:8px 20px}
 }
 @media (max-height:700px) and (orientation:portrait){
@@ -594,15 +601,15 @@ const NAME = {
 /* dónde está cada cosa en la cocina */
 const PLACES = {
   nevera:   { img: 'nevera',  de: 'de la nevera',          items: ['manzanas', 'mantequilla', 'huevo', 'queso', 'pescado', 'helado', 'nata', 'fresa'] },
-  armario1: { img: 'armario', de: 'del armario de arriba', items: ['harina', 'fecula', 'azucarGlas', 'arroz'] },
-  armario2: { img: 'armario', de: 'del armario de arriba', items: ['vainilla', 'canela', 'levadura', 'sal'] },
+  armario1: { img: 'armario', de: 'del armario de arriba', items: ['harina', 'fecula', 'azucarGlas', 'arroz', 'tomate', 'cebolla'] },
+  armario2: { img: 'armario', de: 'del armario de arriba', items: ['vainilla', 'canela', 'levadura', 'sal', 'zanahoria'] },
   cajon:    { img: 'cajon',   de: 'del cajón',             items: ['cuchillo', 'pelador', 'cuchara', 'rallador', 'colador'] },
   armario3: { img: 'armario', de: 'del armario de abajo',  items: ['tabla', 'bol', 'sarten', 'molde'] },
 };
 const TOOLS = {
   tabla:    { e: '🟫', n: 'la tabla' },
   cuchillo: { e: '🔪', n: 'el cuchillo' },
-  pelador:  { e: '🥔', n: 'el pelador' },
+  pelador:  { e: '🪒', n: 'el pelador' },
   cuchara:  { e: '🥄', n: 'la cuchara' },
   rallador: { e: '🧀', n: 'el rallador' },
   colador:  { e: '⚪', n: 'el colador' },
@@ -624,7 +631,7 @@ const STEPS = [
   { k: 'cut',    get: ['cuchillo'], t: 'Se cortan las manzanas en trozos.', tip: '🔪 Toca la tabla muchas veces.' },
   { k: 'fry',    get: ['sarten', 'cuchara'], t: 'Se fríen las manzanas 15 minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
   { k: 'add',    get: ['vainilla', 'canela'], t: 'Se añaden el azúcar de vainilla y la canela.', tip: '✋ Arrastra el azúcar y la canela a la sartén.' },
-  { k: 'dough',  get: ['bol', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'], t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
+  { k: 'dough',  get: ['bol', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'], t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema de huevo, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
   { k: 'divide', get: ['cuchillo'], t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Toca la masa.' },
   { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: '✋ Arrastra la bola pequeña a la nevera.' },
   { k: 'mold',   get: ['molde'], t: 'Se pone la bola grande en el molde.', tip: '✋ Arrastra la bola al molde.' },
@@ -771,6 +778,7 @@ function paint(m) {
     c.append(h('div', { class: 'cutline ' + d, style: (d === 'v' ? 'left:' : 'top:') + pos + '%' })));
 }
 /* horno: el molde entra y se eligen grados y minutos con botones */
+let OVEN_IV = null;
 function ovenModal(a, { temp, min, flag }, mold) {
   let t = null, m = null;
   const tv = h('span', {}, '--- °C'), mv = h('span', {}, '-- min');
@@ -793,7 +801,9 @@ function ovenModal(a, { temp, min, flag }, mold) {
     K.oven.classList.remove('open', 'drop'); K.oven.classList.add('baking');
     beep(220, .6, 'sawtooth', .04);
     let s = 0;
-    const iv = setInterval(() => {
+    clearInterval(OVEN_IV);
+    const iv = OVEN_IV = setInterval(() => {
+      if (!G) return clearInterval(iv);
       s++; K.ovenWin.textContent = Math.max(0, min - Math.round(min * s / 20)) + "'";
       if (s < 20) return;
       clearInterval(iv); K.oven.classList.remove('baking'); K.ovenWin.textContent = '';
@@ -874,7 +884,7 @@ function take(it, slot) {
   const st = G.step;
   if (!st || st.over || st.taken.has(it)) return;
   const free = (st.s.free || []).includes(it);
-  if (!free && !st.pending.has(it)) return st.a.fail(slot, 'Ahora no se necesita ' + NAMES[it] + '.');
+  if (!free && !st.pending.has(it)) return st.a.fail(slot, 'Ahora no se ' + (/^(los|las) /.test(NAMES[it]) ? 'necesitan ' : 'necesita ') + NAMES[it] + '.');
   st.pending.delete(it); st.taken.add(it); slot.classList.add('out');
   const tile = h('div', { class: 'tile', 'data-k': it }, h('div', { class: 'tile-pic' }, thing(it)), h('span', { class: 'tile-lbl' }, NAMES[it]));
   st.tiles[it] = tile; st.row.append(tile);
@@ -884,6 +894,7 @@ function take(it, slot) {
   else setTimeout(() => { closePlaces(); ready(); }, 500);
 }
 function ready() {
+  if (!G) return;
   const st = G.step;
   K.counter.classList.remove('locked');
   G.ui.tip.textContent = st.s.tip;
@@ -899,7 +910,7 @@ function chop(k) { k.classList.remove('chop'); void k.offsetWidth; k.classList.a
 const RUN = {
   peel(w, a) {
     a.onReady = () => {
-      a.consume('tabla'); a.consume('manzanas');
+      a.consume('tabla'); a.consume('manzanas'); a.consume('pelador');
       const b = h('div', { class: 'board' });
       let n = 0;
       for (let i = 0; i < 5; i++) {
@@ -919,6 +930,7 @@ const RUN = {
   cut(w, a) {
     const b = h('div', { class: 'board' }, Array.from({ length: 5 }, () => h('div', { class: 'peeled' })));
     const knife = h('div', { class: 'knife' }, '🔪'); b.append(knife);
+    a.onReady = () => a.consume('cuchillo');
     let n = 0; const N = 8;
     b.onclick = () => {
       if (n >= N) return;
@@ -939,7 +951,8 @@ const RUN = {
         if (t !== pan) return;
         b.remove(); pan.append(...cubes(16)); pan.classList.remove('drop'); pan.classList.add('sizzle'); a.ok();
         a.tip('🥄 Remueve: frota la sartén con el dedo.');
-        const clock = h('div', { class: 'clock' }, "⏱️ 0'"); w.append(clock);
+        a.consume('cuchara'); pan.append(h('div', { class: 'spoon' }, thing('cuchara')));
+        const clock = h('div', { class: 'clock' }, "⏱️ 0'"); pan.before(clock);
         rub(pan, { f: 5, prog: q => { clock.textContent = '⏱️ ' + Math.round(q * 15) + "'"; }, done: () => { pan.classList.remove('sizzle'); a.done(); } });
       });
     };
@@ -949,7 +962,7 @@ const RUN = {
     a.onReady = () => {
       let n = 0;
       for (const k of ['vainilla', 'canela']) drag(a.tiles[k], t => {
-        if (t !== pan) return;
+        if (t !== pan || !a.tiles[k]) return;
         a.consume(k);
         pan.append(h('div', { class: 'spice', style: `left:${30 + Math.random() * 30}%;top:30%` }, thing(k)));
         a.ok(); if (++n === 2) a.done();
@@ -964,7 +977,7 @@ const RUN = {
       const need = ['harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'];
       let n = 0;
       for (const k of need) drag(a.tiles[k], t => {
-        if (t !== bowl) return;
+        if (t !== bowl || !a.tiles[k]) return;
         a.consume(k); bowl.insertBefore(h('span', { class: 'mini' }, thing(k)), ball); a.ok();
         if (++n < need.length) return;
         bowl.classList.remove('drop');
@@ -975,6 +988,7 @@ const RUN = {
   },
   divide(w, a) {
     const ball = h('div', { class: 'ball big', style: 'transition:transform .2s;cursor:pointer' }), knife = knifeIcon();
+    a.onReady = () => a.consume('cuchillo');
     let n = 0;
     ball.onclick = () => {
       n++; chop(knife); beep(500 + n * 60, .08, 'triangle', .1);
@@ -1032,12 +1046,15 @@ const RUN = {
   sugar(w, a) {
     const mo = molde(); w.append(mo);
     a.onReady = () => {
+      a.consume('azucarGlas'); a.consume('colador');
+      w.prepend(h('div', { class: 'col sieve' }, thing('azucarGlas'), thing('colador')));
       const lay = mo.querySelector('.lay-sugar');
       rub(mo, { f: 4, prog: q => { lay.style.opacity = q; if (Math.random() < .15) floaty(mo, '✨'); }, done: () => { CAKE.sugar = true; lay.style.opacity = ''; paint(mo); a.done(); } });
     };
   },
   cut2(w, a) {
     const mo = molde(), knife = knifeIcon(); mo.style.cursor = 'pointer';
+    a.onReady = () => a.consume('cuchillo');
     mo.onclick = () => {
       if ((CAKE.cuts || 0) >= 4) return;
       CAKE.cuts = (CAKE.cuts || 0) + 1; paint(mo); chop(knife); beep(600 + CAKE.cuts * 80, .08, 'triangle', .1);
@@ -1081,15 +1098,16 @@ function startGame({ name, room, demo }) {
   const bubble = h('div', { class: 'bubble' }, '¡Hola, ' + name + '! ¡Vamos a cocinar!');
   G.ui = { dots, mist, num, instr, tip, scene: stage, bubble };
   restart(
-    demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); G = null; startTV(); } }, '⟵ 📺') : null,
+    demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); clearInterval(OVEN_IV); G = null; startTV(); } }, '⟵ 📺') : null,
     h('div', { class: 'game', style: IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
       h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, dots, mist),
       h('div', { class: 'ribbon' }, num, instr, tip),
       stage,
       h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble)));
-  if (room && !demo) NET.send(room, { t: 'join', id: G.id, name, step: 0, total: STEPS.length });
+  if (room && !demo) NET.send(room, { t: 'join', id: G.id, name, step: 0, total: STEPS.length }).then(netWarn);
   runStep();
 }
+const netWarn = ok => { if (!ok) say('📺 ¡Uy! La tele no te ve. Dile al profesor.'); };
 function say(txt) {
   if (!G) return;
   const b = G.ui.bubble; b.textContent = txt;
@@ -1104,6 +1122,7 @@ function runStep() {
   closePlaces();
   K.oven.classList.remove('drop', 'open'); K.places.nevera.el.classList.remove('drop');
   K.root.querySelectorAll('.oven-modal').forEach(m => m.remove());
+  clearInterval(OVEN_IV); K.oven.classList.remove('baking');
   const work = h('div', { class: 'work' }), row = h('div', { class: 'taken' });
   K.counter.innerHTML = ''; K.counter.append(row, work);
   const st = G.step = { s, pending: new Set(s.get || []), taken: new Set(), tiles: {}, row, work, over: false };
@@ -1122,12 +1141,12 @@ function runStep() {
       say(msg || pick(BAD));
     },
     done() {
-      if (st.over) return; st.over = true;
+      if (st.over || !G) return; st.over = true;
       clearTimeout(G.idle); chord(); say(pick(GOOD));
       setTimeout(nextStep, 1200);
     },
     tip(t) { u.tip.textContent = t; },
-    consume(k) { if (st.tiles[k]) st.tiles[k].remove(); },
+    consume(k) { if (st.tiles[k]) { st.tiles[k].remove(); delete st.tiles[k]; } },
   };
   fillPlaces();
   RUN[s.k](work, a);
@@ -1138,7 +1157,7 @@ function nextStep() {
   if (!G) return;
   G.i++;
   if (G.room && !G.demo && (G.i === 5 || G.i === 10))
-    NET.send(G.room, { t: 'step', id: G.id, name: G.name, step: G.i, total: STEPS.length });
+    NET.send(G.room, { t: 'step', id: G.id, name: G.name, step: G.i, total: STEPS.length }).then(netWarn);
   if (G.i >= STEPS.length) finishGame(); else runStep();
 }
 function finishGame() {
@@ -1146,7 +1165,7 @@ function finishGame() {
   const score = Math.max(100, 1000 - 40 * G.mistakes - Math.max(0, secs - 150));
   const stars = G.mistakes <= 2 ? 3 : G.mistakes <= 6 ? 2 : 1;
   if (G.room && !G.demo)
-    NET.send(G.room, { t: 'done', id: G.id, name: G.name, step: STEPS.length, total: STEPS.length, score, mistakes: G.mistakes, secs }, 8);
+    NET.send(G.room, { t: 'done', id: G.id, name: G.name, step: STEPS.length, total: STEPS.length, score, mistakes: G.mistakes, secs }, 8).then(netWarn);
   const u = G.ui;
   [...u.dots.children].forEach(d => d.className = 'on');
   u.num.textContent = '¡Terminado!';
@@ -1279,7 +1298,7 @@ const SLIDES = [
     h('h2', {}, '🏆 ¡Los mejores chefs!'), h('div', { id: 'podium', style: 'width:100%' })),
   () => h('div', { class: 'slide' },
     h('h2', {}, 'La receta'),
-    h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.slice(1).map(s => h('li', {}, s.t))))),
+    h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.map(s => h('li', {}, s.t))))),
   () => h('div', { class: 'slide' },
     pic('tarta', '🥧', 'hero'),
     h('h1', {}, '¡Que aproveche!')),
@@ -1295,6 +1314,7 @@ function renderTV() {
   if (MODE !== 'tv') return;
   const nav = h('div', { class: 'tvnav' },
     h('button', { class: 'btn small light', onclick: () => go(-1) }, '◀'),
+    h('span', { class: 'cnt', id: 'tvconn' }, '🟡'),
     h('span', { class: 'cnt' }, (TV.idx + 1) + ' / ' + SLIDES.length),
     h('button', { class: 'btn small light', onclick: () => go(1) }, '▶'),
     h('button', { class: 'btn small light', title: 'Pantalla completa', onclick: () => { const d = document; d.fullscreenElement ? d.exitFullscreen() : d.documentElement.requestFullscreen && d.documentElement.requestFullscreen().catch(() => {}); } }, '⛶'));
@@ -1306,13 +1326,15 @@ function renderTV() {
 function go(d) { TV.idx = Math.max(0, Math.min(SLIDES.length - 1, TV.idx + d)); renderTV(); }
 function refreshTV() {
   if (MODE !== 'tv') return;
+  const cn = $('#tvconn');
+  if (cn) { cn.hidden = TV.live; cn.textContent = '🟡 conectando…'; }
   const list = ranked();
   const board = $('#board');
   if (board) {
     board.innerHTML = '';
     const done = list.filter(s => s.done).length;
     board.append(h('div', { class: 'board-head' },
-      h('span', {}, '👩‍🍳 ' + list.length + ' cocineros · ✅ ' + done),
+      h('span', {}, list.length ? '👩‍🍳 ' + list.length + (list.length === 1 ? ' cocinero' : ' cocineros') + ' · ✅ ' + done : '👩‍🍳 Nadie todavía'),
       h('span', { class: 'conn' }, TV.live ? '🟢 en directo' : '🟡 conectando…')));
     const bl = h('div', { class: 'board-list' });
     if (!list.length) bl.append(h('div', { class: 'empty' }, '📱 Escanea el código QR y escribe tu nombre.'));
