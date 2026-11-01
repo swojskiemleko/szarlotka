@@ -22,9 +22,15 @@ do not touch, no text, no labels. Exact order, left to right, top to bottom:
 
 Row 1: a kitchen knife; a vegetable peeler; an empty mixing bowl; a wooden spoon.
 Row 2: an empty frying pan with a handle; a box grater; an empty square metal baking tin; a small fine-mesh sieve.
-Row 3: a small kitchen oven (front view, closed glass door); a scoop of vanilla ice cream in a small bowl; a swirl of whipped cream; a sprig of fresh mint leaves.
-Row 4: one strawberry; a tall white fridge with two doors, closed (front view); a wooden kitchen wall cabinet with two doors, closed (front view); a wooden kitchen drawer unit with two drawers (front view).
+Row 3: a wooden cutting board; a scoop of vanilla ice cream in a small bowl; a swirl of whipped cream; one strawberry.
+Row 4 (flat FRONT views that fill their whole cell, no perspective, no shadow):
+  a white fridge door with a vertical handle on the right;
+  a wooden cupboard door with a vertical handle on the right;
+  a wooden drawer front with a horizontal handle in the middle;
+  a small white oven front with three knobs on top and a dark glass window.
 ```
+
+Wiersz 4 to **przednie ściany mebli**. W grze stają się drzwiami, które się otwierają, więc mają być płaskie, na wprost, bez perspektywy.
 
 Ważne: kolejność musi się zgadzać, bo po niej rozpoznaję obrazki. Jeśli ChatGPT coś pomiesza, napisz mi, co jest gdzie.
 

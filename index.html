@@ -273,59 +273,93 @@ input{font-family:inherit}
 .tvbtns{display:flex;gap:1.5vw;flex-wrap:wrap;justify-content:center}
 .back-tv{position:fixed;left:10px;top:10px;z-index:60}
 
-/* ---------- cocina: buscar ingredientes ---------- */
-.need{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;width:100%}
-.need span{background:#fff;border:2px solid var(--line);border-radius:10px;padding:1px 7px;font-size:.8rem;font-weight:600}
-.need span.got{background:#d8f5df;color:var(--green);text-decoration:line-through}
-.kitchen{position:relative;isolation:isolate;width:min(100%,400px);height:min(54dvh,420px);flex:none}
-.place{position:absolute;cursor:pointer;transition:transform .15s}
-.place:active{transform:scale(.96)}
-.place .pic{width:100%;height:100%;object-fit:contain}
-.place.done::after{content:"✔";position:absolute;right:-6px;top:-6px;width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;border:3px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:.9rem}
-.p-nevera{left:2%;top:2%;width:42%;height:90%}
-.p-armario1{left:50%;top:4%;width:23%;height:36%}
-.p-armario2{left:76%;top:4%;width:23%;height:36%}
-.p-cajon{left:50%;top:50%;width:49%;height:42%}
-.countertop{position:absolute;left:-12px;right:-12px;bottom:-4px;height:7%;background:linear-gradient(var(--wood),var(--wood2));border-top:4px solid var(--line);z-index:-1}
-.f-fridge{width:100%;height:100%;background:linear-gradient(90deg,#f6f9fb,#dde6ed);border:3px solid var(--line);border-radius:14px;display:flex;flex-direction:column;box-shadow:0 6px 0 var(--line)}
-.f-fridge i{display:block;position:relative}
-.f-fridge i:first-child{height:34%;border-bottom:3px solid var(--line)}
-.f-fridge i:last-child{flex:1}
-.f-fridge i::after{content:"";position:absolute;right:10%;top:25%;width:7px;height:45%;background:#9fb0bf;border:2px solid var(--line);border-radius:4px}
-.f-cab,.f-drawer{width:100%;height:100%;display:flex;gap:4px;background:#b9783f;border:3px solid var(--line);border-radius:10px;padding:4px;box-shadow:0 5px 0 var(--line)}
-.f-drawer{flex-direction:column}
-.f-cab i,.f-drawer i{flex:1;background:linear-gradient(#e6ad73,#c98a52);border:2px solid var(--line);border-radius:6px;position:relative}
-.f-cab i::after,.f-drawer i::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:6px;margin:-3px 0 0 -7px;background:#7a4a20;border:2px solid var(--line);border-radius:4px}
-.f-cab i:first-child::after{left:80%}
-.f-cab i:last-child::after{left:20%}
-.popup{position:absolute;inset:0;z-index:4;background:#eef6fb;border:3px solid var(--line);border-radius:18px;box-shadow:0 6px 0 var(--line);padding:10px;display:flex;flex-direction:column;gap:10px}
-.pop-h{display:flex;align-items:center;justify-content:space-between;font-size:1.2rem}
-.x{width:36px;height:36px;border-radius:50%;border:3px solid var(--line);background:#fff;font-weight:700;font-size:1rem;cursor:pointer;color:var(--ink)}
-.popup .grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:center;justify-items:center}
-/* ---------- bandeja de utensilios / ingredientes ---------- */
-.tray{background:var(--cream);border-top:4px solid var(--line);padding:6px 8px 8px}
-.tray:empty{display:none}
-.tray-h{font-weight:700;font-size:.85rem;margin-bottom:4px}
-.tools{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
-.tool{height:60px;padding:2px;border:3px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 3px 0 var(--line);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:inherit}
-.tool .em{font-size:24px;line-height:1}
-.tool .pic{width:32px;height:32px}
-.tool small{font-size:10.5px;font-weight:700;line-height:1;margin-top:3px;text-align:center}
-.chosen{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.05rem}
-.chosen .em{font-size:26px}
-.chosen .pic{width:34px;height:34px}
-.tray-items{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.tray .item{width:60px;rotate:0deg}
-.tray .item .em{font-size:28px}
-.scene.locked>*:not(.lock){opacity:.45;pointer-events:none}
-.lock{position:absolute;left:50%;bottom:8px;translate:-50% 0;z-index:3;white-space:nowrap;background:var(--gold);border:3px solid var(--line);border-radius:14px;padding:6px 14px;font-weight:700;box-shadow:0 4px 0 var(--line);animation:nudge .6s ease-in-out infinite alternate}
-@keyframes nudge{to{transform:translateY(5px)}}
+/* ---------- la cocina ---------- */
+.stage{flex:1;min-height:0;display:flex;padding:6px 8px 0;position:relative}
+.stage.end{align-items:center;justify-content:center;overflow-y:auto;padding:10px}
+.kitchen2{flex:1;min-height:0;position:relative;display:grid;grid-template-columns:34% 1fr 1fr;grid-template-rows:31% 1fr 27%;gap:7px}
+.f-nevera{grid-area:1/1}
+.f-armario1{grid-area:1/2}
+.f-armario2{grid-area:1/3}
+.counter{grid-area:2/1/3/4}
+.f-cajon{grid-area:3/1}
+.f-armario3{grid-area:3/2}
+.f-horno{grid-area:3/3}
+.furn{position:relative;perspective:650px;border:3px solid var(--line);border-radius:12px;background:#f1dcc3;box-shadow:inset 0 0 0 4px rgba(59,35,20,.12);z-index:1}
+.furn.open{z-index:3}
+.f-nevera{background:#e4f1f8}
+.inside{position:absolute;inset:5px;display:grid;grid-template-columns:repeat(2,1fr);align-content:space-evenly;justify-items:center;gap:2px}
+.f-nevera .inside,.f-cajon .inside{grid-template-columns:repeat(3,1fr)}
+.f-cajon .inside{bottom:42%}
+.slot{width:100%;max-width:48px;aspect-ratio:1;border:0;padding:2px;border-radius:8px;background:transparent;cursor:pointer;display:grid;place-items:center}
+.slot:active{background:rgba(255,255,255,.7)}
+.slot.out{visibility:hidden}
+.th{font-size:clamp(20px,6vw,28px);line-height:1}
+img.th{width:100%;height:100%;object-fit:contain}
+.th-ball{width:70%!important;height:auto!important;aspect-ratio:1}
+.door{position:absolute;inset:-3px;z-index:2;cursor:pointer;border:3px solid var(--line);border-radius:12px;
+  background:linear-gradient(#e6ad73,#c98a52);transform-origin:left center;transition:transform .5s cubic-bezier(.3,.8,.35,1.15);box-shadow:0 4px 0 var(--line)}
+.door>i{position:absolute;right:10px;top:50%;translate:0 -50%;width:8px;height:32%;background:#7a4a20;border:2px solid var(--line);border-radius:5px}
+.door.has-img{background:none;border:0;box-shadow:none}
+.door.has-img>.pic{width:100%;height:100%;object-fit:fill}
+.f-nevera .door{background:linear-gradient(90deg,#f8fbfd,#d9e4ec)}
+.f-nevera .door>i{background:#9fb0bf;height:40%}
+.furn.open .door{transform:rotateY(-108deg)}
+.f-cajon .door{transform-origin:center bottom}
+.f-cajon .door>i{right:auto;left:50%;top:35%;translate:-50% 0;width:34%;height:8px}
+.f-cajon.open .door{transform:translateY(60%)}
+.f-horno{background:#2a1d16}
+.f-horno .door{transform-origin:center bottom;background:linear-gradient(#f0ebe5,#d8cfc6)}
+.f-horno.open .door{transform:rotateX(-70deg)}
+.knobs{display:flex;gap:6px;justify-content:center;padding:5px}
+.knobs i{width:11px;height:11px;border-radius:50%;background:#555;border:2px solid var(--line)}
+.ov-glass{position:absolute;left:12%;right:12%;top:32%;bottom:12%;background:#2a1d16;border:3px solid var(--line);border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:1.1rem;transition:background .4s}
+.f-horno.baking .ov-glass{background:radial-gradient(#ffb15a,#a2370e 70%,#3d1407);box-shadow:0 0 18px #ff7b00}
+.furn.drop{animation:nudge .6s ease-in-out infinite alternate}
+.counter{position:relative;display:flex;flex-direction:column;border:3px solid var(--line);border-radius:12px;overflow:hidden;
+  background:linear-gradient(to top,var(--wood2) 0 5px,var(--wood) 5px 18px,transparent 18px),
+    linear-gradient(90deg,rgba(255,255,255,.55) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(rgba(255,255,255,.55) 1px,transparent 1px) 0 0/26px 26px,#fbe9d6}
+.taken{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;padding:4px 4px 0}
+.work{flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;flex-wrap:wrap;gap:8px;padding:2px 6px 20px}
+.counter.locked .work{opacity:.5;pointer-events:none}
+.tile{width:56px;display:flex;flex-direction:column;align-items:center;cursor:grab;touch-action:none}
+.tile-pic{width:42px;height:42px;padding:3px;background:#fff;border:3px solid var(--line);border-radius:12px;box-shadow:0 3px 0 var(--line);display:grid;place-items:center}
+.tile-pic .th{font-size:24px}
+.tile-lbl{font-size:10px;font-weight:700;line-height:1.05;text-align:center;margin-top:2px;background:rgba(255,255,255,.85);border-radius:4px;padding:0 2px}
+.flyer{position:fixed;z-index:999;pointer-events:none;display:grid;place-items:center}
+.counter .board{width:min(58vw,230px);height:92px;padding:8px 42px 8px 8px;gap:4px;box-shadow:0 4px 0 var(--line)}
+.counter .board::after{display:none}
+.counter .apple{font-size:30px;cursor:pointer}
+.counter .peeled,.counter .board .peeled{width:30px}
+.counter .knife{font-size:32px;top:6px}
+.counter .cube{width:10px;height:10px}
+.counter .sarten{width:min(30vw,120px);margin-right:46px;padding:22%;box-shadow:0 4px 0 var(--line)}
+.counter .sarten::after{width:48px;height:12px}
+.counter .bowl{width:min(44vw,170px);height:min(24vw,92px);box-shadow:0 0 0 3px var(--line),0 4px 0 var(--line)}
+.counter .bowl .ball.inbowl{width:64px;height:64px;margin-left:-32px}
+.counter .bowl .mini{font-size:20px}
+.counter .bowl .mini .th{width:26px;height:26px;font-size:20px}
+.counter .ball.big{width:74px;height:74px}
+.counter .ball.small{width:44px;height:44px}
+.counter .molde{width:min(30vw,118px);box-shadow:0 4px 0 var(--line)}
+.counter .grater{width:54px;height:88px}
+.counter .clock{font-size:1rem;padding:2px 10px}
+.counter .spice .th{width:30px;height:30px;font-size:24px}
+.counter .btn{padding:8px 16px;font-size:1rem}
+.oven-modal{position:absolute;inset:0;z-index:10;background:rgba(59,35,20,.35);display:flex;align-items:center;justify-content:center;padding:8px;border-radius:12px}
+.oven-modal .box{width:100%;max-width:360px;background:var(--cream);border:3px solid var(--line);border-radius:18px;box-shadow:0 6px 0 var(--line);padding:10px;display:flex;flex-direction:column;gap:7px}
+.oven-modal .ov-panel{display:flex;gap:8px;justify-content:center}
+.oven-modal .disp{background:#1e2a22;color:#7dffa6;font-weight:700;border-radius:10px;padding:4px 10px;border:3px solid var(--line)}
+.pop-h{display:flex;align-items:center;justify-content:space-between;font-size:1.15rem}
+.x{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);background:#fff;font-weight:700;cursor:pointer;color:var(--ink)}
+@keyframes nudge{to{transform:translateY(4px)}}
 /* ---------- servir ---------- */
-.plate{width:min(68vw,270px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle,#fff 55%,#e9eef2 56% 64%,#fff 65%);border:3px solid var(--line);box-shadow:0 6px 0 var(--line)}
+.plate{width:min(40vw,160px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle,#fff 55%,#e9eef2 56% 64%,#fff 65%);border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
 .plate .cake{width:66%}
-.plate span.cake{font-size:90px;width:auto}
-.deco-on{position:absolute;width:22%;height:22%;translate:-50% -50%;display:grid;place-items:center;font-size:34px;pointer-events:none}
-.deco-on .pic{width:100%;height:100%}
+.plate span.cake{font-size:64px;width:auto}
+.final .plate{width:min(62vw,240px)}
+.deco-on{position:absolute;width:24%;height:24%;translate:-50% -50%;display:grid;place-items:center;font-size:28px;pointer-events:none}
+.deco-on .th{width:100%;height:100%}
 
 /* ---------- horno: botones ---------- */
 .ctrl{display:flex;flex-direction:column;gap:6px;background:#fff;border-radius:14px;padding:8px 12px}
@@ -401,6 +435,13 @@ input{font-family:inherit}
   .scene{gap:10px;padding:10px}
   .face{width:50px;height:50px}
   .host{padding:6px 12px 8px}
+  .kitchen2{grid-template-rows:28% 1fr 24%;gap:6px}
+  .tile{width:47px}
+  .tile-pic{width:36px;height:36px;border-width:2px}
+  .tile-lbl{font-size:9px}
+  .counter .plate{width:112px}
+  .counter .board{height:80px}
+  .work{padding-bottom:18px}
   .oven{padding:8px}
   .oven .ov-panel{margin-bottom:6px}
   .oven .disp{font-size:1.05rem;padding:3px 8px}
@@ -550,48 +591,50 @@ const NAME = {
   vainilla: 'el azúcar de vainilla', canela: 'la canela', tomate: 'el tomate', cebolla: 'la cebolla',
   pescado: 'el pescado', queso: 'el queso', zanahoria: 'la zanahoria', sal: 'la sal', arroz: 'el arroz',
 };
-/* dónde se esconden los ingredientes en la cocina */
-const PLACES = [
-  { k: 'nevera',   img: 'nevera',  n: 'La nevera',  items: ['mantequilla', 'queso', 'huevo', 'pescado', 'manzanas', 'zanahoria', 'tomate'] },
-  { k: 'armario1', img: 'armario', n: 'El armario', items: ['harina', 'arroz', 'fecula'] },
-  { k: 'armario2', img: 'armario', n: 'El armario', items: ['sal', 'azucarGlas', 'vainilla'] },
-  { k: 'cajon',    img: 'cajon',   n: 'El cajón',   items: ['levadura', 'cebolla', 'canela'] },
-];
+/* dónde está cada cosa en la cocina */
+const PLACES = {
+  nevera:   { img: 'nevera',  de: 'de la nevera',          items: ['manzanas', 'mantequilla', 'huevo', 'queso', 'pescado', 'helado', 'nata', 'fresa'] },
+  armario1: { img: 'armario', de: 'del armario de arriba', items: ['harina', 'fecula', 'azucarGlas', 'arroz'] },
+  armario2: { img: 'armario', de: 'del armario de arriba', items: ['vainilla', 'canela', 'levadura', 'sal'] },
+  cajon:    { img: 'cajon',   de: 'del cajón',             items: ['cuchillo', 'pelador', 'cuchara', 'rallador', 'colador'] },
+  armario3: { img: 'armario', de: 'del armario de abajo',  items: ['tabla', 'bol', 'sarten', 'molde'] },
+};
 const TOOLS = {
+  tabla:    { e: '🟫', n: 'la tabla' },
   cuchillo: { e: '🔪', n: 'el cuchillo' },
   pelador:  { e: '🥔', n: 'el pelador' },
-  bol:      { e: '🥣', n: 'el bol' },
   cuchara:  { e: '🥄', n: 'la cuchara' },
-  sarten:   { e: '🍳', n: 'la sartén' },
   rallador: { e: '🧀', n: 'el rallador' },
-  molde:    { e: '⬜', n: 'el molde' },
   colador:  { e: '⚪', n: 'el colador' },
-  horno:    { e: '🔥', n: 'el horno' },
+  bol:      { e: '🥣', n: 'el bol' },
+  sarten:   { e: '🍳', n: 'la sartén' },
+  molde:    { e: '⬜', n: 'el molde' },
 };
 const DECO = {
   helado: { e: '🍨', n: 'el helado' },
   nata:   { e: '☁️', n: 'la nata' },
-  menta:  { e: '🌿', n: 'la menta' },
   fresa:  { e: '🍓', n: 'la fresa' },
 };
+const NAMES = { ...NAME, bola: 'la bola pequeña' };
+for (const [k, v] of Object.entries({ ...TOOLS, ...DECO })) NAMES[k] = v.n;
 
+/* get: lo que hay que sacar de los muebles antes de la acción */
 const STEPS = [
-  { k: 'find',   t: 'Busca los ingredientes.', tip: '👆 Abre la nevera, los armarios y el cajón.' },
-  { k: 'peel',   tool: 'pelador',  t: 'Se pelan las manzanas.', tip: '👆 Toca cada manzana.' },
-  { k: 'cut',    tool: 'cuchillo', t: 'Se cortan las manzanas en trozos.', tip: '🔪 Toca la tabla muchas veces.' },
-  { k: 'fry',    tool: 'sarten',   t: 'Se fríen las manzanas 15 minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
-  { k: 'add',    t: 'Se añaden el azúcar de vainilla y la canela.', tip: '✋ Arrastra los ingredientes a la sartén.' },
-  { k: 'dough',  tool: 'bol',      t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
-  { k: 'divide', tool: 'cuchillo', t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Toca la masa.' },
-  { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: '✋ Arrastra la bola correcta.' },
-  { k: 'mold',   tool: 'molde',    t: 'Se pone la bola grande en el molde.', tip: '✋ Arrastra la bola al molde.' },
-  { k: 'oven1',  tool: 'horno',    t: 'Se hornea la base 15 minutos a 180 grados.', tip: '👆 Elige los grados y los minutos.' },
+  { k: 'peel',   get: ['tabla', 'manzanas', 'pelador'], t: 'Se pelan las manzanas.', tip: '👆 Toca cada manzana.' },
+  { k: 'cut',    get: ['cuchillo'], t: 'Se cortan las manzanas en trozos.', tip: '🔪 Toca la tabla muchas veces.' },
+  { k: 'fry',    get: ['sarten', 'cuchara'], t: 'Se fríen las manzanas 15 minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
+  { k: 'add',    get: ['vainilla', 'canela'], t: 'Se añaden el azúcar de vainilla y la canela.', tip: '✋ Arrastra el azúcar y la canela a la sartén.' },
+  { k: 'dough',  get: ['bol', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'], t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
+  { k: 'divide', get: ['cuchillo'], t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Toca la masa.' },
+  { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: '✋ Arrastra la bola pequeña a la nevera.' },
+  { k: 'mold',   get: ['molde'], t: 'Se pone la bola grande en el molde.', tip: '✋ Arrastra la bola al molde.' },
+  { k: 'oven1',  t: 'Se hornea la base 15 minutos a 180 grados.', tip: '✋ Arrastra el molde al horno.' },
   { k: 'apples', t: 'Se ponen las manzanas sobre la base.', tip: '✋ Arrastra la sartén al molde.' },
-  { k: 'grate',  tool: 'rallador', t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '✋ Frota el rallador.' },
-  { k: 'oven2',  tool: 'horno',    t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: '👆 Elige los grados y los minutos.' },
-  { k: 'sugar',  tool: 'colador',  t: 'Se decora con azúcar glas.', tip: '✋ Frota la tarta.' },
-  { k: 'cut2',   tool: 'cuchillo', t: 'Se corta la szarlotka en trozos.', tip: '🔪 Toca la tarta cuatro veces.' },
-  { k: 'serve',  t: 'Se sirve con helado, nata o fruta.', tip: '✋ Decora la szarlotka y toca «¡Servir!».' },
+  { k: 'grate',  get: ['bola', 'rallador'], t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '✋ Frota el rallador.' },
+  { k: 'oven2',  t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: '✋ Arrastra el molde al horno.' },
+  { k: 'sugar',  get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: '✋ Frota la tarta.' },
+  { k: 'cut2',   get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: '🔪 Toca la tarta cuatro veces.' },
+  { k: 'serve',  free: ['helado', 'nata', 'fresa'], t: 'Se sirve con helado, nata o fresas.', tip: '👆 Saca algo de la nevera, decora y toca «¡Servir!».' },
 ];
 const GOOD = ['¡Muy bien!', '¡Perfecto!', '¡Genial!', '¡Qué bien!', '¡Excelente!', '¡Bravo!'];
 const BAD = ['¡Uy, no!', 'No, eso no. 🙂', 'Lee otra vez.', '¡Casi! Otra vez.'];
@@ -688,7 +731,7 @@ function progress() {
 /* Imágenes opcionales en img/<nombre>.png. Si no existen, se usa el emoji. */
 const IMG = {};
 const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO),
-  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon'];
+  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno'];
 function loadImages() {
   return Promise.race([
     Promise.all(IMG_KEYS.map(k => new Promise(r => {
@@ -705,22 +748,11 @@ function pic(k, emoji, cls) {
     ? h('img', { class: 'pic ' + (cls || ''), src: IMG[k], alt: '', draggable: 'false' })
     : h('span', { class: cls || '' }, emoji);
 }
-function item(k) {
-  const d = IT[k];
-  const img = !d.jar && IMG[k];
-  return h('div', { class: 'item' + (d.jar ? ' jar' : '') + (img ? ' has-img' : ''), 'data-k': k },
-    d.jar && IMG[k] ? pic(k, d.e, 'em-img small') : pic(k, d.e, img ? 'em-img' : 'em' + (d.jar ? ' small' : '')),
-    d.jar ? h('span', { class: 'lbl' }, d.jar) : null);
-}
 const cubes = n => Array.from({ length: n }, () => h('div', { class: 'cube' }));
 function sarten(full) {
   const p = h('div', { class: 'sarten' });
   if (full) p.append(...cubes(16));
   return p;
-}
-function nevera(withBall) {
-  return h('div', { class: 'nevera' }, h('div', { class: 'fr-top' }, '❄️'),
-    h('div', { class: 'fr-in' }, withBall ? h('div', { class: 'ball small' }) : null));
 }
 let CAKE = {};
 function molde(mini) {
@@ -738,265 +770,298 @@ function paint(m) {
   CUTS.slice(0, CAKE.cuts || 0).forEach(([d, pos]) =>
     c.append(h('div', { class: 'cutline ' + d, style: (d === 'v' ? 'left:' : 'top:') + pos + '%' })));
 }
-/* horno: se elige con botones grandes; los números están en la frase */
-function oven(sc, a, { temp, min, flag }) {
+/* horno: el molde entra y se eligen grados y minutos con botones */
+function ovenModal(a, { temp, min, flag }, mold) {
   let t = null, m = null;
-  a.onTool = () => a.setTray();
   const tv = h('span', {}, '--- °C'), mv = h('span', {}, '-- min');
-  const mo = molde(true);
-  const ov = h('div', { class: 'oven' },
-    h('div', { class: 'ov-panel' }, h('div', { class: 'disp' }, '🌡️ ', tv), h('div', { class: 'disp' }, '⏱️ ', mv)),
-    h('div', { class: 'win' }, mo));
   const btn = h('button', { class: 'btn', disabled: true }, '🔥 ¡Al horno!');
-  const chips = (vals, unit, set) => {
-    const row = h('div', { class: 'chips' });
-    vals.forEach(v => row.append(h('button', { class: 'chip', onclick: e => {
-      row.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
-      e.currentTarget.classList.add('on'); beep(700, .06); set(v);
-      btn.disabled = t == null || m == null;
-    } }, v + unit)));
-    return row;
-  };
-  const rowT = chips([150, 175, 180, 200], '°', v => { t = v; tv.textContent = v + ' °C'; });
-  const rowM = chips([15, 30, 45, 60], ' min', v => { m = v; mv.textContent = v + ' min'; });
+  const chips = (vals, unit, set) => h('div', { class: 'chips' }, vals.map(v => h('button', { class: 'chip', onclick: e => {
+    e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    e.currentTarget.classList.add('on'); beep(700, .06); set(v);
+    btn.disabled = t == null || m == null;
+  } }, v + unit)));
+  const modal = h('div', { class: 'oven-modal' }, h('div', { class: 'box pop' },
+    h('div', { class: 'pop-h' }, h('b', {}, '🔥 El horno'), h('button', { class: 'x', 'aria-label': 'Cerrar', onclick: () => { modal.remove(); K.oven.classList.remove('open'); } }, '✕')),
+    h('div', { class: 'ov-panel' }, h('div', { class: 'disp' }, '🌡️ ', tv), h('div', { class: 'disp' }, '⏱️ ', mv)),
+    h('div', { class: 'ctrl' }, h('b', {}, '🌡️ ¿Cuántos grados?'), chips([150, 175, 180, 200], '°', v => { t = v; tv.textContent = v + ' °C'; })),
+    h('div', { class: 'ctrl' }, h('b', {}, '⏱️ ¿Cuántos minutos?'), chips([15, 30, 45, 60], ' min', v => { m = v; mv.textContent = v + ' min'; })),
+    btn));
   btn.onclick = () => {
-    if (t === temp && m === min) {
-      btn.disabled = true; sc.querySelectorAll('.chip').forEach(c => c.disabled = true);
-      ov.classList.add('on'); beep(220, .6, 'sawtooth', .04);
-      let s = 0;
-      const iv = setInterval(() => {
-        s++; mv.textContent = Math.max(0, min - Math.round(min * s / 20)) + ' min';
-        if (s >= 20) { clearInterval(iv); ov.classList.remove('on'); CAKE[flag] = true; paint(mo); beep(1300, .35); a.done(); }
-      }, 110);
-    } else {
-      a.fail(btn, t !== temp ? '¡Uy! Los grados no son correctos. Lee la frase.' : '¡Uy! Los minutos no son correctos. Lee la frase.');
-    }
+    if (t !== temp || m !== min)
+      return a.fail(btn, t !== temp ? '¡Uy! Los grados no son correctos. Lee la frase.' : '¡Uy! Los minutos no son correctos. Lee la frase.');
+    modal.remove(); mold.remove();
+    K.oven.classList.remove('open', 'drop'); K.oven.classList.add('baking');
+    beep(220, .6, 'sawtooth', .04);
+    let s = 0;
+    const iv = setInterval(() => {
+      s++; K.ovenWin.textContent = Math.max(0, min - Math.round(min * s / 20)) + "'";
+      if (s < 20) return;
+      clearInterval(iv); K.oven.classList.remove('baking'); K.ovenWin.textContent = '';
+      CAKE[flag] = true; beep(1300, .35);
+      if (G && G.step) G.step.work.append(molde());
+      a.done();
+    }, 110);
   };
-  sc.append(ov, h('div', { class: 'ctrls' },
-    h('div', { class: 'ctrl' }, h('b', {}, '🌡️ ¿Cuántos grados?'), rowT),
-    h('div', { class: 'ctrl' }, h('b', {}, '⏱️ ¿Cuántos minutos?'), rowM), btn));
+  K.oven.classList.add('open');
+  K.root.append(modal);
 }
 
 /* =========================================================
-   Los pasos del juego
+   La cocina: muebles que se abren y la encimera
    ========================================================= */
-/* muebles dibujados con CSS cuando no hay imagen */
-function furniture(k) {
-  const cls = { nevera: 'f-fridge', armario: 'f-cab', cajon: 'f-drawer' }[k];
-  return h('div', { class: cls }, h('i'), h('i'));
+let K = null;
+function thing(k) {
+  if (k === 'bola') return h('div', { class: 'ball small th-ball' });
+  const d = IT[k] || TOOLS[k] || DECO[k];
+  return pic(k, d.e, 'th');
 }
-/* bandeja de ingredientes arrastrables (pasos con sartén o bol) */
-function ingTray(a, keys, target, need, onGot) {
-  const tiles = shuffle(keys).map(k => {
-    const n = item(k);
-    drag(n, t => {
-      if (t !== target) return;
-      if (!need.has(k)) return a.fail(n, '¡Uy! No se necesita ' + NAME[k] + '.');
-      need.delete(k); n.classList.add('used'); a.ok(); onGot(k);
-    });
-    return n;
-  });
-  a.setTray(h('div', { class: 'tray-h' }, '🧺 Ingredientes'), h('div', { class: 'tray-items' }, tiles));
+const doorFace = k => IMG[k] ? h('img', { class: 'pic', src: IMG[k], alt: '', draggable: 'false' }) : h('i');
+function buildKitchen() {
+  const root = h('div', { class: 'kitchen2' }), places = {};
+  for (const k of Object.keys(PLACES)) {
+    const inside = h('div', { class: 'inside' });
+    const door = h('div', { class: 'door' + (IMG[PLACES[k].img] ? ' has-img' : '') }, doorFace(PLACES[k].img));
+    const el = h('div', { class: 'furn f-' + k }, inside, door);
+    door.onclick = () => openPlace(k);
+    inside.onclick = e => { if (e.target === inside) closePlaces(); };
+    places[k] = { el, inside };
+    root.append(el);
+  }
+  const ovenWin = h('div', { class: 'ov-glass' });
+  const ovenDoor = h('div', { class: 'door' + (IMG.horno ? ' has-img' : '') },
+    IMG.horno ? doorFace('horno') : h('div', { class: 'knobs' }, h('i'), h('i'), h('i')), ovenWin);
+  const oven = h('div', { class: 'furn f-horno' }, h('div', { class: 'inside' }), ovenDoor);
+  ovenDoor.onclick = () => { if (!oven.classList.contains('drop')) say('Ahora no se necesita el horno.'); };
+  const counter = h('div', { class: 'counter' });
+  root.append(counter, oven);
+  K = { root, places, counter, oven, ovenWin };
+  return root;
+}
+function fillPlaces() {
+  const st = G.step;
+  for (const k of Object.keys(PLACES)) {
+    const inn = K.places[k].inside; inn.innerHTML = '';
+    for (const it of G.places[k]) {
+      const sl = h('button', { class: 'slot' + (st.taken.has(it) ? ' out' : ''), 'aria-label': NAMES[it] }, thing(it));
+      sl.onclick = e => { e.stopPropagation(); take(it, sl); };
+      inn.append(sl);
+    }
+  }
+}
+function openPlace(k) {
+  closePlaces(k);
+  K.places[k].el.classList.toggle('open');
+  beep(420, .08, 'triangle');
+}
+function closePlaces(except) {
+  for (const [k, pl] of Object.entries(K.places)) if (k !== except) pl.el.classList.remove('open');
+}
+const placeOf = it => Object.keys(G.places).find(k => G.places[k].includes(it));
+function nextGetTip() {
+  const it = [...G.step.pending][0];
+  const txt = 'Saca ' + NAMES[it] + ' ' + PLACES[placeOf(it)].de + '.';
+  G.ui.tip.textContent = '👆 ' + txt; say(txt);
+}
+function fly(from, to, it) {
+  const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+  const f = h('div', { class: 'flyer', style: `left:${a.left}px;top:${a.top}px;width:${a.width}px;height:${a.height}px` }, thing(it));
+  document.body.append(f);
+  f.animate([{ transform: 'none' }, { transform: `translate(${b.left - a.left}px,${b.top - a.top}px) scale(1.15)` }],
+    { duration: 450, easing: 'ease-in-out' }).onfinish = () => f.remove();
+  to.animate([{ opacity: 0 }, { opacity: 0, offset: .85 }, { opacity: 1 }], { duration: 450 });
+}
+function take(it, slot) {
+  const st = G.step;
+  if (!st || st.over || st.taken.has(it)) return;
+  const free = (st.s.free || []).includes(it);
+  if (!free && !st.pending.has(it)) return st.a.fail(slot, 'Ahora no se necesita ' + NAMES[it] + '.');
+  st.pending.delete(it); st.taken.add(it); slot.classList.add('out');
+  const tile = h('div', { class: 'tile', 'data-k': it }, h('div', { class: 'tile-pic' }, thing(it)), h('span', { class: 'tile-lbl' }, NAMES[it]));
+  st.tiles[it] = tile; st.row.append(tile);
+  fly(slot, tile, it); st.a.ok();
+  if (free) return st.a.onFree && st.a.onFree(it, tile);
+  if (st.pending.size) nextGetTip();
+  else setTimeout(() => { closePlaces(); ready(); }, 500);
+}
+function ready() {
+  const st = G.step;
+  K.counter.classList.remove('locked');
+  G.ui.tip.textContent = st.s.tip;
+  if (st.s.get) say('¡Ya tienes todo! 👍');
+  st.a.onReady && st.a.onReady();
 }
 
+/* =========================================================
+   Los pasos del juego (todo pasa en la encimera)
+   ========================================================= */
+const knifeIcon = () => h('div', { class: 'knife', style: 'position:static' }, '🔪');
+function chop(k) { k.classList.remove('chop'); void k.offsetWidth; k.classList.add('chop'); }
 const RUN = {
-  find(sc, a) {
-    const got = new Set();
-    const chips = h('div', { class: 'need' }, NEED.map(k => h('span', { 'data-k': k }, NAME[k])));
-    const kit = h('div', { class: 'kitchen' + (IMG.cocina ? ' has-bg' : '') });
-    const hint = () => { const m = NEED.find(k => !got.has(k)); if (m) say('Busca: ' + NAME[m] + '.'); };
-    const open = (p, el) => {
-      beep(520, .08, 'triangle');
-      const pop = h('div', { class: 'popup pop' });
-      const grid = h('div', { class: 'grid' }, p.items.map(k => {
-        const n = item(k);
-        n.style.touchAction = 'manipulation';
-        if (got.has(k)) n.classList.add('got');
-        n.onclick = () => {
-          if (got.has(k)) return;
-          if (!NEED.includes(k)) return a.fail(n, '¡Uy! No se necesita ' + NAME[k] + '.');
-          got.add(k); n.classList.add('got'); floaty(n, '✔️'); a.ok();
-          chips.querySelector(`[data-k="${k}"]`).classList.add('got');
-          if (p.items.every(x => !NEED.includes(x) || got.has(x))) el.classList.add('done');
-          if (got.size === NEED.length) { pop.remove(); a.done(); } else hint();
+  peel(w, a) {
+    a.onReady = () => {
+      a.consume('tabla'); a.consume('manzanas');
+      const b = h('div', { class: 'board' });
+      let n = 0;
+      for (let i = 0; i < 5; i++) {
+        const ap = h('div', { class: 'apple' }, '🍎');
+        ap.onclick = () => {
+          if (ap.dataset.p) return;
+          ap.dataset.p = 1;
+          const pe = h('div', { class: 'peeled pop' }); ap.replaceWith(pe);
+          floaty(pe, '〰️'); a.ok();
+          if (++n === 5) a.done();
         };
-        return n;
-      }));
-      pop.append(h('div', { class: 'pop-h' }, h('b', {}, p.n),
-        h('button', { class: 'x', 'aria-label': 'Cerrar', onclick: () => pop.remove() }, '✕')), grid);
-      kit.append(pop);
+        b.append(ap);
+      }
+      w.append(b);
     };
-    for (const p of PLACES) {
-      const el = h('div', { class: 'place p-' + p.k }, IMG[p.img] ? pic(p.img, '') : furniture(p.img));
-      el.onclick = () => open(p, el);
-      kit.append(el);
-    }
-    if (!IMG.cocina) kit.append(h('div', { class: 'countertop' }));
-    sc.append(chips, kit);
-    setTimeout(hint, 1300);
   },
-  peel(sc, a) {
-    let n = 0;
-    const row = h('div', { class: 'row' });
-    for (let i = 0; i < 5; i++) {
-      const ap = h('div', { class: 'apple' }, '🍎');
-      ap.onclick = () => {
-        if (ap.dataset.p) return;
-        ap.dataset.p = 1; ap.textContent = ''; ap.className = 'peeled pop';
-        floaty(ap, '〰️'); a.ok();
-        if (++n === 5) a.done();
-      };
-      row.append(ap);
-    }
-    sc.append(row);
-  },
-  cut(sc, a) {
+  cut(w, a) {
     const b = h('div', { class: 'board' }, Array.from({ length: 5 }, () => h('div', { class: 'peeled' })));
     const knife = h('div', { class: 'knife' }, '🔪'); b.append(knife);
-    const bar = progress(); const N = 8; let n = 0;
+    let n = 0; const N = 8;
     b.onclick = () => {
       if (n >= N) return;
-      n++; knife.classList.remove('chop'); void knife.offsetWidth; knife.classList.add('chop');
-      beep(500 + n * 40, .06, 'triangle', .1); bar.set(n / N);
-      const p = b.querySelector('.peeled');
-      if (p && (n % 2 === 0 || n === N)) p.replaceWith(...cubes(6));
+      n++; chop(knife); beep(500 + n * 40, .06, 'triangle', .1);
+      const pe = b.querySelector('.peeled');
+      if (pe && (n % 2 === 0 || n === N)) pe.replaceWith(...cubes(6));
       if (n === N) { b.querySelectorAll('.peeled').forEach(x => x.replaceWith(...cubes(6))); a.done(); }
     };
-    sc.append(b, bar.el);
+    w.append(b);
   },
-  fry(sc, a) {
+  fry(w, a) {
     const b = h('div', { class: 'board' }, cubes(16));
-    const pan = sarten(false); pan.classList.add('drop');
-    const bar = progress(), clock = h('div', { class: 'clock' }, '⏱️ 0 min');
-    const info = h('div', { class: 'col', style: 'visibility:hidden' }, clock, bar.el);
-    drag(b, t => {
-      if (t !== pan) return;
-      b.remove(); pan.append(...cubes(16)); pan.classList.remove('drop'); a.ok();
-      a.tip('🥄 Remueve: frota la sartén con el dedo.'); info.style.visibility = 'visible';
-      pan.classList.add('sizzle');
-      rub(pan, { f: 5, prog: p => { bar.set(p); clock.textContent = '⏱️ ' + Math.round(p * 15) + ' min'; }, done: () => { pan.classList.remove('sizzle'); a.done(); } });
-    });
-    sc.append(b, pan, info);
+    w.append(b);
+    a.onReady = () => {
+      a.consume('sarten');
+      const pan = sarten(false); pan.classList.add('drop'); w.append(pan);
+      drag(b, t => {
+        if (t !== pan) return;
+        b.remove(); pan.append(...cubes(16)); pan.classList.remove('drop'); pan.classList.add('sizzle'); a.ok();
+        a.tip('🥄 Remueve: frota la sartén con el dedo.');
+        const clock = h('div', { class: 'clock' }, "⏱️ 0'"); w.append(clock);
+        rub(pan, { f: 5, prog: q => { clock.textContent = '⏱️ ' + Math.round(q * 15) + "'"; }, done: () => { pan.classList.remove('sizzle'); a.done(); } });
+      });
+    };
   },
-  add(sc, a) {
-    const pan = sarten(true); pan.classList.add('drop');
-    const need = new Set(['vainilla', 'canela']);
-    ingTray(a, ['vainilla', 'canela', 'sal', 'arroz', 'harina'], pan, need, k => {
-      pan.append(h('div', { class: 'spice', style: `left:${30 + Math.random() * 30}%;top:30%` }, pic(k, IT[k].e)));
-      if (!need.size) { a.setTray(); a.done(); }
-    });
-    sc.append(pan);
+  add(w, a) {
+    const pan = sarten(true); pan.classList.add('drop'); w.append(pan);
+    a.onReady = () => {
+      let n = 0;
+      for (const k of ['vainilla', 'canela']) drag(a.tiles[k], t => {
+        if (t !== pan) return;
+        a.consume(k);
+        pan.append(h('div', { class: 'spice', style: `left:${30 + Math.random() * 30}%;top:30%` }, thing(k)));
+        a.ok(); if (++n === 2) a.done();
+      });
+    };
   },
-  dough(sc, a) {
-    const bowl = h('div', { class: 'bowl drop' });
-    const ball = h('div', { class: 'ball big inbowl', style: 'transform:scale(0)' });
-    bowl.append(ball);
-    const need = new Set(['harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura']);
-    a.onTool = () => ingTray(a, [...need, 'sal', 'tomate', 'canela', 'arroz'], bowl, need, k => {
-      bowl.insertBefore(h('span', { class: 'mini' }, pic(k, IT[k].e)), ball);
-      if (need.size) return;
-      bowl.classList.remove('drop'); a.setTray();
-      a.tip('🥄 Mezcla: frota el bol con el dedo.');
-      const bar = progress(); sc.append(bar.el);
-      rub(bowl, { f: 5, prog: p => { bar.set(p); bowl.querySelectorAll('.mini').forEach(m => m.style.opacity = 1 - p); ball.style.transform = `scale(${p})`; }, done: () => a.done() });
-    });
-    sc.append(bowl);
+  dough(w, a) {
+    a.onReady = () => {
+      a.consume('bol');
+      const bowl = h('div', { class: 'bowl drop' }), ball = h('div', { class: 'ball big inbowl', style: 'transform:scale(0)' });
+      bowl.append(ball); w.append(bowl);
+      const need = ['harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'];
+      let n = 0;
+      for (const k of need) drag(a.tiles[k], t => {
+        if (t !== bowl) return;
+        a.consume(k); bowl.insertBefore(h('span', { class: 'mini' }, thing(k)), ball); a.ok();
+        if (++n < need.length) return;
+        bowl.classList.remove('drop');
+        a.tip('✋ Mezcla: frota el bol con el dedo.');
+        rub(bowl, { f: 5, prog: q => { bowl.querySelectorAll('.mini').forEach(m => m.style.opacity = 1 - q); ball.style.transform = `scale(${q})`; }, done: () => a.done() });
+      });
+    };
   },
-  divide(sc, a) {
-    const wrap = h('div', { class: 'row' });
-    const ball = h('div', { class: 'ball big tap', style: 'transition:transform .2s' });
-    const knife = h('div', { class: 'knife', style: 'position:static' }, '🔪');
+  divide(w, a) {
+    const ball = h('div', { class: 'ball big', style: 'transition:transform .2s;cursor:pointer' }), knife = knifeIcon();
     let n = 0;
     ball.onclick = () => {
-      n++; beep(500 + n * 60, .08, 'triangle', .1);
-      knife.classList.remove('chop'); void knife.offsetWidth; knife.classList.add('chop');
-      if (n >= 3) {
-        wrap.innerHTML = '';
-        wrap.append(h('div', { class: 'ball big pop' }), h('div', { class: 'ball small pop' }));
-        a.done();
-      } else ball.style.transform = `scaleX(${1 + n * .15})`;
+      n++; chop(knife); beep(500 + n * 60, .08, 'triangle', .1);
+      if (n < 3) { ball.style.transform = `scaleX(${1 + n * .15})`; return; }
+      w.innerHTML = ''; w.append(h('div', { class: 'ball big pop' }), h('div', { class: 'ball small pop' }));
+      a.done();
     };
-    wrap.append(ball, knife); sc.append(wrap);
+    w.append(ball, knife);
   },
-  fridge(sc, a) {
+  fridge(w, a) {
     const big = h('div', { class: 'ball big' }), small = h('div', { class: 'ball small' });
-    const fr = nevera(false); fr.classList.add('drop');
-    const mo = molde(); mo.classList.add('drop');
-    const onD = b => t => {
-      if (b === small && t === fr) { small.remove(); fr.querySelector('.fr-in').append(h('div', { class: 'ball small pop' })); a.done(); }
-      else a.fail(b);
+    const fr = K.places.nevera.el; fr.classList.add('drop');
+    drag(big, t => { if (t === fr) a.fail(big, '¡Uy! La bola pequeña, no la grande.'); });
+    drag(small, t => {
+      if (t !== fr) return;
+      small.remove(); fr.classList.remove('drop');
+      G.places.nevera.push('bola'); fillPlaces();
+      openPlace('nevera'); setTimeout(closePlaces, 1100);
+      a.done();
+    });
+    w.append(big, small);
+  },
+  mold(w, a) {
+    const big = h('div', { class: 'ball big' }); w.append(big);
+    a.onReady = () => {
+      a.consume('molde');
+      const mo = molde(); mo.classList.add('drop'); w.append(mo);
+      drag(big, t => { if (t !== mo) return; big.remove(); CAKE.base = true; paint(mo); a.done(); });
     };
-    drag(big, onD(big)); drag(small, onD(small));
-    sc.append(h('div', { class: 'row' }, big, small), fr, mo);
   },
-  mold(sc, a) {
-    const big = h('div', { class: 'ball big' });
-    const fr = nevera(true);
-    const mo = molde(); mo.classList.add('drop');
-    drag(big, t => {
-      if (t !== mo) return a.fail(big);
-      big.remove(); CAKE.base = true; paint(mo); a.done();
-    });
-    sc.append(big, mo, fr);
+  oven1(w, a) { RUN.bake(w, a, { temp: 180, min: 15, flag: 'baked1' }); },
+  oven2(w, a) { RUN.bake(w, a, { temp: 175, min: 45, flag: 'baked2' }); },
+  bake(w, a, o) {
+    const mo = molde(); w.append(mo);
+    K.oven.classList.add('drop');
+    drag(mo, t => { if (t === K.oven) ovenModal(a, o, mo); });
   },
-  oven1(sc, a) { oven(sc, a, { temp: 180, min: 15, flag: 'baked1' }); },
-  apples(sc, a) {
-    const pan = sarten(true);
-    const mo = molde(); mo.classList.add('drop');
-    drag(pan, t => {
-      if (t !== mo) return;
-      pan.remove(); CAKE.apples = true; paint(mo); a.done();
-    });
-    sc.append(pan, mo);
+  apples(w, a) {
+    const pan = sarten(true), mo = molde(); mo.classList.add('drop');
+    drag(pan, t => { if (t !== mo) return; pan.remove(); CAKE.apples = true; paint(mo); a.done(); });
+    w.append(pan, mo);
   },
-  grate(sc, a) {
-    const mo = molde(), crumb = mo.querySelector('.lay-crumb');
-    const ball = h('div', { class: 'ball small', style: 'transition:transform .1s;cursor:default' });
-    const gr = h('div', { class: 'grater' }), bar = progress();
-    rub(gr, { f: 5, prog: p => { bar.set(p); crumb.style.opacity = p; ball.style.transform = `scale(${1 - p * .85})`; }, done: () => { CAKE.crumb = true; crumb.style.opacity = ''; paint(mo); a.done(); } });
-    sc.append(h('div', { class: 'col' }, ball, gr), mo, bar.el);
+  grate(w, a) {
+    const mo = molde(); w.append(mo);
+    a.onReady = () => {
+      a.consume('bola'); a.consume('rallador');
+      G.places.nevera = G.places.nevera.filter(x => x !== 'bola');
+      const crumb = mo.querySelector('.lay-crumb');
+      const ball = h('div', { class: 'ball small', style: 'transition:transform .1s;cursor:default' });
+      const gr = h('div', { class: 'grater' });
+      rub(gr, { f: 5, prog: q => { crumb.style.opacity = q; ball.style.transform = `scale(${1 - q * .85})`; }, done: () => { CAKE.crumb = true; crumb.style.opacity = ''; paint(mo); a.done(); } });
+      w.prepend(h('div', { class: 'col' }, ball, gr));
+    };
   },
-  oven2(sc, a) { oven(sc, a, { temp: 175, min: 45, flag: 'baked2' }); },
-  sugar(sc, a) {
-    const mo = molde(), lay = mo.querySelector('.lay-sugar'), bar = progress();
-    const jar = item('azucarGlas'); jar.style.cursor = 'default';
-    rub(mo, { f: 4, prog: p => { bar.set(p); lay.style.opacity = p; if (Math.random() < .15) floaty(mo, '✨'); }, done: () => { CAKE.sugar = true; lay.style.opacity = ''; paint(mo); a.done(); } });
-    sc.append(jar, mo, bar.el);
+  sugar(w, a) {
+    const mo = molde(); w.append(mo);
+    a.onReady = () => {
+      const lay = mo.querySelector('.lay-sugar');
+      rub(mo, { f: 4, prog: q => { lay.style.opacity = q; if (Math.random() < .15) floaty(mo, '✨'); }, done: () => { CAKE.sugar = true; lay.style.opacity = ''; paint(mo); a.done(); } });
+    };
   },
-  cut2(sc, a) {
-    const mo = molde(); mo.style.cursor = 'pointer';
-    const knife = h('div', { class: 'knife', style: 'position:static' }, '🔪');
+  cut2(w, a) {
+    const mo = molde(), knife = knifeIcon(); mo.style.cursor = 'pointer';
     mo.onclick = () => {
       if ((CAKE.cuts || 0) >= 4) return;
-      CAKE.cuts = (CAKE.cuts || 0) + 1; paint(mo); beep(600 + CAKE.cuts * 80, .08, 'triangle', .1);
-      knife.classList.remove('chop'); void knife.offsetWidth; knife.classList.add('chop');
+      CAKE.cuts = (CAKE.cuts || 0) + 1; paint(mo); chop(knife); beep(600 + CAKE.cuts * 80, .08, 'triangle', .1);
       if (CAKE.cuts === 4) a.done();
     };
-    sc.append(mo, knife);
+    w.append(mo, knife);
   },
-  serve(sc, a) {
+  serve(w, a) {
     const plate = h('div', { class: 'plate drop' }, pic('tarta', '🥧', 'cake'));
     let n = 0;
     const put = (k, x, y) => {
       const r = plate.getBoundingClientRect();
       const px = x == null ? 25 + Math.random() * 50 : Math.max(12, Math.min(88, (x - r.left) / r.width * 100));
       const py = y == null ? 25 + Math.random() * 50 : Math.max(12, Math.min(88, (y - r.top) / r.height * 100));
-      plate.append(h('div', { class: 'deco-on pop', style: `left:${px}%;top:${py}%` }, pic(k, DECO[k].e)));
+      plate.append(h('div', { class: 'deco-on pop', style: `left:${px}%;top:${py}%` }, thing(k)));
       n++; beep(820 + n * 40, .08, 'triangle'); a.ok();
     };
-    const tiles = Object.keys(DECO).map(k => {
-      const t = h('div', { class: 'item' + (IMG[k] ? ' has-img' : '') },
-        pic(k, DECO[k].e, IMG[k] ? 'em-img' : 'em'), h('span', { class: 'lbl' }, DECO[k].n));
-      drag(t, (d, x, y) => { if (d === plate) put(k, x, y); });
-      return t;
-    });
+    a.onFree = (k, tile) => drag(tile, (d, x, y) => { if (d === plate) put(k, x, y); });
     const btn = h('button', { class: 'btn green', onclick: () => {
       if (!n) return say('Primero decora la szarlotka. 🙂');
       G.plate = plate.cloneNode(true); G.plate.classList.remove('drop', 'hot');
-      a.setTray(); a.done();
+      a.done();
     } }, '🍽️ ¡Servir!');
-    sc.append(plate, btn);
-    a.setTray(h('div', { class: 'tray-h' }, '🍨 Para decorar'), h('div', { class: 'tray-items' }, tiles));
+    w.append(plate, btn);
   },
 };
 
@@ -1006,22 +1071,21 @@ const RUN = {
 let G = null;
 function startGame({ name, room, demo }) {
   CAKE = {};
-  G = { name, room, demo, id: rid(), i: 0, mistakes: 0, t0: Date.now() };
+  G = { name, room, demo, id: rid(), i: 0, mistakes: 0, t0: Date.now(),
+        places: Object.fromEntries(Object.entries(PLACES).map(([k, v]) => [k, [...v.items]])) };
   MODE = 'game';
   const dots = h('div', { class: 'dots' }, STEPS.map(() => h('i')));
   const mist = h('div', { class: 'mist' }, '❌ 0');
   const num = h('div', { class: 'num' }), instr = h('p', { class: 'instr' }), tip = h('p', { class: 'tip' });
-  const scene = h('div', { class: 'scene' });
-  const tray = h('div', { class: 'tray' });
+  const stage = h('div', { class: 'stage' }, buildKitchen());
   const bubble = h('div', { class: 'bubble' }, '¡Hola, ' + name + '! ¡Vamos a cocinar!');
-  G.ui = { dots, mist, num, instr, tip, scene, tray, bubble };
+  G.ui = { dots, mist, num, instr, tip, scene: stage, bubble };
   restart(
     demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); G = null; startTV(); } }, '⟵ 📺') : null,
     h('div', { class: 'game', style: IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
       h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, dots, mist),
       h('div', { class: 'ribbon' }, num, instr, tip),
-      scene,
-      tray,
+      stage,
       h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble)));
   if (room && !demo) NET.send(room, { t: 'join', id: G.id, name, step: 0, total: STEPS.length });
   runStep();
@@ -1037,14 +1101,19 @@ function runStep() {
   [...u.dots.children].forEach((d, j) => d.className = j < G.i ? 'on' : j === G.i ? 'now' : '');
   u.num.textContent = 'Paso ' + (G.i + 1) + ' de ' + STEPS.length;
   u.instr.textContent = s.t; u.tip.textContent = s.tip;
-  u.scene.innerHTML = ''; u.tray.innerHTML = ''; u.scene.classList.remove('locked');
-  let finished = false;
+  closePlaces();
+  K.oven.classList.remove('drop', 'open'); K.places.nevera.el.classList.remove('drop');
+  K.root.querySelectorAll('.oven-modal').forEach(m => m.remove());
+  const work = h('div', { class: 'work' }), row = h('div', { class: 'taken' });
+  K.counter.innerHTML = ''; K.counter.append(row, work);
+  const st = G.step = { s, pending: new Set(s.get || []), taken: new Set(), tiles: {}, row, work, over: false };
   const resetIdle = () => {
     clearTimeout(G.idle);
     G.idle = setTimeout(() => say('¿Necesitas ayuda? Lee la frase otra vez. 😊'), 25000);
   };
   resetIdle();
-  const a = {
+  const a = st.a = {
+    tiles: st.tiles,
     ok() { beep(880, .1); resetIdle(); },
     fail(node, msg) {
       G.mistakes++; u.mist.textContent = '❌ ' + G.mistakes;
@@ -1053,36 +1122,17 @@ function runStep() {
       say(msg || pick(BAD));
     },
     done() {
-      if (finished) return; finished = true;
+      if (st.over) return; st.over = true;
       clearTimeout(G.idle); chord(); say(pick(GOOD));
       setTimeout(nextStep, 1200);
     },
     tip(t) { u.tip.textContent = t; },
-    setTray(...nodes) { u.tray.innerHTML = ''; u.tray.append(...nodes); },
+    consume(k) { if (st.tiles[k]) st.tiles[k].remove(); },
   };
-  RUN[s.k](u.scene, a);
-  if (s.tool) toolGate(s, a);
-}
-/* antes de actuar hay que elegir el utensilio correcto en la bandeja */
-function toolGate(s, a) {
-  const u = G.ui;
-  const lock = h('div', { class: 'lock' }, '👇 Elige el utensilio');
-  u.scene.classList.add('locked'); u.scene.append(lock);
-  u.tip.textContent = '👇 ¿Qué utensilio se necesita?';
-  const grid = h('div', { class: 'tools' }, Object.keys(TOOLS).map(k => {
-    const b = h('button', { class: 'tool' }, pic(k, TOOLS[k].e, 'em'), h('small', {}, TOOLS[k].n));
-    b.onclick = () => {
-      if (k !== s.tool) return a.fail(b, '¡Uy! Con ' + TOOLS[k].n + ' no. 🙂');
-      beep(880, .1);
-      lock.remove(); u.scene.classList.remove('locked');
-      u.tip.textContent = s.tip;
-      a.setTray(h('div', { class: 'chosen' }, pic(k, TOOLS[k].e, 'em'), '✔ ' + TOOLS[k].n));
-      say('¡Sí! ' + TOOLS[k].n[0].toUpperCase() + TOOLS[k].n.slice(1) + '.');
-      a.onTool && a.onTool();
-    };
-    return b;
-  }));
-  a.setTray(h('div', { class: 'tray-h' }, '🍴 Utensilios'), grid);
+  fillPlaces();
+  RUN[s.k](work, a);
+  if (st.pending.size) { K.counter.classList.add('locked'); nextGetTip(); }
+  else ready();
 }
 function nextStep() {
   if (!G) return;
@@ -1102,7 +1152,7 @@ function finishGame() {
   u.num.textContent = '¡Terminado!';
   u.instr.textContent = '¡Se sirve! ¡Que aproveche!';
   u.tip.textContent = G.room && !G.demo ? '📺 Mira la tele: ¿cuál es tu puesto?' : '';
-  u.scene.innerHTML = ''; u.tray.innerHTML = '';
+  u.scene.innerHTML = ''; u.scene.classList.add('end');
   const mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, '0');
   u.scene.append(h('div', { class: 'final' },
     G.plate || molde(),
