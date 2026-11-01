@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>La cocina de Babcia</title>
+<title>La szarlotka</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@ input{font-family:inherit}
   align-content:center;gap:16px;padding:14px 12px;overflow:hidden;
 }
 .counter{height:16px;background:linear-gradient(var(--wood),var(--wood2));border-top:4px solid #e2a76d}
-.babcia{display:flex;align-items:flex-end;gap:10px;padding:8px 14px 10px;background:linear-gradient(var(--wood),var(--wood2))}
+.host{display:flex;align-items:flex-end;gap:10px;padding:8px 14px 10px;background:linear-gradient(var(--wood),var(--wood2))}
 .face{
   flex:none;width:62px;height:62px;border-radius:50%;background:#ffe0e0;border:4px solid var(--red);
   display:grid;place-items:center;font-size:38px;box-shadow:0 3px 0 rgba(0,0,0,.2)
@@ -278,6 +278,55 @@ input[type=range]{width:100%;height:36px;accent-color:var(--red)}
 .tvbtns{display:flex;gap:1.5vw;flex-wrap:wrap;justify-content:center}
 .back-tv{position:fixed;left:10px;top:10px;z-index:60}
 
+/* ---------- horno: botones ---------- */
+.ctrl{display:flex;flex-direction:column;gap:6px;background:#fff;border-radius:14px;padding:8px 12px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.chip{
+  font-family:inherit;font-size:1.25rem;font-weight:700;padding:10px 0;border-radius:12px;cursor:pointer;
+  border:3px solid var(--line);background:#fff7e6;color:var(--ink);box-shadow:0 3px 0 var(--line);
+}
+.chip.on{background:var(--gold);transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.chip:disabled{opacity:.6}
+
+/* ---------- estilo dibujo animado: contornos gruesos ---------- */
+:root{--line:#3b2314}
+.btn,.btn.green,.btn.light{border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.btn:active{box-shadow:0 2px 0 var(--line)}
+.panel-card,.ribbon,.card,.paper,.bubble,.item,.qrbox,.ing,.stu,.clock,.mist,.ctrl,.stats div,.rest span,.tvnav .cnt,.field{
+  border:3px solid var(--line);box-shadow:0 5px 0 var(--line);
+}
+.ribbon{border-top:10px solid var(--red)}
+.card{border-style:dashed}
+.item.jar{border:3px solid var(--line)}
+.item.jar::before{border:3px solid var(--line);top:-10px;height:13px}
+.item:nth-child(3n){rotate:-3deg}
+.item:nth-child(3n+1){rotate:2deg}
+.board,.sarten,.bowl,.nevera,.molde,.grater,.oven,.peeled,.face,.bar,.oven .disp{border:3px solid var(--line)}
+.board{box-shadow:0 7px 0 var(--line)}
+.board::after{box-shadow:inset 0 0 0 7px #c98a52,0 0 0 3px var(--line)}
+.sarten{box-shadow:0 7px 0 var(--line)}
+.sarten::after{border:3px solid var(--line);border-left:0}
+.bowl{border-top:12px solid #b9e8f6;box-shadow:0 0 0 3px var(--line),0 8px 0 var(--line);border-left:0;border-right:0;border-bottom:0}
+.nevera,.molde,.oven,.grater{box-shadow:0 7px 0 var(--line)}
+.nevera .fr-top{border-bottom:3px solid var(--line)}
+.oven .win{border-color:var(--line)}
+.ball{border:3px solid var(--line);box-shadow:inset -7px -7px 0 #d9b25d,0 4px 0 var(--line)}
+.cube{border:2px solid var(--line)}
+.dots i{border-color:var(--line)}
+.host{border-top:4px solid var(--line)}
+.slide h1,.slide h2,.panel-card h1,.final h2{text-shadow:3px 3px 0 #fff,6px 6px 0 var(--line)}
+.lines li,.steps-sum li{text-shadow:none}
+.pod .blk{border:3px solid var(--line);border-bottom:0}
+/* imágenes de img/ */
+.pic{display:block;object-fit:contain;pointer-events:none}
+.em-img{width:80%;height:80%}
+.em-img.small{width:55%;height:55%}
+.pic.hero{height:clamp(150px,32vh,340px)}
+.logo .pic{height:96px;margin:0 auto}
+.face .pic{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.ing .pic.e{width:clamp(48px,5vw,84px);height:clamp(48px,5vw,84px)}
+.hero:not(img){font-size:clamp(5rem,16vw,13rem);line-height:1}
+
 @media (max-width:700px){
   .gram,.lobby{grid-template-columns:1fr}
   .ing-grid{grid-template-columns:1fr 1fr}
@@ -361,7 +410,7 @@ const flag = () => h('span', { class: 'flag', 'aria-label': 'Polonia' });
 
 const NET = {
   base: 'https://ntfy.sh/',
-  prefix: 'szarlotka-babcia-',
+  prefix: 'szarlotka-clase-',
   async send(room, obj, tries = 5) {
     for (let i = 0; i < tries; i++) {
       try {
@@ -423,16 +472,16 @@ const STEPS = [
   { k: 'ing',    t: 'Se necesitan estos ingredientes.', tip: '👆 Toca los ingredientes de la receta.' },
   { k: 'peel',   t: 'Se pelan las manzanas.', tip: '👆 Toca cada manzana.' },
   { k: 'cut',    t: 'Se cortan las manzanas en trozos.', tip: '🔪 Toca la tabla muchas veces.' },
-  { k: 'fry',    t: 'Se fríen las manzanas quince minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
+  { k: 'fry',    t: 'Se fríen las manzanas 15 minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
   { k: 'add',    t: 'Se añaden el azúcar de vainilla y la canela.', tip: '✋ Arrastra los botes a la sartén.' },
   { k: 'dough',  t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
   { k: 'divide', t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Toca la masa.' },
   { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: '✋ Arrastra la bola correcta.' },
   { k: 'mold',   t: 'Se pone la bola grande en el molde.', tip: '✋ Arrastra la bola al molde.' },
-  { k: 'oven1',  t: 'Se hornea la base quince minutos a ciento ochenta grados.', tip: '🌡️ Elige la temperatura y el tiempo.' },
+  { k: 'oven1',  t: 'Se hornea la base 15 minutos a 180 grados.', tip: '👆 Elige los grados y los minutos.' },
   { k: 'apples', t: 'Se ponen las manzanas sobre la base.', tip: '✋ Arrastra la sartén al molde.' },
   { k: 'grate',  t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '✋ Frota el rallador.' },
-  { k: 'oven2',  t: 'Se hornea la szarlotka cuarenta y cinco minutos a ciento setenta y cinco grados.', tip: '🌡️ Elige la temperatura y el tiempo.' },
+  { k: 'oven2',  t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: '👆 Elige los grados y los minutos.' },
   { k: 'sugar',  t: 'Se decora con azúcar glas.', tip: '✋ Frota la tarta.' },
   { k: 'cut2',   t: 'Se corta la szarlotka en trozos.', tip: '🔪 Toca la tarta cuatro veces.' },
 ];
@@ -528,10 +577,30 @@ function progress() {
 /* =========================================================
    Objetos de la cocina
    ========================================================= */
+/* Imágenes opcionales en img/<nombre>.png. Si no existen, se usa el emoji. */
+const IMG = {};
+const IMG_KEYS = [...Object.keys(IT), 'chef', 'tarta', 'fondo'];
+function loadImages() {
+  return Promise.race([
+    Promise.all(IMG_KEYS.map(k => new Promise(r => {
+      const i = new Image();
+      i.onload = () => { IMG[k] = i.src; r(); };
+      i.onerror = r;
+      i.src = 'img/' + k + '.png';
+    }))),
+    sleep(2500),
+  ]);
+}
+function pic(k, emoji, cls) {
+  return IMG[k]
+    ? h('img', { class: 'pic ' + (cls || ''), src: IMG[k], alt: '', draggable: 'false' })
+    : h('span', { class: cls || '' }, emoji);
+}
 function item(k) {
   const d = IT[k];
-  return h('div', { class: 'item' + (d.jar ? ' jar' : ''), 'data-k': k },
-    h('span', { class: 'em' + (d.jar ? ' small' : '') }, d.e),
+  const img = !d.jar && IMG[k];
+  return h('div', { class: 'item' + (d.jar ? ' jar' : '') + (img ? ' has-img' : ''), 'data-k': k },
+    d.jar && IMG[k] ? pic(k, d.e, 'em-img small') : pic(k, d.e, img ? 'em-img' : 'em' + (d.jar ? ' small' : '')),
     d.jar ? h('span', { class: 'lbl' }, d.jar) : null);
 }
 const cubes = n => Array.from({ length: n }, () => h('div', { class: 'cube' }));
@@ -560,21 +629,29 @@ function paint(m) {
   CUTS.slice(0, CAKE.cuts || 0).forEach(([d, pos]) =>
     c.append(h('div', { class: 'cutline ' + d, style: (d === 'v' ? 'left:' : 'top:') + pos + '%' })));
 }
+/* horno: se elige con botones grandes; los números están en la frase */
 function oven(sc, a, { temp, min, flag }) {
-  let t = 100, m = 0;
-  const tv = h('span', {}, '100 °C'), mv = h('span', {}, '0 min');
-  const rt = h('input', { type: 'range', min: 100, max: 250, step: 5, value: 100 });
-  const rm = h('input', { type: 'range', min: 0, max: 60, step: 5, value: 0 });
-  rt.oninput = () => { t = +rt.value; tv.textContent = t + ' °C'; };
-  rm.oninput = () => { m = +rm.value; mv.textContent = m + ' min'; };
+  let t = null, m = null;
+  const tv = h('span', {}, '--- °C'), mv = h('span', {}, '-- min');
   const mo = molde(true);
   const ov = h('div', { class: 'oven' },
     h('div', { class: 'ov-panel' }, h('div', { class: 'disp' }, '🌡️ ', tv), h('div', { class: 'disp' }, '⏱️ ', mv)),
     h('div', { class: 'win' }, mo));
-  const btn = h('button', { class: 'btn' }, '🔥 ¡Encender!');
+  const btn = h('button', { class: 'btn', disabled: true }, '🔥 ¡Al horno!');
+  const chips = (vals, unit, set) => {
+    const row = h('div', { class: 'chips' });
+    vals.forEach(v => row.append(h('button', { class: 'chip', onclick: e => {
+      row.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+      e.currentTarget.classList.add('on'); beep(700, .06); set(v);
+      btn.disabled = t == null || m == null;
+    } }, v + unit)));
+    return row;
+  };
+  const rowT = chips([150, 175, 180, 200], '°', v => { t = v; tv.textContent = v + ' °C'; });
+  const rowM = chips([15, 30, 45, 60], ' min', v => { m = v; mv.textContent = v + ' min'; });
   btn.onclick = () => {
     if (t === temp && m === min) {
-      btn.disabled = rt.disabled = rm.disabled = true;
+      btn.disabled = true; sc.querySelectorAll('.chip').forEach(c => c.disabled = true);
       ov.classList.add('on'); beep(220, .6, 'sawtooth', .04);
       let s = 0;
       const iv = setInterval(() => {
@@ -582,11 +659,12 @@ function oven(sc, a, { temp, min, flag }) {
         if (s >= 20) { clearInterval(iv); ov.classList.remove('on'); CAKE[flag] = true; paint(mo); beep(1300, .35); a.done(); }
       }, 110);
     } else {
-      a.fail(btn, t !== temp ? '¡Uy! La temperatura no es correcta. Lee otra vez.' : '¡Uy! El tiempo no es correcto. Lee otra vez.');
+      a.fail(btn, t !== temp ? '¡Uy! Los grados no son correctos. Lee la frase.' : '¡Uy! Los minutos no son correctos. Lee la frase.');
     }
   };
   sc.append(ov, h('div', { class: 'ctrls' },
-    h('label', {}, '🌡️ temperatura', rt), h('label', {}, '⏱️ tiempo', rm), btn));
+    h('div', { class: 'ctrl' }, h('b', {}, '🌡️ ¿Cuántos grados?'), rowT),
+    h('div', { class: 'ctrl' }, h('b', {}, '⏱️ ¿Cuántos minutos?'), rowM), btn));
 }
 
 /* =========================================================
@@ -790,7 +868,7 @@ function startGame({ name, room, demo }) {
       h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, dots, mist),
       h('div', { class: 'ribbon' }, num, instr, tip),
       scene,
-      h('div', { class: 'babcia' }, h('div', { class: 'face' }, '👵'), bubble)));
+      h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble)));
   if (room && !demo) NET.send(room, { t: 'join', id: G.id, name, step: 0, total: STEPS.length });
   runStep();
 }
@@ -871,8 +949,8 @@ let MODE = 'home';
 function showHome() {
   MODE = 'home';
   restart(h('div', { class: 'center' }, h('div', { class: 'panel-card' },
-    h('div', { class: 'logo' }, '👵🥧'),
-    h('h1', {}, 'La cocina de Babcia'),
+    h('div', { class: 'logo' }, pic('tarta', '🥧')),
+    h('h1', {}, 'La szarlotka'),
     h('p', {}, 'La szarlotka: una tarta de manzana de Polonia ', flag()),
     h('div', { class: 'stack' },
       h('button', { class: 'btn', onclick: () => startTV(0) }, '📺 Presentación (en la tele)'),
@@ -894,9 +972,9 @@ function showJoin(code) {
   name.value = store.get('szarlotka-name') || '';
   name.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
   restart(h('div', { class: 'center' }, h('div', { class: 'panel-card' },
-    h('div', { class: 'logo' }, '👵'),
+    h('div', { class: 'logo' }, pic('chef', '👩‍🍳')),
     h('h1', {}, '¡Hola!'),
-    h('p', {}, 'Soy Babcia Zosia. Hoy cocinamos una szarlotka. ¿Cómo te llamas?'),
+    h('p', {}, 'Hoy cocinamos una szarlotka. ¿Cómo te llamas?'),
     h('div', { class: 'stack' }, name, code ? null : codeIn, msg,
       h('button', { class: 'btn green', onclick: go }, '👩‍🍳 ¡A cocinar!')))));
   setTimeout(() => name.focus(), 50);
@@ -936,10 +1014,9 @@ function joinURL() { return location.href.split('#')[0].split('?')[0] + '?sala='
 
 const SLIDES = [
   () => h('div', { class: 'slide' },
-    h('div', { class: 'huge-emoji' }, '👵🥧'),
+    pic('tarta', '🥧', 'hero'),
     h('h1', {}, 'La szarlotka'),
-    h('p', { class: 'big' }, 'Una tarta de manzana de Polonia ', flag()),
-    h('p', { class: 'note' }, 'con Babcia Zosia (babcia = abuela)')),
+    h('p', { class: 'big' }, 'Una tarta de manzana de Polonia ', flag())),
   () => h('div', { class: 'slide' },
     h('h2', {}, '¿Qué es la szarlotka?'),
     h('div', { class: 'paper' }, h('ul', { class: 'lines' },
@@ -954,24 +1031,10 @@ const SLIDES = [
       h('li', {}, '🌽🥔 ', h('span', { class: 'hl' }, 'Se usan'), ' harina de maíz y fécula de patata.'),
       h('li', {}, '🍏 ', h('span', { class: 'hl' }, 'Se pueden'), ' usar manzanas ácidas: ¡son las mejores!')))),
   () => h('div', { class: 'slide' },
-    h('h2', {}, 'En las recetas…'),
-    h('div', { class: 'formula' }, h('span', {}, 'se'), ' + verbo (3ª persona)'),
-    h('div', { class: 'gram' },
-      h('div', { class: 'paper' }, h('h3', {}, '1️⃣ singular'),
-        h('p', {}, h('span', { class: 'hl' }, 'se pela'), ' la manzana'),
-        h('p', {}, h('span', { class: 'hl' }, 'se corta'), ' la tarta'),
-        h('p', {}, h('span', { class: 'hl' }, 'se hornea'), ' la base'),
-        h('p', {}, h('span', { class: 'hl' }, 'se puede'), ' comer con helado')),
-      h('div', { class: 'paper' }, h('h3', {}, '🔢 plural'),
-        h('p', {}, h('span', { class: 'hl' }, 'se pelan'), ' las manzanas'),
-        h('p', {}, h('span', { class: 'hl' }, 'se cortan'), ' los trozos'),
-        h('p', {}, h('span', { class: 'hl' }, 'se mezclan'), ' los ingredientes'),
-        h('p', {}, h('span', { class: 'hl' }, 'se pueden'), ' usar manzanas ácidas')))),
-  () => h('div', { class: 'slide' },
     h('h2', {}, 'Se necesitan…'),
     h('div', { class: 'ing-grid' }, NEED.map(k => {
       const q = QTY[k], i = q.indexOf(' de ');
-      return h('div', { class: 'ing' }, h('span', { class: 'e' }, IT[k].e),
+      return h('div', { class: 'ing' }, pic(k, IT[k].e, 'e'),
         h('span', { class: 't' }, h('b', {}, i > 0 ? q.slice(i + 4) : q), i > 0 ? q.slice(0, i) : ''));
     }))),
   () => h('div', { class: 'slide', style: 'justify-content:flex-start;padding-top:4vh' },
@@ -991,10 +1054,8 @@ const SLIDES = [
     h('h2', {}, 'La receta'),
     h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.slice(1).map(s => h('li', {}, s.t)), h('li', {}, '¡Se sirve! 🍰')))),
   () => h('div', { class: 'slide' },
-    h('div', { class: 'huge-emoji' }, '🥧😋'),
-    h('h1', {}, '¡Que aproveche!'),
-    h('p', { class: 'big' }, 'En polaco: «Smacznego!»'),
-    h('p', { class: 'big', style: 'margin-top:4vh' }, '¡Muchas gracias! 💛')),
+    pic('tarta', '🥧', 'hero'),
+    h('h1', {}, '¡Que aproveche!')),
 ];
 
 function startTV(at) {
@@ -1061,7 +1122,10 @@ document.addEventListener('keydown', e => {
    ========================================================= */
 const params = new URLSearchParams(location.search);
 const sala = (params.get('sala') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-if (sala) showJoin(sala); else if (params.has('tv')) startTV(0); else showHome();
+loadImages().then(() => {
+  if (IMG.fondo) Object.assign(document.body.style, { backgroundImage: `url(${IMG.fondo})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' });
+  if (sala) showJoin(sala); else if (params.has('tv')) startTV(0); else showHome();
+});
 </script>
 </body>
 </html>
