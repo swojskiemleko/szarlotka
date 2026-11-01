@@ -1,0 +1,1067 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>La cocina de Babcia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#e23d3d; --red2:#b82828; --cream:#fff8ee; --ink:#4a2c1a; --ink2:#7a5a44;
+  --wood:#c8874f; --wood2:#9c6334; --green:#2f9e55; --wall:#ffe1c7; --gold:#f4b400;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background-color:var(--wall);
+  background-image:
+    linear-gradient(45deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.4) 75%),
+    linear-gradient(45deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.4) 75%);
+  background-size:56px 56px;background-position:0 0,28px 28px;
+  overflow-x:hidden;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;
+}
+button{font-family:inherit}
+input{font-family:inherit}
+.btn{
+  border:0;border-radius:18px;padding:14px 26px;font-size:1.25rem;font-weight:700;cursor:pointer;
+  background:var(--red);color:#fff;box-shadow:0 5px 0 var(--red2);transition:transform .1s;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--red2)}
+.btn:disabled{opacity:.5}
+.btn.green{background:var(--green);box-shadow:0 5px 0 #1f7a3e}
+.btn.light{background:#fff;color:var(--ink);box-shadow:0 5px 0 #e2c3a5}
+.btn.small{font-size:1rem;padding:9px 16px;border-radius:14px}
+
+/* ---------- home / join ---------- */
+.center{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px 16px}
+.panel-card{
+  background:var(--cream);border-radius:28px;padding:28px 24px;max-width:520px;width:100%;
+  box-shadow:0 10px 0 #e8c7a6,0 20px 40px rgba(120,60,20,.15);text-align:center;border:4px solid #fff;
+}
+.logo{font-size:64px;line-height:1}
+.panel-card h1{margin:.2em 0 0;color:var(--red);font-size:2.2rem}
+.panel-card p{color:var(--ink2);font-size:1.1rem}
+.stack{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.field{
+  width:100%;font-size:1.4rem;padding:12px 16px;border-radius:16px;border:3px solid #ecc9a8;
+  background:#fff;color:var(--ink);text-align:center;outline:none;user-select:text;-webkit-user-select:text;
+}
+.field:focus{border-color:var(--red)}
+.field.code{text-transform:uppercase;letter-spacing:.2em;font-weight:700}
+
+/* ---------- game ---------- */
+.game{height:100dvh;display:flex;flex-direction:column;max-width:900px;margin:0 auto}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px 6px}
+.dots{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.dots i{width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #e6c2a0}
+.dots i.on{background:var(--green);border-color:var(--green)}
+.dots i.now{background:var(--gold);border-color:var(--gold)}
+.mist{background:#fff;border-radius:12px;padding:4px 10px;font-weight:700;white-space:nowrap}
+.ribbon{
+  margin:4px 12px 0;background:#fff;border-radius:20px;padding:10px 16px 10px;border-top:7px solid var(--red);
+  box-shadow:0 5px 0 #e8c7a6;
+}
+.ribbon .num{font-size:.85rem;color:var(--ink2);font-weight:600}
+.ribbon .instr{margin:2px 0 4px;font-size:clamp(1.25rem,4.6vw,2rem);font-weight:700;line-height:1.15}
+.ribbon .tip{margin:0;font-size:clamp(.95rem,3.2vw,1.2rem);color:var(--ink2)}
+.scene{
+  flex:1;position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  align-content:center;gap:16px;padding:14px 12px;overflow:hidden;
+}
+.counter{height:16px;background:linear-gradient(var(--wood),var(--wood2));border-top:4px solid #e2a76d}
+.babcia{display:flex;align-items:flex-end;gap:10px;padding:8px 14px 10px;background:linear-gradient(var(--wood),var(--wood2))}
+.face{
+  flex:none;width:62px;height:62px;border-radius:50%;background:#ffe0e0;border:4px solid var(--red);
+  display:grid;place-items:center;font-size:38px;box-shadow:0 3px 0 rgba(0,0,0,.2)
+}
+.bubble{
+  background:#fff;border-radius:18px 18px 18px 4px;padding:8px 14px;font-weight:600;font-size:clamp(1rem,3.6vw,1.3rem);
+  box-shadow:0 3px 0 rgba(0,0,0,.15);margin-bottom:8px;
+}
+.bubble.pop{animation:pop .3s}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center}
+.col{display:flex;flex-direction:column;gap:12px;align-items:center}
+.shelf{
+  display:grid;grid-template-columns:repeat(4,auto);gap:10px;justify-content:center;
+  background:rgba(255,255,255,.35);padding:10px;border-radius:20px;border-bottom:8px solid var(--wood);
+}
+.shelf.wide{grid-template-columns:repeat(5,auto)}
+.item{
+  width:clamp(64px,19vw,96px);aspect-ratio:1;background:#fff;border-radius:18px;box-shadow:0 4px 0 #e2c3a5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:grab;touch-action:none;
+  position:relative;transition:opacity .25s,transform .25s;
+}
+.item .em{font-size:clamp(30px,9vw,46px);line-height:1}
+.item.jar{background:linear-gradient(90deg,#eef5f8,#fff 40%,#e6eef2);border-radius:14px 14px 22px 22px;border:2px solid #d5e2e8}
+.item.jar::before{content:"";position:absolute;top:-7px;left:18%;right:18%;height:10px;background:#b06a3a;border-radius:6px 6px 2px 2px}
+.item .em.small{font-size:clamp(20px,6vw,30px)}
+.item .lbl{
+  font-size:clamp(10px,2.7vw,13px);font-weight:600;text-align:center;line-height:1.05;background:#fff3d6;
+  padding:2px 5px;border-radius:6px;margin-top:3px;max-width:92%;
+}
+.item.got{opacity:.3;transform:scale(.85)}
+.item.used{visibility:hidden;pointer-events:none}
+.item.selected,.ball.selected,.sarten.selected,.board.selected{outline:4px dashed var(--gold);outline-offset:4px}
+.card{
+  background:#fffdf6;border:3px dashed #e0b48a;border-radius:16px;padding:8px 14px;font-size:clamp(.9rem,3vw,1.1rem);
+  width:min(100%,560px);
+}
+.card b{color:var(--red)}
+.card ul{columns:2;column-gap:20px;padding-left:18px;margin:4px 0}
+.card li{margin:2px 0}
+.card li.done{text-decoration:line-through;color:var(--green)}
+.card li.done::marker{content:"✔ "}
+
+.apple{font-size:clamp(46px,13vw,70px);cursor:pointer;line-height:1}
+.peeled{
+  width:clamp(44px,12vw,62px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fffbe0,#f1df9c);box-shadow:inset -5px -5px 0 #e2c877;
+}
+.board{
+  width:min(84vw,340px);height:170px;background:linear-gradient(#e6ad73,#c98a52);border-radius:22px;
+  box-shadow:0 7px 0 #9c6334;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  align-content:center;gap:8px;padding:14px 50px 14px 14px;position:relative;cursor:pointer;touch-action:none;
+}
+.board .peeled{width:48px}
+.board::after{content:"";position:absolute;right:-18px;top:50%;width:30px;height:30px;margin-top:-15px;border-radius:50%;background:var(--wall);box-shadow:inset 0 0 0 7px #c98a52}
+.knife{position:absolute;right:8px;top:12px;font-size:44px;transform-origin:80% 80%}
+.knife.chop{animation:chop .2s}
+.cube{width:15px;height:15px;background:#f6e7a6;border-radius:3px;box-shadow:inset -2px -2px 0 #dcc165}
+.sarten{
+  width:min(60vw,250px);aspect-ratio:1;border-radius:50%;position:relative;touch-action:none;
+  background:radial-gradient(circle,#4c4c4c 0 58%,#2e2e2e 59% 68%,#1f1f1f 69%);
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;align-content:center;padding:21%;gap:3px;
+  margin-right:60px;box-shadow:0 8px 0 rgba(0,0,0,.2);
+}
+.sarten::after{content:"";position:absolute;left:96%;top:46%;width:70px;height:16px;background:#1f1f1f;border-radius:0 10px 10px 0}
+.sarten.sizzle .cube{animation:jig .3s infinite alternate}
+.sarten .spice{position:absolute;font-size:30px;animation:fall .8s forwards}
+.bowl{
+  width:min(66vw,270px);height:min(40vw,160px);position:relative;touch-action:none;
+  background:linear-gradient(#88d0e8,#4a9fc0);border-radius:0 0 50% 50%/0 0 100% 100%;border-top:12px solid #b9e8f6;
+  display:flex;align-items:flex-start;justify-content:center;flex-wrap:wrap;gap:2px;padding:8px 20px;
+  box-shadow:0 8px 0 rgba(0,0,0,.12);
+}
+.bowl .mini{font-size:26px;transition:opacity .3s}
+.bowl .ball.inbowl{position:absolute;left:50%;top:6px;margin-left:-55px;transition:transform .2s}
+.ball{
+  border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c9,#efcd7d);box-shadow:inset -7px -7px 0 #d9b25d;
+  cursor:grab;touch-action:none;flex:none;
+}
+.ball.big{width:110px;height:110px}
+.ball.small{width:66px;height:66px}
+.nevera{
+  width:130px;height:220px;background:linear-gradient(90deg,#f6f9fb,#dde6ed);border-radius:18px;border:3px solid #c3cfd9;
+  position:relative;display:flex;flex-direction:column;box-shadow:0 7px 0 rgba(0,0,0,.12);
+}
+.nevera .fr-top{height:34%;border-bottom:3px solid #c3cfd9;display:flex;align-items:center;justify-content:center;font-size:34px}
+.nevera .fr-in{flex:1;display:flex;align-items:center;justify-content:center;background:rgba(170,215,240,.35);margin:10px;border-radius:10px}
+.nevera::after{content:"";position:absolute;right:10px;top:12%;width:7px;height:16%;background:#9fb0bf;border-radius:4px}
+.molde{
+  width:min(66vw,250px);aspect-ratio:1;background:#8f99a2;border-radius:12px;position:relative;flex:none;
+  box-shadow:0 7px 0 #646d75;touch-action:none;
+}
+.molde.mini{width:120px;box-shadow:none}
+.molde .in{position:absolute;inset:9px;border-radius:6px;background:#bcc4ca;overflow:hidden}
+.molde .lay{position:absolute;inset:0;opacity:0;transition:opacity .4s,filter .8s,background .8s}
+.lay-base{background:#f2da9f}
+.molde.baked1 .lay-base{background:#e3b567}
+.lay-apples{background:radial-gradient(circle,#f6e59a 32%,transparent 35%) 0 0/16px 16px,radial-gradient(circle,#efd57c 30%,transparent 33%) 8px 8px/16px 16px,#e7cd77}
+.lay-crumb{background:radial-gradient(circle,#f3d896 42%,transparent 45%) 0 0/13px 13px,radial-gradient(circle,#ecc97c 40%,transparent 44%) 6px 7px/13px 13px}
+.molde.baked2 .lay-crumb{filter:brightness(.82) saturate(1.5)}
+.lay-sugar{background:radial-gradient(circle,#fff 28%,transparent 32%) 0 0/9px 9px,radial-gradient(circle,#fff 22%,transparent 27%) 4px 5px/9px 9px}
+.molde.base .lay-base,.molde.apples .lay-apples,.molde.crumb .lay-crumb,.molde.sugar .lay-sugar{opacity:1}
+.cutline{position:absolute;background:#6b3f1c;opacity:.75}
+.cutline.v{top:0;bottom:0;width:4px;margin-left:-2px}
+.cutline.h{left:0;right:0;height:4px;margin-top:-2px}
+.grater{
+  width:96px;height:160px;border-radius:12px 12px 6px 6px;position:relative;touch-action:none;cursor:pointer;
+  background:radial-gradient(circle,#5b6168 2.5px,transparent 3.5px) 0 0/14px 14px,linear-gradient(90deg,#c9cfd5,#eef1f3,#b3bac1);
+  border:3px solid #9aa2aa;box-shadow:0 6px 0 rgba(0,0,0,.15);
+}
+.grater::before{content:"";position:absolute;top:-30px;left:50%;margin-left:-22px;width:44px;height:30px;border:7px solid #333;border-bottom:0;border-radius:22px 22px 0 0}
+.oven{
+  width:min(88vw,360px);background:linear-gradient(#f3eee8,#ddd5cc);border-radius:20px;padding:12px;border:3px solid #c7bcb0;
+  box-shadow:0 8px 0 rgba(0,0,0,.15);
+}
+.oven .ov-panel{display:flex;gap:10px;justify-content:center;margin-bottom:10px}
+.oven .disp{background:#1e2a22;color:#7dffa6;font-weight:700;border-radius:10px;padding:6px 12px;font-size:1.3rem;min-width:110px;text-align:center}
+.oven .win{height:170px;border-radius:14px;background:#251a14;display:flex;align-items:center;justify-content:center;border:6px solid #8b8076;transition:background .4s}
+.oven.on .win{background:radial-gradient(#ffb15a,#a2370e 70%,#3d1407);box-shadow:inset 0 0 30px #ff7b00}
+.ctrls{display:flex;flex-direction:column;gap:10px;width:min(88vw,360px)}
+.ctrls label{display:flex;flex-direction:column;font-weight:600;background:#fff;border-radius:14px;padding:8px 14px;box-shadow:0 4px 0 #e2c3a5}
+input[type=range]{width:100%;height:36px;accent-color:var(--red)}
+.bar{width:min(80vw,320px);height:18px;background:#fff;border-radius:10px;overflow:hidden;border:3px solid #fff;box-shadow:0 3px 0 #e2c3a5}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ff8a00);border-radius:6px;transition:width .1s}
+.clock{font-size:1.4rem;font-weight:700;background:#fff;border-radius:14px;padding:4px 14px}
+.tap{cursor:pointer}
+.ghost{position:fixed;z-index:999;pointer-events:none;opacity:.9;transform:scale(1.08) rotate(-4deg);margin:0!important}
+.dragging{opacity:.25}
+.drop{transition:transform .15s,filter .15s}
+.drop.hot{transform:scale(1.06);filter:drop-shadow(0 0 12px #ffd23f)}
+.shake{animation:shake .4s}
+.pop{animation:pop .35s}
+.float{position:fixed;pointer-events:none;font-size:30px;z-index:998;animation:floatUp 1s forwards}
+@keyframes shake{0%,100%{translate:0}20%{translate:-9px}40%{translate:9px}60%{translate:-6px}80%{translate:6px}}
+@keyframes pop{0%{scale:.7}70%{scale:1.12}100%{scale:1}}
+@keyframes chop{50%{transform:rotate(-35deg) translateY(12px)}}
+@keyframes jig{to{translate:0 -3px}}
+@keyframes fall{from{transform:translateY(-60px);opacity:1}to{transform:translateY(10px);opacity:0}}
+@keyframes floatUp{to{transform:translateY(-70px);opacity:0}}
+@keyframes conf{to{transform:translateY(110vh) rotate(540deg)}}
+.confetti{position:fixed;top:-40px;font-size:28px;pointer-events:none;z-index:997;animation:conf linear forwards}
+
+/* final */
+.final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.final h2{font-size:clamp(2rem,8vw,3.2rem);margin:0;color:var(--red)}
+.stars{font-size:clamp(2.4rem,10vw,4rem);letter-spacing:.1em}
+.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.stats div{background:#fff;border-radius:16px;padding:8px 16px;font-size:1.2rem;font-weight:600;box-shadow:0 4px 0 #e2c3a5}
+.stats b{display:block;font-size:1.8rem;color:var(--red)}
+
+/* ---------- TV slides ---------- */
+.slide{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5vh 6vw 12vh;text-align:center;gap:2vh}
+.slide h1{font-size:clamp(2.4rem,7vw,6.5rem);color:var(--red);margin:0;line-height:1.05}
+.slide h2{font-size:clamp(2rem,5vw,4.2rem);color:var(--red);margin:0}
+.slide .big{font-size:clamp(1.3rem,3vw,2.8rem);margin:0;line-height:1.35}
+.slide .huge-emoji{font-size:clamp(5rem,16vw,13rem);line-height:1}
+.slide .note{font-size:clamp(1rem,1.8vw,1.6rem);color:var(--ink2)}
+.paper{background:var(--cream);border-radius:30px;padding:3vh 4vw;box-shadow:0 10px 0 #e8c7a6;border:4px solid #fff}
+.lines{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.4vh;text-align:left}
+.lines li{font-size:clamp(1.3rem,3vw,2.7rem)}
+.hl{color:var(--red);font-weight:700}
+.flag{display:inline-block;width:1.4em;height:.9em;vertical-align:-.05em;background:linear-gradient(#fff 50%,#dc143c 50%);border:1px solid #ccc;border-radius:3px}
+.gram{display:grid;grid-template-columns:1fr 1fr;gap:3vw;width:100%;max-width:1400px}
+.gram .paper{text-align:left}
+.gram h3{margin:0 0 1vh;font-size:clamp(1.3rem,2.6vw,2.4rem)}
+.gram p{margin:.8vh 0;font-size:clamp(1.15rem,2.4vw,2.2rem)}
+.formula{font-size:clamp(1.6rem,4vw,3.6rem);font-weight:700;background:#fff;border-radius:20px;padding:1vh 3vw;box-shadow:0 6px 0 #e2c3a5}
+.formula span{color:var(--red)}
+.ing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2vh 2vw;width:100%;max-width:1500px}
+.ing{background:#fff;border-radius:22px;padding:1.6vh 1.2vw;display:flex;align-items:center;gap:1vw;box-shadow:0 5px 0 #e2c3a5;text-align:left}
+.ing .e{font-size:clamp(2rem,4.4vw,4rem)}
+.ing .t{font-size:clamp(1rem,2vw,1.9rem);line-height:1.15}
+.ing .t b{display:block;color:var(--red)}
+.lobby{display:grid;grid-template-columns:auto 1fr;gap:4vw;width:100%;max-width:1600px;align-items:start}
+.qrbox{background:#fff;border-radius:26px;padding:2.4vh;box-shadow:0 8px 0 #e2c3a5;display:flex;flex-direction:column;align-items:center;gap:1vh}
+.qr{width:min(30vw,42vh);height:min(30vw,42vh);display:flex;align-items:center;justify-content:center}
+.qr img,.qr canvas{width:100%!important;height:100%!important;image-rendering:pixelated}
+.code-big{font-size:clamp(2rem,5vw,4.5rem);font-weight:700;letter-spacing:.15em;color:var(--red)}
+.url-small{font-size:clamp(.8rem,1.2vw,1.1rem);color:var(--ink2);word-break:break-all;max-width:min(30vw,42vh);user-select:text}
+.board-list{display:flex;flex-direction:column;gap:1.2vh;text-align:left;max-height:72vh;overflow:hidden}
+.board-head{display:flex;justify-content:space-between;align-items:center;font-size:clamp(1.2rem,2.4vw,2.2rem);font-weight:700}
+.stu{display:grid;grid-template-columns:3ch 1fr 2fr auto;gap:1vw;align-items:center;background:#fff;border-radius:16px;padding:1vh 1.2vw;box-shadow:0 4px 0 #e2c3a5;font-size:clamp(1rem,1.9vw,1.8rem)}
+.stu .n{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stu .pb{height:1.6vh;min-height:10px;background:#f2e2d2;border-radius:10px;overflow:hidden}
+.stu .pb i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ff8a00);transition:width .6s}
+.stu.fin .pb i{background:var(--green)}
+.stu .s{font-weight:700;white-space:nowrap}
+.empty{font-size:clamp(1.1rem,2.2vw,2rem);color:var(--ink2);padding:3vh 0}
+.conn{font-size:.9rem;color:var(--ink2)}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:2vw}
+.pod{display:flex;flex-direction:column;align-items:center;gap:1vh;width:min(24vw,320px)}
+.pod .who{font-size:clamp(1.3rem,2.8vw,2.6rem);font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .pts{font-size:clamp(1rem,2vw,1.8rem);color:var(--ink2)}
+.pod .blk{width:100%;border-radius:20px 20px 0 0;display:flex;align-items:flex-start;justify-content:center;font-size:clamp(3rem,6vw,5.5rem);padding-top:1vh;box-shadow:inset 0 -10px 0 rgba(0,0,0,.08)}
+.pod.p1 .blk{height:30vh;background:#ffd34d}
+.pod.p2 .blk{height:22vh;background:#dfe5ea}
+.pod.p3 .blk{height:16vh;background:#f0b98a}
+.rest{display:flex;flex-wrap:wrap;gap:1vw;justify-content:center;max-width:1400px}
+.rest span{background:#fff;border-radius:14px;padding:.6vh 1.2vw;font-size:clamp(1rem,1.7vw,1.6rem);box-shadow:0 3px 0 #e2c3a5}
+.steps-sum{columns:2;column-gap:4vw;text-align:left;margin:0;padding-left:2.4em;max-width:1600px}
+.steps-sum li{font-size:clamp(1rem,2vw,1.9rem);margin:.7vh 0;break-inside:avoid}
+.steps-sum li::marker{color:var(--red);font-weight:700}
+.tvnav{position:fixed;right:2vw;bottom:2vh;display:flex;gap:10px;align-items:center;z-index:50}
+.tvnav .cnt{background:#fff;border-radius:12px;padding:6px 12px;font-weight:600}
+.tvbtns{display:flex;gap:1.5vw;flex-wrap:wrap;justify-content:center}
+.back-tv{position:fixed;left:10px;top:10px;z-index:60}
+
+@media (max-width:700px){
+  .gram,.lobby{grid-template-columns:1fr}
+  .ing-grid{grid-template-columns:1fr 1fr}
+  .qr{width:60vw;height:60vw}
+  .url-small{max-width:60vw}
+  .steps-sum{columns:1}
+}
+@media (max-height:700px) and (orientation:portrait){
+  .board{height:140px}
+  .nevera{height:180px;width:110px}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+"use strict";
+/* =========================================================
+   Utilidades
+   ========================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, props, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k === 'style') n.style.cssText = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  }
+  for (const c of kids.flat()) {
+    if (c == null || c === false) continue;
+    n.append(c.nodeType ? c : document.createTextNode(c));
+  }
+  return n;
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const rid = (n = 8, abc = 'abcdefghijkmnpqrstuvwxyz23456789') => Array.from({ length: n }, () => abc[Math.floor(Math.random() * abc.length)]).join('');
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+};
+const app = $('#app');
+const restart = (...nodes) => { app.innerHTML = ''; app.append(...nodes.filter(Boolean)); window.scrollTo(0, 0); };
+
+/* sonido */
+let AC;
+function beep(f = 660, d = .12, type = 'sine', v = .14, delay = 0) {
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    const t = AC.currentTime + delay, o = AC.createOscillator(), g = AC.createGain();
+    o.type = type; o.frequency.value = f;
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+    o.connect(g).connect(AC.destination); o.start(t); o.stop(t + d);
+  } catch (e) {}
+}
+const chord = () => { beep(660, .15, 'triangle', .12); beep(830, .15, 'triangle', .12, .1); beep(990, .25, 'triangle', .12, .2); };
+function floaty(node, txt) {
+  const r = node.getBoundingClientRect();
+  const f = h('div', { class: 'float', style: `left:${r.left + r.width / 2 - 15}px;top:${r.top}px` }, txt);
+  document.body.append(f); setTimeout(() => f.remove(), 1000);
+}
+function confetti() {
+  const set = ['🍎', '🥧', '⭐', '🎉', '🍰', '✨'];
+  for (let i = 0; i < 40; i++) {
+    const c = h('div', { class: 'confetti', style: `left:${Math.random() * 100}vw;animation-duration:${2 + Math.random() * 2.5}s;animation-delay:${Math.random() * 1.5}s` }, pick(set));
+    document.body.append(c); setTimeout(() => c.remove(), 6500);
+  }
+}
+
+/* =========================================================
+   Red: ntfy.sh (gratis, sin cuentas). Los móviles envían,
+   la tele escucha.
+   ========================================================= */
+/* bandera de Polonia (el emoji de bandera no funciona en Windows) */
+const flag = () => h('span', { class: 'flag', 'aria-label': 'Polonia' });
+
+const NET = {
+  base: 'https://ntfy.sh/',
+  prefix: 'szarlotka-babcia-',
+  async send(room, obj, tries = 5) {
+    for (let i = 0; i < tries; i++) {
+      try {
+        const r = await fetch(this.base + this.prefix + room, { method: 'POST', body: JSON.stringify(obj) });
+        if (r.ok) return true;
+      } catch (e) {}
+      await sleep(3000 * (i + 1) + Math.random() * 3000);
+    }
+    return false;
+  },
+  listen(room, since, cb) {
+    const es = new EventSource(this.base + this.prefix + room + '/sse?since=' + since);
+    es.onmessage = e => {
+      try {
+        const d = JSON.parse(e.data);
+        if (d.event !== 'message') return;
+        cb(JSON.parse(d.message), d.time);
+      } catch (err) {}
+    };
+    return es;
+  },
+};
+
+/* =========================================================
+   Datos de la receta
+   ========================================================= */
+const IT = {
+  harina:      { e: '🌽', jar: 'Harina de maíz' },
+  fecula:      { e: '🥔', jar: 'Fécula de patata' },
+  mantequilla: { e: '🧈' },
+  azucarGlas:  { e: '❄️', jar: 'Azúcar glas' },
+  huevo:       { e: '🥚' },
+  levadura:    { e: '🥄', jar: 'Levadura' },
+  manzanas:    { e: '🍎' },
+  vainilla:    { e: '🌼', jar: 'Azúcar de vainilla' },
+  canela:      { e: '🌰', jar: 'Canela' },
+  tomate:      { e: '🍅' },
+  cebolla:     { e: '🧅' },
+  pescado:     { e: '🐟' },
+  queso:       { e: '🧀' },
+  zanahoria:   { e: '🥕' },
+  sal:         { e: '🧂', jar: 'Sal' },
+  arroz:       { e: '🍚', jar: 'Arroz' },
+};
+const QTY = {
+  harina: '200 g de harina de maíz',
+  fecula: '160 g de fécula de patata',
+  mantequilla: '200 g de mantequilla fría',
+  azucarGlas: '130 g de azúcar glas',
+  huevo: '1 yema de huevo',
+  levadura: '1 cucharadita de levadura',
+  manzanas: '1,5 kg de manzanas',
+  vainilla: '1 cucharada de azúcar de vainilla',
+  canela: 'un poco de canela',
+};
+const NEED = Object.keys(QTY);
+
+const STEPS = [
+  { k: 'ing',    t: 'Se necesitan estos ingredientes.', tip: '👆 Toca los ingredientes de la receta.' },
+  { k: 'peel',   t: 'Se pelan las manzanas.', tip: '👆 Toca cada manzana.' },
+  { k: 'cut',    t: 'Se cortan las manzanas en trozos.', tip: '🔪 Toca la tabla muchas veces.' },
+  { k: 'fry',    t: 'Se fríen las manzanas quince minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
+  { k: 'add',    t: 'Se añaden el azúcar de vainilla y la canela.', tip: '✋ Arrastra los botes a la sartén.' },
+  { k: 'dough',  t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
+  { k: 'divide', t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Toca la masa.' },
+  { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: '✋ Arrastra la bola correcta.' },
+  { k: 'mold',   t: 'Se pone la bola grande en el molde.', tip: '✋ Arrastra la bola al molde.' },
+  { k: 'oven1',  t: 'Se hornea la base quince minutos a ciento ochenta grados.', tip: '🌡️ Elige la temperatura y el tiempo.' },
+  { k: 'apples', t: 'Se ponen las manzanas sobre la base.', tip: '✋ Arrastra la sartén al molde.' },
+  { k: 'grate',  t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '✋ Frota el rallador.' },
+  { k: 'oven2',  t: 'Se hornea la szarlotka cuarenta y cinco minutos a ciento setenta y cinco grados.', tip: '🌡️ Elige la temperatura y el tiempo.' },
+  { k: 'sugar',  t: 'Se decora con azúcar glas.', tip: '✋ Frota la tarta.' },
+  { k: 'cut2',   t: 'Se corta la szarlotka en trozos.', tip: '🔪 Toca la tarta cuatro veces.' },
+];
+const GOOD = ['¡Muy bien!', '¡Perfecto!', '¡Genial!', '¡Qué bien!', '¡Excelente!', '¡Bravo!'];
+const BAD = ['¡Uy, no!', 'No, eso no. 🙂', 'Lee otra vez.', '¡Casi! Otra vez.'];
+
+/* =========================================================
+   Arrastrar y soltar (ratón y dedo). Si solo se toca, el
+   objeto se selecciona y luego se toca el destino.
+   ========================================================= */
+let SEL = null;
+function select(node) {
+  if (SEL) SEL.classList.remove('selected');
+  SEL = node === SEL ? null : node;
+  if (SEL) SEL.classList.add('selected');
+}
+function drag(node, onDrop) {
+  node._drop = onDrop;
+  node.style.touchAction = 'none';
+  node.addEventListener('pointerdown', e => {
+    if (node.classList.contains('used')) return;
+    e.preventDefault();
+    const r = node.getBoundingClientRect(), sx = e.clientX, sy = e.clientY;
+    let ghost = null, hot = null;
+    const findDrop = (x, y) => [...document.querySelectorAll('.drop')].find(d => {
+      if (d === node || node.contains(d)) return false;
+      const b = d.getBoundingClientRect();
+      return x > b.left - 20 && x < b.right + 20 && y > b.top - 20 && y < b.bottom + 20;
+    });
+    const move = ev => {
+      if (!ghost && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 8) {
+        ghost = node.cloneNode(true); ghost.classList.add('ghost'); ghost.classList.remove('selected');
+        Object.assign(ghost.style, { width: r.width + 'px', height: r.height + 'px' });
+        document.body.append(ghost); node.classList.add('dragging');
+        if (SEL) select(SEL);
+      }
+      if (!ghost) return;
+      ghost.style.left = (ev.clientX - (sx - r.left)) + 'px';
+      ghost.style.top = (ev.clientY - (sy - r.top)) + 'px';
+      const d = findDrop(ev.clientX, ev.clientY);
+      if (d !== hot) { hot && hot.classList.remove('hot'); hot = d; hot && hot.classList.add('hot'); }
+    };
+    const up = ev => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      window.removeEventListener('pointercancel', up);
+      hot && hot.classList.remove('hot');
+      if (!ghost) { select(node); return; }
+      ghost.remove(); node.classList.remove('dragging');
+      const d = findDrop(ev.clientX, ev.clientY);
+      if (d) onDrop(d);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
+  });
+}
+document.addEventListener('click', e => {
+  if (!SEL) return;
+  const d = e.target.closest('.drop');
+  if (!d || d === SEL) return;
+  const n = SEL; select(n);
+  n._drop && n._drop(d);
+});
+
+/* frotar: suma la distancia que se mueve el dedo */
+function rub(el, { f = 5, prog, done }) {
+  const need = f * Math.min(window.innerWidth, 700);
+  let p = 0, down = false, lx = 0, ly = 0, fin = false;
+  el.style.touchAction = 'none';
+  const add = d => {
+    if (fin) return;
+    p = Math.min(need, p + d); prog && prog(p / need);
+    if (Math.random() < .08) beep(300 + Math.random() * 200, .04, 'triangle', .05);
+    if (p >= need) { fin = true; done(); }
+  };
+  el.addEventListener('pointerdown', e => {
+    down = true; lx = e.clientX; ly = e.clientY;
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+    add(need * .04);
+  });
+  el.addEventListener('pointermove', e => {
+    if (!down) return;
+    add(Math.hypot(e.clientX - lx, e.clientY - ly)); lx = e.clientX; ly = e.clientY;
+  });
+  ['pointerup', 'pointercancel'].forEach(t => el.addEventListener(t, () => { down = false; }));
+}
+function progress() {
+  const i = h('i'), el = h('div', { class: 'bar' }, i);
+  return { el, set: p => { i.style.width = Math.round(p * 100) + '%'; } };
+}
+
+/* =========================================================
+   Objetos de la cocina
+   ========================================================= */
+function item(k) {
+  const d = IT[k];
+  return h('div', { class: 'item' + (d.jar ? ' jar' : ''), 'data-k': k },
+    h('span', { class: 'em' + (d.jar ? ' small' : '') }, d.e),
+    d.jar ? h('span', { class: 'lbl' }, d.jar) : null);
+}
+const cubes = n => Array.from({ length: n }, () => h('div', { class: 'cube' }));
+function sarten(full) {
+  const p = h('div', { class: 'sarten' });
+  if (full) p.append(...cubes(16));
+  return p;
+}
+function nevera(withBall) {
+  return h('div', { class: 'nevera' }, h('div', { class: 'fr-top' }, '❄️'),
+    h('div', { class: 'fr-in' }, withBall ? h('div', { class: 'ball small' }) : null));
+}
+let CAKE = {};
+function molde(mini) {
+  const m = h('div', { class: 'molde' + (mini ? ' mini' : '') },
+    h('div', { class: 'in' },
+      h('div', { class: 'lay lay-base' }), h('div', { class: 'lay lay-apples' }),
+      h('div', { class: 'lay lay-crumb' }), h('div', { class: 'lay lay-sugar' }),
+      h('div', { class: 'cuts' })));
+  paint(m); return m;
+}
+const CUTS = [['v', 33.3], ['v', 66.6], ['h', 33.3], ['h', 66.6]];
+function paint(m) {
+  for (const f of ['base', 'baked1', 'apples', 'crumb', 'baked2', 'sugar']) m.classList.toggle(f, !!CAKE[f]);
+  const c = m.querySelector('.cuts'); c.innerHTML = '';
+  CUTS.slice(0, CAKE.cuts || 0).forEach(([d, pos]) =>
+    c.append(h('div', { class: 'cutline ' + d, style: (d === 'v' ? 'left:' : 'top:') + pos + '%' })));
+}
+function oven(sc, a, { temp, min, flag }) {
+  let t = 100, m = 0;
+  const tv = h('span', {}, '100 °C'), mv = h('span', {}, '0 min');
+  const rt = h('input', { type: 'range', min: 100, max: 250, step: 5, value: 100 });
+  const rm = h('input', { type: 'range', min: 0, max: 60, step: 5, value: 0 });
+  rt.oninput = () => { t = +rt.value; tv.textContent = t + ' °C'; };
+  rm.oninput = () => { m = +rm.value; mv.textContent = m + ' min'; };
+  const mo = molde(true);
+  const ov = h('div', { class: 'oven' },
+    h('div', { class: 'ov-panel' }, h('div', { class: 'disp' }, '🌡️ ', tv), h('div', { class: 'disp' }, '⏱️ ', mv)),
+    h('div', { class: 'win' }, mo));
+  const btn = h('button', { class: 'btn' }, '🔥 ¡Encender!');
+  btn.onclick = () => {
+    if (t === temp && m === min) {
+      btn.disabled = rt.disabled = rm.disabled = true;
+      ov.classList.add('on'); beep(220, .6, 'sawtooth', .04);
+      let s = 0;
+      const iv = setInterval(() => {
+        s++; mv.textContent = Math.max(0, min - Math.round(min * s / 20)) + ' min';
+        if (s >= 20) { clearInterval(iv); ov.classList.remove('on'); CAKE[flag] = true; paint(mo); beep(1300, .35); a.done(); }
+      }, 110);
+    } else {
+      a.fail(btn, t !== temp ? '¡Uy! La temperatura no es correcta. Lee otra vez.' : '¡Uy! El tiempo no es correcto. Lee otra vez.');
+    }
+  };
+  sc.append(ov, h('div', { class: 'ctrls' },
+    h('label', {}, '🌡️ temperatura', rt), h('label', {}, '⏱️ tiempo', rm), btn));
+}
+
+/* =========================================================
+   Los pasos del juego
+   ========================================================= */
+const RUN = {
+  ing(sc, a) {
+    const extra = ['tomate', 'cebolla', 'pescado', 'queso', 'zanahoria', 'sal', 'arroz'];
+    const card = h('div', { class: 'card' }, h('b', {}, 'Se necesitan:'),
+      h('ul', {}, NEED.map(k => h('li', { 'data-k': k }, QTY[k]))));
+    let found = 0;
+    const shelf = h('div', { class: 'shelf' }, shuffle([...NEED, ...extra]).map(k => {
+      const n = item(k);
+      n.style.touchAction = 'manipulation';
+      n.onclick = () => {
+        if (n.classList.contains('got')) return;
+        if (NEED.includes(k)) {
+          n.classList.add('got'); card.querySelector(`li[data-k="${k}"]`).classList.add('done');
+          floaty(n, '✔️'); a.ok();
+          if (++found === NEED.length) a.done();
+        } else a.fail(n);
+      };
+      return n;
+    }));
+    sc.append(card, shelf);
+  },
+  peel(sc, a) {
+    let n = 0;
+    const row = h('div', { class: 'row' });
+    for (let i = 0; i < 5; i++) {
+      const ap = h('div', { class: 'apple' }, '🍎');
+      ap.onclick = () => {
+        if (ap.dataset.p) return;
+        ap.dataset.p = 1; ap.textContent = ''; ap.className = 'peeled pop';
+        floaty(ap, '〰️'); a.ok();
+        if (++n === 5) a.done();
+      };
+      row.append(ap);
+    }
+    sc.append(row);
+  },
+  cut(sc, a) {
+    const b = h('div', { class: 'board' }, Array.from({ length: 5 }, () => h('div', { class: 'peeled' })));
+    const knife = h('div', { class: 'knife' }, '🔪'); b.append(knife);
+    const bar = progress(); const N = 8; let n = 0;
+    b.onclick = () => {
+      if (n >= N) return;
+      n++; knife.classList.remove('chop'); void knife.offsetWidth; knife.classList.add('chop');
+      beep(500 + n * 40, .06, 'triangle', .1); bar.set(n / N);
+      const p = b.querySelector('.peeled');
+      if (p && (n % 2 === 0 || n === N)) p.replaceWith(...cubes(6));
+      if (n === N) { b.querySelectorAll('.peeled').forEach(x => x.replaceWith(...cubes(6))); a.done(); }
+    };
+    sc.append(b, bar.el);
+  },
+  fry(sc, a) {
+    const b = h('div', { class: 'board' }, cubes(16));
+    const pan = sarten(false); pan.classList.add('drop');
+    const bar = progress(), clock = h('div', { class: 'clock' }, '⏱️ 0 min');
+    const info = h('div', { class: 'col', style: 'visibility:hidden' }, clock, bar.el);
+    drag(b, t => {
+      if (t !== pan) return;
+      b.remove(); pan.append(...cubes(16)); pan.classList.remove('drop'); a.ok();
+      a.tip('🥄 Remueve: frota la sartén con el dedo.'); info.style.visibility = 'visible';
+      pan.classList.add('sizzle');
+      rub(pan, { f: 5, prog: p => { bar.set(p); clock.textContent = '⏱️ ' + Math.round(p * 15) + ' min'; }, done: () => { pan.classList.remove('sizzle'); a.done(); } });
+    });
+    sc.append(b, pan, info);
+  },
+  add(sc, a) {
+    const pan = sarten(true); pan.classList.add('drop');
+    const need = new Set(['vainilla', 'canela']);
+    const jars = shuffle(['vainilla', 'canela', 'sal', 'arroz']).map(k => {
+      const n = item(k);
+      drag(n, t => {
+        if (t !== pan) return;
+        if (!need.has(k)) return a.fail(n);
+        need.delete(k); n.classList.add('used');
+        const sp = h('div', { class: 'spice', style: `left:${30 + Math.random() * 30}%;top:30%` }, IT[k].e);
+        pan.append(sp); a.ok();
+        if (!need.size) a.done();
+      });
+      return n;
+    });
+    sc.append(h('div', { class: 'shelf' }, jars), pan);
+  },
+  dough(sc, a) {
+    const bowl = h('div', { class: 'bowl drop' });
+    const ball = h('div', { class: 'ball big inbowl', style: 'transform:scale(0)' });
+    bowl.append(ball);
+    const need = new Set(['harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura']);
+    const items = shuffle([...need, 'sal', 'tomate', 'canela']).map(k => {
+      const n = item(k);
+      drag(n, t => {
+        if (t !== bowl) return;
+        if (!need.has(k)) return a.fail(n);
+        need.delete(k); n.classList.add('used');
+        bowl.insertBefore(h('span', { class: 'mini' }, IT[k].e), ball); a.ok();
+        if (need.size) return;
+        bowl.classList.remove('drop'); shelf.style.display = 'none';
+        a.tip('🥄 Mezcla: frota el bol con el dedo.');
+        const bar = progress(); sc.append(bar.el);
+        rub(bowl, { f: 5, prog: p => { bar.set(p); bowl.querySelectorAll('.mini').forEach(m => m.style.opacity = 1 - p); ball.style.transform = `scale(${p})`; }, done: () => a.done() });
+      });
+      return n;
+    });
+    const shelf = h('div', { class: 'shelf wide' }, items);
+    sc.append(shelf, bowl);
+  },
+  divide(sc, a) {
+    const wrap = h('div', { class: 'row' });
+    const ball = h('div', { class: 'ball big tap', style: 'transition:transform .2s' });
+    const knife = h('div', { class: 'knife', style: 'position:static' }, '🔪');
+    let n = 0;
+    ball.onclick = () => {
+      n++; beep(500 + n * 60, .08, 'triangle', .1);
+      knife.classList.remove('chop'); void knife.offsetWidth; knife.classList.add('chop');
+      if (n >= 3) {
+        wrap.innerHTML = '';
+        wrap.append(h('div', { class: 'ball big pop' }), h('div', { class: 'ball small pop' }));
+        a.done();
+      } else ball.style.transform = `scaleX(${1 + n * .15})`;
+    };
+    wrap.append(ball, knife); sc.append(wrap);
+  },
+  fridge(sc, a) {
+    const big = h('div', { class: 'ball big' }), small = h('div', { class: 'ball small' });
+    const fr = nevera(false); fr.classList.add('drop');
+    const mo = molde(); mo.classList.add('drop');
+    const onD = b => t => {
+      if (b === small && t === fr) { small.remove(); fr.querySelector('.fr-in').append(h('div', { class: 'ball small pop' })); a.done(); }
+      else a.fail(b);
+    };
+    drag(big, onD(big)); drag(small, onD(small));
+    sc.append(h('div', { class: 'row' }, big, small), fr, mo);
+  },
+  mold(sc, a) {
+    const big = h('div', { class: 'ball big' });
+    const fr = nevera(true);
+    const mo = molde(); mo.classList.add('drop');
+    drag(big, t => {
+      if (t !== mo) return a.fail(big);
+      big.remove(); CAKE.base = true; paint(mo); a.done();
+    });
+    sc.append(big, mo, fr);
+  },
+  oven1(sc, a) { oven(sc, a, { temp: 180, min: 15, flag: 'baked1' }); },
+  apples(sc, a) {
+    const pan = sarten(true);
+    const mo = molde(); mo.classList.add('drop');
+    drag(pan, t => {
+      if (t !== mo) return;
+      pan.remove(); CAKE.apples = true; paint(mo); a.done();
+    });
+    sc.append(pan, mo);
+  },
+  grate(sc, a) {
+    const mo = molde(), crumb = mo.querySelector('.lay-crumb');
+    const ball = h('div', { class: 'ball small', style: 'transition:transform .1s;cursor:default' });
+    const gr = h('div', { class: 'grater' }), bar = progress();
+    rub(gr, { f: 5, prog: p => { bar.set(p); crumb.style.opacity = p; ball.style.transform = `scale(${1 - p * .85})`; }, done: () => { CAKE.crumb = true; crumb.style.opacity = ''; paint(mo); a.done(); } });
+    sc.append(h('div', { class: 'col' }, ball, gr), mo, bar.el);
+  },
+  oven2(sc, a) { oven(sc, a, { temp: 175, min: 45, flag: 'baked2' }); },
+  sugar(sc, a) {
+    const mo = molde(), lay = mo.querySelector('.lay-sugar'), bar = progress();
+    const jar = item('azucarGlas'); jar.style.cursor = 'default';
+    rub(mo, { f: 4, prog: p => { bar.set(p); lay.style.opacity = p; if (Math.random() < .15) floaty(mo, '✨'); }, done: () => { CAKE.sugar = true; lay.style.opacity = ''; paint(mo); a.done(); } });
+    sc.append(jar, mo, bar.el);
+  },
+  cut2(sc, a) {
+    const mo = molde(); mo.style.cursor = 'pointer';
+    const knife = h('div', { class: 'knife', style: 'position:static' }, '🔪');
+    mo.onclick = () => {
+      if ((CAKE.cuts || 0) >= 4) return;
+      CAKE.cuts = (CAKE.cuts || 0) + 1; paint(mo); beep(600 + CAKE.cuts * 80, .08, 'triangle', .1);
+      knife.classList.remove('chop'); void knife.offsetWidth; knife.classList.add('chop');
+      if (CAKE.cuts === 4) a.done();
+    };
+    sc.append(mo, knife);
+  },
+};
+
+/* =========================================================
+   Motor del juego
+   ========================================================= */
+let G = null;
+function startGame({ name, room, demo }) {
+  CAKE = {};
+  G = { name, room, demo, id: rid(), i: 0, mistakes: 0, t0: Date.now() };
+  MODE = 'game';
+  const dots = h('div', { class: 'dots' }, STEPS.map(() => h('i')));
+  const mist = h('div', { class: 'mist' }, '❌ 0');
+  const num = h('div', { class: 'num' }), instr = h('p', { class: 'instr' }), tip = h('p', { class: 'tip' });
+  const scene = h('div', { class: 'scene' });
+  const bubble = h('div', { class: 'bubble' }, '¡Hola, ' + name + '! ¡Vamos a cocinar!');
+  G.ui = { dots, mist, num, instr, tip, scene, bubble };
+  restart(
+    demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); G = null; startTV(); } }, '⟵ 📺') : null,
+    h('div', { class: 'game' },
+      h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, dots, mist),
+      h('div', { class: 'ribbon' }, num, instr, tip),
+      scene,
+      h('div', { class: 'babcia' }, h('div', { class: 'face' }, '👵'), bubble)));
+  if (room && !demo) NET.send(room, { t: 'join', id: G.id, name, step: 0, total: STEPS.length });
+  runStep();
+}
+function say(txt) {
+  if (!G) return;
+  const b = G.ui.bubble; b.textContent = txt;
+  b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+}
+function runStep() {
+  const s = STEPS[G.i], u = G.ui;
+  SEL = null;
+  [...u.dots.children].forEach((d, j) => d.className = j < G.i ? 'on' : j === G.i ? 'now' : '');
+  u.num.textContent = 'Paso ' + (G.i + 1) + ' de ' + STEPS.length;
+  u.instr.textContent = s.t; u.tip.textContent = s.tip;
+  u.scene.innerHTML = '';
+  let finished = false;
+  const resetIdle = () => {
+    clearTimeout(G.idle);
+    G.idle = setTimeout(() => say('¿Necesitas ayuda? Lee la frase otra vez. 😊'), 25000);
+  };
+  resetIdle();
+  const a = {
+    ok() { beep(880, .1); resetIdle(); },
+    fail(node, msg) {
+      G.mistakes++; u.mist.textContent = '❌ ' + G.mistakes;
+      beep(160, .25, 'square', .06); resetIdle();
+      if (node) { node.classList.remove('shake'); void node.offsetWidth; node.classList.add('shake'); }
+      say(msg || pick(BAD));
+    },
+    done() {
+      if (finished) return; finished = true;
+      clearTimeout(G.idle); chord(); say(pick(GOOD));
+      setTimeout(nextStep, 1200);
+    },
+    tip(t) { u.tip.textContent = t; },
+  };
+  RUN[s.k](u.scene, a);
+}
+function nextStep() {
+  if (!G) return;
+  G.i++;
+  if (G.room && !G.demo && (G.i === 5 || G.i === 10))
+    NET.send(G.room, { t: 'step', id: G.id, name: G.name, step: G.i, total: STEPS.length });
+  if (G.i >= STEPS.length) finishGame(); else runStep();
+}
+function finishGame() {
+  const secs = Math.round((Date.now() - G.t0) / 1000);
+  const score = Math.max(100, 1000 - 40 * G.mistakes - Math.max(0, secs - 150));
+  const stars = G.mistakes <= 2 ? 3 : G.mistakes <= 6 ? 2 : 1;
+  if (G.room && !G.demo)
+    NET.send(G.room, { t: 'done', id: G.id, name: G.name, step: STEPS.length, total: STEPS.length, score, mistakes: G.mistakes, secs }, 8);
+  const u = G.ui;
+  [...u.dots.children].forEach(d => d.className = 'on');
+  u.num.textContent = '¡Terminado!';
+  u.instr.textContent = '¡Se sirve! ¡Que aproveche!';
+  u.tip.textContent = G.room && !G.demo ? '📺 Mira la tele: ¿cuál es tu puesto?' : '';
+  u.scene.innerHTML = '';
+  const mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, '0');
+  u.scene.append(h('div', { class: 'final' },
+    molde(),
+    h('h2', {}, '¡Qué rica!'),
+    h('div', { class: 'stars' }, '⭐'.repeat(stars) + '☆'.repeat(3 - stars)),
+    h('div', { class: 'stats' },
+      h('div', {}, h('b', {}, String(score)), 'puntos'),
+      h('div', {}, h('b', {}, String(G.mistakes)), 'errores'),
+      h('div', {}, h('b', {}, mm + ':' + ss), 'tiempo')),
+    G.demo
+      ? h('button', { class: 'btn', onclick: () => { G = null; startTV(); } }, '📺 Volver a la presentación')
+      : h('button', { class: 'btn light', onclick: () => startGame({ name: G.name, room: G.room }) }, '🔁 Jugar otra vez')));
+  say('¡Muy bien, ' + G.name + '! ¡Eres un chef!');
+  confetti(); chord(); setTimeout(chord, 400);
+}
+
+/* =========================================================
+   Pantallas: inicio y entrada
+   ========================================================= */
+let MODE = 'home';
+function showHome() {
+  MODE = 'home';
+  restart(h('div', { class: 'center' }, h('div', { class: 'panel-card' },
+    h('div', { class: 'logo' }, '👵🥧'),
+    h('h1', {}, 'La cocina de Babcia'),
+    h('p', {}, 'La szarlotka: una tarta de manzana de Polonia ', flag()),
+    h('div', { class: 'stack' },
+      h('button', { class: 'btn', onclick: () => startTV(0) }, '📺 Presentación (en la tele)'),
+      h('button', { class: 'btn green', onclick: () => showJoin('') }, '📱 Jugar')))));
+}
+function showJoin(code) {
+  MODE = 'join';
+  const name = h('input', { class: 'field', maxlength: 16, placeholder: 'Tu nombre', autocomplete: 'off' });
+  const codeIn = h('input', { class: 'field code', maxlength: 6, placeholder: 'CÓDIGO', autocomplete: 'off', value: code || '' });
+  const msg = h('p', { style: 'min-height:1.4em;color:var(--red);margin:0' });
+  const go = () => {
+    const n = name.value.trim();
+    if (!n) { msg.textContent = '¡Escribe tu nombre!'; name.classList.add('shake'); setTimeout(() => name.classList.remove('shake'), 400); return; }
+    beep(880, .1);
+    const c = codeIn.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+    store.set('szarlotka-name', n);
+    startGame({ name: n, room: c || null });
+  };
+  name.value = store.get('szarlotka-name') || '';
+  name.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  restart(h('div', { class: 'center' }, h('div', { class: 'panel-card' },
+    h('div', { class: 'logo' }, '👵'),
+    h('h1', {}, '¡Hola!'),
+    h('p', {}, 'Soy Babcia Zosia. Hoy cocinamos una szarlotka. ¿Cómo te llamas?'),
+    h('div', { class: 'stack' }, name, code ? null : codeIn, msg,
+      h('button', { class: 'btn green', onclick: go }, '👩‍🍳 ¡A cocinar!')))));
+  setTimeout(() => name.focus(), 50);
+}
+
+/* =========================================================
+   Presentación en la tele
+   ========================================================= */
+const ROOM_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const TV = { room: null, since: 0, students: {}, es: null, idx: 0, live: false };
+function tvRoom(fresh) {
+  let r = !fresh && store.get('szarlotka-room');
+  if (!r || !r.code || Date.now() / 1000 - r.ts > 10 * 3600) {
+    r = { code: rid(5, ROOM_ABC), ts: Math.floor(Date.now() / 1000) };
+    store.set('szarlotka-room', r);
+  }
+  TV.room = r.code; TV.since = r.ts; TV.students = {};
+  if (TV.es) TV.es.close();
+  TV.es = NET.listen(TV.room, TV.since, onTVMsg);
+  TV.es.onopen = () => { TV.live = true; refreshTV(); };
+  TV.es.onerror = () => { TV.live = false; refreshTV(); };
+}
+function onTVMsg(m) {
+  if (!m || typeof m.id !== 'string') return;
+  const s = TV.students[m.id] || (TV.students[m.id] = { id: m.id, step: 0 });
+  s.name = String(m.name || '?').slice(0, 18);
+  s.total = +m.total || STEPS.length;
+  if (typeof m.step === 'number') s.step = Math.max(s.step, Math.min(m.step, s.total));
+  if (m.t === 'done') { s.done = true; s.score = +m.score || 0; s.mistakes = +m.mistakes || 0; s.secs = +m.secs || 0; }
+  refreshTV();
+}
+function ranked() {
+  return Object.values(TV.students).sort((a, b) =>
+    (b.done ? 1 : 0) - (a.done ? 1 : 0) || (b.score || 0) - (a.score || 0) || b.step - a.step || a.name.localeCompare(b.name));
+}
+function joinURL() { return location.href.split('#')[0].split('?')[0] + '?sala=' + TV.room; }
+
+const SLIDES = [
+  () => h('div', { class: 'slide' },
+    h('div', { class: 'huge-emoji' }, '👵🥧'),
+    h('h1', {}, 'La szarlotka'),
+    h('p', { class: 'big' }, 'Una tarta de manzana de Polonia ', flag()),
+    h('p', { class: 'note' }, 'con Babcia Zosia (babcia = abuela)')),
+  () => h('div', { class: 'slide' },
+    h('h2', {}, '¿Qué es la szarlotka?'),
+    h('div', { class: 'paper' }, h('ul', { class: 'lines' },
+      h('li', {}, '🥧 Es una tarta de ', h('span', { class: 'hl' }, 'manzana'), '.'),
+      h('li', {}, flag(), ' Es muy popular en Polonia.'),
+      h('li', {}, '🍂 ', h('span', { class: 'hl' }, 'Se come'), ' en otoño y en invierno.'),
+      h('li', {}, '☕ ', h('span', { class: 'hl' }, 'Se come'), ' con té, con nata o con helado.')))),
+  () => h('div', { class: 'slide' },
+    h('h2', {}, 'Nuestra szarlotka es sin gluten'),
+    h('div', { class: 'paper' }, h('ul', { class: 'lines' },
+      h('li', {}, '🚫🌾 No ', h('span', { class: 'hl' }, 'se usa'), ' harina de trigo.'),
+      h('li', {}, '🌽🥔 ', h('span', { class: 'hl' }, 'Se usan'), ' harina de maíz y fécula de patata.'),
+      h('li', {}, '🍏 ', h('span', { class: 'hl' }, 'Se pueden'), ' usar manzanas ácidas: ¡son las mejores!')))),
+  () => h('div', { class: 'slide' },
+    h('h2', {}, 'En las recetas…'),
+    h('div', { class: 'formula' }, h('span', {}, 'se'), ' + verbo (3ª persona)'),
+    h('div', { class: 'gram' },
+      h('div', { class: 'paper' }, h('h3', {}, '1️⃣ singular'),
+        h('p', {}, h('span', { class: 'hl' }, 'se pela'), ' la manzana'),
+        h('p', {}, h('span', { class: 'hl' }, 'se corta'), ' la tarta'),
+        h('p', {}, h('span', { class: 'hl' }, 'se hornea'), ' la base'),
+        h('p', {}, h('span', { class: 'hl' }, 'se puede'), ' comer con helado')),
+      h('div', { class: 'paper' }, h('h3', {}, '🔢 plural'),
+        h('p', {}, h('span', { class: 'hl' }, 'se pelan'), ' las manzanas'),
+        h('p', {}, h('span', { class: 'hl' }, 'se cortan'), ' los trozos'),
+        h('p', {}, h('span', { class: 'hl' }, 'se mezclan'), ' los ingredientes'),
+        h('p', {}, h('span', { class: 'hl' }, 'se pueden'), ' usar manzanas ácidas')))),
+  () => h('div', { class: 'slide' },
+    h('h2', {}, 'Se necesitan…'),
+    h('div', { class: 'ing-grid' }, NEED.map(k => {
+      const q = QTY[k], i = q.indexOf(' de ');
+      return h('div', { class: 'ing' }, h('span', { class: 'e' }, IT[k].e),
+        h('span', { class: 't' }, h('b', {}, i > 0 ? q.slice(i + 4) : q), i > 0 ? q.slice(0, i) : ''));
+    }))),
+  () => h('div', { class: 'slide', style: 'justify-content:flex-start;padding-top:4vh' },
+    h('h2', {}, '¡A cocinar! 👩‍🍳'),
+    h('div', { class: 'lobby' },
+      h('div', { class: 'qrbox' },
+        h('div', { class: 'qr', id: 'qr' }),
+        h('div', { class: 'code-big' }, TV.room),
+        h('div', { class: 'url-small' }, joinURL()),
+        h('div', { class: 'tvbtns' },
+          h('button', { class: 'btn small light', onclick: () => startGame({ name: 'Profe', demo: true }) }, '▶️ Jugar en la tele'),
+          h('button', { class: 'btn small light', onclick: () => { if (confirm('¿Nueva clase? (nuevo código)')) { tvRoom(true); renderTV(); } } }, '🔄'))),
+      h('div', { id: 'board' }))),
+  () => h('div', { class: 'slide', style: 'justify-content:flex-start;padding-top:4vh' },
+    h('h2', {}, '🏆 ¡Los mejores chefs!'), h('div', { id: 'podium', style: 'width:100%' })),
+  () => h('div', { class: 'slide' },
+    h('h2', {}, 'La receta'),
+    h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.slice(1).map(s => h('li', {}, s.t)), h('li', {}, '¡Se sirve! 🍰')))),
+  () => h('div', { class: 'slide' },
+    h('div', { class: 'huge-emoji' }, '🥧😋'),
+    h('h1', {}, '¡Que aproveche!'),
+    h('p', { class: 'big' }, 'En polaco: «Smacznego!»'),
+    h('p', { class: 'big', style: 'margin-top:4vh' }, '¡Muchas gracias! 💛')),
+];
+
+function startTV(at) {
+  MODE = 'tv';
+  if (!TV.room) tvRoom(false);
+  if (typeof at === 'number') TV.idx = at;
+  renderTV();
+}
+function renderTV() {
+  if (MODE !== 'tv') return;
+  const nav = h('div', { class: 'tvnav' },
+    h('button', { class: 'btn small light', onclick: () => go(-1) }, '◀'),
+    h('span', { class: 'cnt' }, (TV.idx + 1) + ' / ' + SLIDES.length),
+    h('button', { class: 'btn small light', onclick: () => go(1) }, '▶'),
+    h('button', { class: 'btn small light', title: 'Pantalla completa', onclick: () => { const d = document; d.fullscreenElement ? d.exitFullscreen() : d.documentElement.requestFullscreen && d.documentElement.requestFullscreen().catch(() => {}); } }, '⛶'));
+  restart(SLIDES[TV.idx](), nav);
+  const qr = $('#qr');
+  if (qr && window.QRCode) new QRCode(qr, { text: joinURL(), width: 512, height: 512, correctLevel: QRCode.CorrectLevel.M });
+  refreshTV();
+}
+function go(d) { TV.idx = Math.max(0, Math.min(SLIDES.length - 1, TV.idx + d)); renderTV(); }
+function refreshTV() {
+  if (MODE !== 'tv') return;
+  const list = ranked();
+  const board = $('#board');
+  if (board) {
+    board.innerHTML = '';
+    const done = list.filter(s => s.done).length;
+    board.append(h('div', { class: 'board-head' },
+      h('span', {}, '👩‍🍳 ' + list.length + ' cocineros · ✅ ' + done),
+      h('span', { class: 'conn' }, TV.live ? '🟢 en directo' : '🟡 conectando…')));
+    const bl = h('div', { class: 'board-list' });
+    if (!list.length) bl.append(h('div', { class: 'empty' }, '📱 Escanea el código QR y escribe tu nombre.'));
+    list.slice(0, 14).forEach((s, i) => bl.append(h('div', { class: 'stu' + (s.done ? ' fin' : '') },
+      h('span', {}, s.done ? String(i + 1) + '.' : ''),
+      h('span', { class: 'n' }, s.name),
+      h('div', { class: 'pb' }, h('i', { style: 'width:' + Math.round(100 * s.step / s.total) + '%' })),
+      h('span', { class: 's' }, s.done ? s.score + ' pts' : s.step + '/' + s.total))));
+    if (list.length > 14) bl.append(h('div', { class: 'conn' }, '+ ' + (list.length - 14) + ' más'));
+    board.append(bl);
+  }
+  const pod = $('#podium');
+  if (pod) {
+    pod.innerHTML = '';
+    const fin = list.filter(s => s.done);
+    if (!fin.length) { pod.append(h('div', { class: 'empty' }, '⏳ Todavía nadie ha terminado…')); return; }
+    const p = (s, cls, medal) => s ? h('div', { class: 'pod ' + cls },
+      h('div', { class: 'who' }, s.name), h('div', { class: 'pts' }, s.score + ' pts · ❌ ' + s.mistakes),
+      h('div', { class: 'blk' }, medal)) : h('div', { class: 'pod ' + cls });
+    pod.append(h('div', { class: 'podium' }, p(fin[1], 'p2', '🥈'), p(fin[0], 'p1', '🥇'), p(fin[2], 'p3', '🥉')));
+    const rest = fin.slice(3);
+    if (rest.length) pod.append(h('div', { class: 'rest', style: 'margin:3vh auto 0' },
+      rest.map((s, i) => h('span', {}, (i + 4) + '. ' + s.name + ' · ' + s.score))));
+  }
+}
+document.addEventListener('keydown', e => {
+  if (MODE !== 'tv') return;
+  if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); go(1); }
+  if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); go(-1); }
+});
+
+/* =========================================================
+   Inicio
+   ========================================================= */
+const params = new URLSearchParams(location.search);
+const sala = (params.get('sala') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+if (sala) showJoin(sala); else if (params.has('tv')) startTV(0); else showHome();
+</script>
+</body>
+</html>
