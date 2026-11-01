@@ -274,17 +274,42 @@ input{font-family:inherit}
 .back-tv{position:fixed;left:10px;top:10px;z-index:60}
 
 /* ---------- la cocina ---------- */
-.stage{flex:1;min-height:0;display:flex;padding:6px 8px 0;position:relative}
-.stage.end{align-items:center;justify-content:center;overflow-y:auto;padding:10px}
-/* lodówka wysoka po lewej; po prawej szafki, blat, szuflada, szafka i piekarnik */
-.kitchen2{flex:1;min-height:0;position:relative;display:grid;grid-template-columns:30% repeat(7,1fr);grid-template-rows:25% 1fr 32%;gap:6px}
-.f-nevera{grid-area:1/1/4/2}
-.f-armario1{grid-area:1/2/2/6}
-.f-armario2{grid-area:1/6/2/9}
-.counter{grid-area:2/2/3/9}
-.f-cajon{grid-area:3/2/4/4}
-.f-armario3{grid-area:3/4/4/7}
-.f-horno{grid-area:3/7/4/9}
+.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 8px 0;position:relative;container-type:size}
+.stage.end{align-items:center;justify-content:center;overflow-y:auto;padding:10px;container-type:normal}
+/* la cocina es un cuadro 21:9 (como img/kuchnia.jpg); cada mueble va en su sitio del cuadro (LAYOUT) */
+.kitchen2{--ar:2.3333;flex:none;position:relative;width:min(100cqw,100cqh*var(--ar));height:min(100cqh,100cqw/var(--ar))}
+.kitchen2>.furn,.kitchen2>.counter{position:absolute}
+/* un solo dibujo de toda la cocina: cada puerta es su trozo del dibujo, el blat no tiene fondo propio */
+.kitchen2.one{background:center/100% 100% no-repeat}
+.kitchen2.one>.furn{border:0;border-radius:2px;box-shadow:inset 0 0 0 3px rgba(59,35,20,.35)}
+.kitchen2.one .door{inset:0;border:0;border-radius:0;box-shadow:none;background:none;perspective:900px}
+/* las hojas giran sobre sus bisagras hacia fuera y se quedan abiertas, con la cara de atrás más oscura */
+.leaf{position:absolute;top:0;bottom:0;transform-origin:left center;transition:transform .55s cubic-bezier(.3,.8,.35,1.1)}
+.leaf>.lface{position:absolute;inset:0;background-repeat:no-repeat}
+.leaf.r{transform-origin:right center}
+.leaf::after{content:'';position:absolute;inset:0;background:#3b2314;opacity:0;transition:opacity .35s;pointer-events:none}
+.kitchen2.one .furn.open:not(.f-cajon):not(.f-horno) .door{transform:none;opacity:1;pointer-events:none}
+.furn.open .leaf.l{transform:rotateY(-100deg)}
+.furn.open .leaf.r{transform:rotateY(100deg)}
+.f-cajon.open .leaf,.f-horno.open .leaf{transform:none}
+.kitchen2.one .f-horno.open .door{transform:none}
+.kitchen2.one .f-horno .door.has-img{background:none}
+.kitchen2.one .f-horno{background:radial-gradient(ellipse at 50% 75%,#5a2a12,#1e130d 70%)}
+.kitchen2.one .f-horno.baking{background:radial-gradient(ellipse at 50% 75%,#ffb15a,#a2370e 60%,#3d1407)}
+.f-horno .oven-leaf{transform-origin:center bottom}
+.f-horno.open .oven-leaf{transform:rotateX(-80deg)}
+.f-horno .leaf:not(.oven-leaf)::after{display:none}
+.furn.open .leaf::after{opacity:.45}
+/* la puerta de la nevera por dentro: blanca, con dos baldas */
+.f-nevera .leaf::after{background:linear-gradient(transparent 31%,#c9d6de 31% 33%,transparent 33% 64%,#c9d6de 64% 66%,transparent 66%),linear-gradient(90deg,#fbfdfe,#dde6ec);transition:opacity .1s .2s}
+.f-nevera.open .leaf::after{opacity:1}
+/* vitrina: por el cristal se ve lo que hay dentro */
+.leaf.glass>.lface{-webkit-mask:linear-gradient(#000 0 0) center/67% 66% no-repeat,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) center/67% 66% no-repeat,linear-gradient(#000 0 0);mask-composite:exclude}
+.leaf.glass::before{content:'';position:absolute;inset:17% 16.5%;background:linear-gradient(125deg,rgba(214,238,248,.55),rgba(255,255,255,.25) 35%,rgba(214,238,248,.15) 36%,rgba(214,238,248,.45))}
+.kitchen2.one .f-armario2:not(.open) .inside{visibility:visible;pointer-events:none}
+.kitchen2.one>.counter{background:none;box-shadow:none}
+.kitchen2.one .ov-glass{left:13%;right:13%;top:40%;bottom:12%}
 .furn{position:relative;perspective:650px;border:3px solid var(--line);border-radius:12px;background:#f1dcc3;box-shadow:inset 0 0 0 4px rgba(59,35,20,.12);z-index:1}
 .furn.open{z-index:3}
 .f-nevera{background:#e4f1f8}
@@ -391,7 +416,8 @@ img.th{width:100%;height:100%;object-fit:contain}
 @keyframes nudge{to{transform:translateY(4px)}}
 /* ---------- primer plano: solo la encimera ---------- */
 .kitchen2.zoom .furn{display:none}
-.kitchen2.zoom .counter{grid-area:1/1/4/9;animation:zoomin .35s ease-out}
+.kitchen2.zoom .counter{left:0!important;top:0!important;width:100%!important;height:100%!important;animation:zoomin .35s ease-out}
+.kitchen2.one.zoom>.counter{background:linear-gradient(to top,var(--wood2) 0 6px,var(--wood) 6px 22px,transparent 22px),var(--surf)}
 .kitchen2.zoom .work{align-items:center;align-content:center;padding-bottom:26px}
 .zoom .tile{width:66px}
 .zoom .tile-pic{width:52px;height:52px}
@@ -517,7 +543,6 @@ img.th{width:100%;height:100%;object-fit:contain}
   .scene{gap:10px;padding:10px}
   .face{width:50px;height:50px}
   .host{padding:6px 12px 8px}
-  .kitchen2{grid-template-rows:24% 1fr 32%;gap:5px}
   .tile{width:47px}
   .tile-pic{width:36px;height:36px;border-width:2px}
   .tile-lbl{font-size:9px}
@@ -620,7 +645,6 @@ img.th{width:100%;height:100%;object-fit:contain}
   .bubble{padding:4px 12px;margin-bottom:0}
   .bubble .instr{font-size:clamp(.9rem,2.2vw,1.1rem)}
   .bubble .tip{font-size:clamp(.78rem,1.8vw,.92rem);margin-top:1px}
-  .kitchen2{grid-template-rows:27% 1fr 33%;gap:5px}
   /* muebles anchos y bajos: las cosas en una fila */
   .inside{overflow:hidden}
   .slot{min-height:0}
@@ -652,7 +676,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .rotate h2{margin:0}
 .rotate p{margin:0;font-size:1.1rem}
 @keyframes turn{40%,60%{transform:rotate(-90deg)}}
-@media (orientation:portrait) and (max-width:600px){ body:not(.portrait-ok) .game .rotate{display:flex} }
+@media (orientation:portrait){ .game .rotate{display:flex} }
 </style>
 </head>
 <body>
@@ -1076,18 +1100,28 @@ function progress() {
 const IMG = {}, IMG_SIZE = {};
 const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO),
   'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana',
-  'armarioArriba3', 'armarioArriba2', 'armarioAbajo2', 'cajones', 'piedra',
+  'armarioArriba3', 'armarioArriba2', 'armarioAbajo2', 'cajones', 'piedra', 'kuchnia',
   /* minijuegos */
   'manzanaPelada', 'manzanaTrozos', 'masa', 'masaPeque', 'tablaTop',
   'sartenTop', 'sartenManzanas', 'sartenCanela', 'bolTop', 'bolMezcla', 'bolMasa',
   'moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado'];
 /* los fondos son dibujos grandes: en JPG pesan mucho menos */
-const BG_JPG = ['cocina', 'fondo', 'piedra'];
+const BG_JPG = ['cocina', 'fondo', 'piedra', 'kuchnia'];
+/* alrededor del dibujo de la cocina: el color de su pared, para que no se vea el borde */
+let WALL = null;
+function wallColor(i) {
+  try {
+    const c = document.createElement('canvas'); c.width = c.height = 1;
+    c.getContext('2d').drawImage(i, i.naturalWidth * .3, 0, i.naturalWidth * .4, i.naturalHeight * .02, 0, 0, 1, 1);
+    const [r, g, b] = c.getContext('2d').getImageData(0, 0, 1, 1).data;
+    WALL = `rgb(${r},${g},${b})`;
+  } catch (e) { /* sin color: queda el fondo normal */ }
+}
 function loadImages() {
   return Promise.race([
     Promise.all(IMG_KEYS.map(k => new Promise(r => {
       const i = new Image();
-      i.onload = () => { IMG[k] = i.src; IMG_SIZE[k] = i.naturalWidth / i.naturalHeight; r(); };
+      i.onload = () => { IMG[k] = i.src; IMG_SIZE[k] = i.naturalWidth / i.naturalHeight; if (k === 'kuchnia') wallColor(i); r(); };
       i.onerror = r;
       i.src = 'img/' + k + (BG_JPG.includes(k) ? '.jpg' : '.png');
     }))),
@@ -1243,8 +1277,48 @@ function fitDoors() {
   });
 }
 addEventListener('resize', () => setTimeout(fitDoors, 0));
+/* sitio de cada mueble en el cuadro 21:9, en %: [x, y, ancho, alto] (igual que makieta-kuchni.png) */
+const LAYOUT = {
+  nevera:   [1.2, 3, 20.8, 97],
+  armario1: [23.36, 3, 37.75, 25.9],
+  armario2: [62.12, 3, 36.8, 25.9],
+  counter:  [22.8, 31, 77.2, 33.9],
+  cajon:    [23.04, 64.9, 16.67, 35.1],
+  armario3: [39.71, 64.9, 35.1, 35.1],
+  horno:    [74.81, 64.9, 24.5, 35.1],
+};
+/* hojas de cada puerta: los armarios tienen dos que se abren hacia los lados; armario2 es una vitrina */
+const LEAVES = { nevera: 1, armario1: 2, armario2: 2, armario3: 2, cajon: 1, horno: 1 };
+const GLASS = ['armario2'];
+function place(el, k) {
+  const [x, y, w, hh] = LAYOUT[k];
+  Object.assign(el.style, { left: x + '%', top: y + '%', width: w + '%', height: hh + '%' });
+  /* con el dibujo de toda la cocina, cada hoja de la puerta muestra justo su trozo */
+  const door = IMG.kuchnia && el.querySelector(':scope > .door');
+  if (!door) return;
+  /* trozo del dibujo: parte [a, b) en % del mueble, a lo ancho (i de n) y a lo alto */
+  const face = (i, n, a, b) => {
+    const lw = w / n, lx = x + i * lw, ly = y + hh * a / 100, lh = hh * (b - a) / 100;
+    return h('div', { class: 'lface', style: `background-image:url(${IMG.kuchnia});` +
+      `background-size:${10000 / lw}% ${10000 / lh}%;background-position:${lx / (100 - lw) * 100}% ${ly / (100 - lh) * 100}%` });
+  };
+  if (k === 'horno') {
+    /* el horno: los mandos se quedan, solo baja la puerta con el cristal (y el cristal del juego con ella) */
+    const PANEL = 24, leaf = h('div', { class: 'leaf oven-leaf', style: `left:0;width:100%;top:${PANEL}%;bottom:0` }, face(0, 1, PANEL, 100));
+    const win = door.querySelector('.ov-glass');
+    if (win) { Object.assign(win.style, { top: (40 - PANEL) / (100 - PANEL) * 100 + '%', bottom: 12 / (100 - PANEL) * 100 + '%' }); leaf.append(win); }
+    door.prepend(h('div', { class: 'leaf', style: `left:0;width:100%;top:0;height:${PANEL}%` }, face(0, 1, 0, PANEL)), leaf);
+    return;
+  }
+  const n = LEAVES[k] || 1;
+  for (let i = n - 1; i >= 0; i--) {
+    door.prepend(h('div', { class: 'leaf ' + (i === n - 1 && n > 1 ? 'r' : 'l') + (GLASS.includes(k) ? ' glass' : ''),
+      style: `left:${i * 100 / n}%;width:${100 / n}%` }, face(i, n, 0, 100)));
+  }
+}
 function buildKitchen() {
-  const root = h('div', { class: 'kitchen2' }), places = {};
+  const root = h('div', { class: 'kitchen2' + (IMG.kuchnia ? ' one' : '') }), places = {};
+  if (IMG.kuchnia) { root.style.backgroundImage = `url(${IMG.kuchnia})`; root.style.setProperty('--ar', IMG_SIZE.kuchnia); }
   for (const k of Object.keys(PLACES)) {
     const inside = h('div', { class: 'inside' });
     const f = IMG[PLACES[k].front] ? PLACES[k].front : PLACES[k].img;
@@ -1263,6 +1337,9 @@ function buildKitchen() {
   const counter = h('div', { class: 'counter' });
   if (IMG.piedra) counter.style.setProperty('--surf', `url(${IMG.piedra}) 0 0/260px 260px repeat`);
   root.append(counter, oven);
+  for (const k of Object.keys(PLACES)) place(places[k].el, k);
+  place(counter, 'counter'); place(oven, 'horno');
+  if (IMG.kuchnia) root.querySelectorAll('.door').forEach(d => { d.classList.add('has-img'); d.removeAttribute('data-img'); d.querySelector(':scope > i')?.remove(); });
   K = { root, places, counter, oven, ovenWin };
   return root;
 }
@@ -1555,15 +1632,14 @@ function startGame({ name, room, demo }) {
   G.ui = { mist, num, instr, tip, scene: stage, bubble };
   restart(
     demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); clearInterval(OVEN_IV); G = null; startTV(); } }, '⟵ 📺') : null,
-    h('div', { class: 'game', style: IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
+    h('div', { class: 'game', style: IMG.kuchnia ? `background:${WALL || '#f6e6cf'}` : IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
       h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, h('span'), mist),
       stage,
       h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble),
       h('div', { class: 'rotate' },
         h('div', { class: 'ico' }, '📱'),
         h('h2', {}, '¡Gira el móvil!'),
-        h('p', {}, 'Se juega en horizontal.'),
-        h('button', { class: 'btn small light', onclick: () => { document.body.classList.add('portrait-ok'); setTimeout(fitDoors, 50); } }, 'Seguir en vertical'))));
+        h('p', {}, 'Se juega en horizontal.'))));
   if (room && !demo) phoneNet(room);
   runStep();
 }
