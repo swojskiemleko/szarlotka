@@ -55,10 +55,7 @@ input{font-family:inherit}
 /* ---------- game ---------- */
 .game{height:100dvh;display:flex;flex-direction:column;max-width:900px;margin:0 auto}
 .hud{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px 6px}
-.dots{display:flex;gap:4px;flex-wrap:wrap;flex:1}
-.dots i{width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--line)}
-.dots i.on{background:var(--green);border-color:var(--green)}
-.dots i.now{background:var(--gold);border-color:var(--gold)}
+.hud .num{background:#fff;border-radius:12px;padding:4px 12px;font-weight:700}
 .mist{background:#fff;border-radius:12px;padding:4px 10px;font-weight:700;white-space:nowrap}
 .ribbon{
   margin:4px 12px 0;background:#fff;border-radius:20px;padding:10px 16px 10px;
@@ -287,12 +284,15 @@ input{font-family:inherit}
 .furn{position:relative;perspective:650px;border:3px solid var(--line);border-radius:12px;background:#f1dcc3;box-shadow:inset 0 0 0 4px rgba(59,35,20,.12);z-index:1}
 .furn.open{z-index:3}
 .f-nevera{background:#e4f1f8}
-.inside{position:absolute;inset:5px;display:grid;grid-template-columns:repeat(2,1fr);align-content:space-evenly;justify-items:center;gap:2px}
+.inside{position:absolute;inset:5px;display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;align-content:stretch;gap:0}
 .f-nevera .inside,.f-cajon .inside{grid-template-columns:repeat(3,1fr)}
 .f-cajon{overflow:hidden}
 .f-cajon .inside{bottom:30%}
-.inside{align-content:stretch}
-.slot{width:100%;height:100%;min-height:38px;border:0;padding:2px;border-radius:8px;background:transparent;cursor:pointer;display:grid;place-items:center}
+/* baldas: cada hueco tiene su estante */
+.cell{display:grid;min-height:0;border-bottom:5px solid #c98a52;box-shadow:0 2px 0 rgba(59,35,20,.45)}
+.f-nevera .cell{border-bottom-color:#fff;box-shadow:0 2px 0 #9fc3d8}
+.f-cajon .cell{border:0;box-shadow:none}
+.slot{width:100%;height:100%;min-height:36px;border:0;padding:2px;border-radius:8px;background:transparent;cursor:pointer;display:grid;place-items:center}
 .slot>.th{max-width:44px;max-height:44px}
 .slot:active{background:rgba(255,255,255,.7)}
 .slot.out{visibility:hidden}
@@ -360,6 +360,47 @@ img.th{width:100%;height:100%;object-fit:contain}
 .pop-h{display:flex;align-items:center;justify-content:space-between;font-size:1.15rem}
 .x{width:42px;height:42px;border-radius:50%;border:3px solid var(--line);background:#fff;font-weight:700;cursor:pointer;color:var(--ink)}
 @keyframes nudge{to{transform:translateY(4px)}}
+/* ---------- primer plano: solo la encimera ---------- */
+.kitchen2.zoom .furn{display:none}
+.kitchen2.zoom .counter{grid-area:1/1/4/4;animation:zoomin .35s ease-out}
+.kitchen2.zoom .work{align-items:center;align-content:center;padding-bottom:26px}
+.zoom .tile{width:66px}
+.zoom .tile-pic{width:52px;height:52px}
+.zoom .tile-pic .th{font-size:30px}
+.zoom .tile-lbl{font-size:12px}
+.zoom .counter .board{width:min(84vw,340px);min-height:150px;padding:14px 52px 14px 14px;gap:8px}
+.zoom .counter .apple{width:58px;height:58px;font-size:46px}
+.zoom .counter .peeled,.zoom .counter .board .peeled{width:52px}
+.zoom .counter .knife{font-size:48px;top:10px}
+.zoom .counter .cube{width:14px;height:14px}
+.zoom .counter .sarten{width:min(56vw,220px);height:min(56vw,220px);padding:48px}
+.zoom .counter .sarten .spoon{font-size:44px}
+.zoom .counter .sarten .spoon .th{width:50px;height:50px}
+.zoom .counter .bowl{width:min(72vw,270px);height:min(40vw,150px)}
+.zoom .counter .bowl .ball.inbowl{width:96px;height:96px;margin-left:-48px}
+.zoom .counter .bowl .mini .th{width:36px;height:36px;font-size:28px}
+.zoom .counter .ball.big{width:120px;height:120px}
+.zoom .counter .ball.small{width:68px;height:68px}
+.zoom .counter .molde{width:min(58vw,230px)}
+.zoom .counter .grater{width:74px;height:120px}
+.zoom .counter .clock{font-size:1.4rem;padding:4px 14px}
+.zoom .counter .sieve .th{width:50px;height:50px;font-size:38px}
+.knife img.th{width:1em;height:1em}
+.apple img.th{width:100%;height:100%}
+.apple .th,.knife .th{font-size:inherit}
+@keyframes zoomin{from{transform:scale(.55);opacity:.4}}
+/* ---------- esperar a la clase ---------- */
+.waitbox{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;
+  background:rgba(255,248,236,.94);border:3px solid var(--line);border-radius:14px}
+.waitbox .big{font-size:3.4rem;line-height:1}
+.waitbox h2{margin:0;color:var(--green)}
+.waitbox p{margin:0;font-size:1.15rem;font-weight:600}
+.waitbox .spin{display:inline-block;animation:spin 1.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ---------- tele: paso de la clase ---------- */
+.cls{display:flex;flex-direction:column;gap:1vh;background:#fff;border:3px solid var(--line);border-radius:16px;padding:1.2vh 1.2vw;margin:1vh 0;text-align:left}
+.cls-t{font-size:clamp(1.1rem,2.1vw,2rem);line-height:1.2}
+.cls-r{display:flex;justify-content:space-between;align-items:center;gap:1vw;font-size:clamp(1rem,1.8vw,1.7rem);font-weight:700}
 /* ---------- servir ---------- */
 .plate{width:min(40vw,160px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle,#fff 55%,#e9eef2 56% 64%,#fff 65%);border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
 .plate .cake{width:66%}
@@ -468,6 +509,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 <body>
 <div id="app"><div class="center"><div class="loading"><div class="spin">🥧</div><p>Cargando…</p></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js"></script>
 <script>
 "use strict";
 /* =========================================================
@@ -527,36 +569,48 @@ function confetti() {
 }
 
 /* =========================================================
-   Red: ntfy.sh (gratis, sin cuentas). Los móviles envían,
-   la tele escucha.
+   Red: MQTT público (gratis, sin cuentas). Los móviles dicen
+   qué paso terminaron; la tele dice en qué paso está la clase.
    ========================================================= */
 /* bandera de Polonia (el emoji de bandera no funciona en Windows) */
 const flag = () => h('span', { class: 'flag', 'aria-label': 'Polonia' });
 
 const NET = {
-  base: 'https://ntfy.sh/',
-  prefix: 'szarlotka-clase-',
-  async send(room, obj, tries = 5) {
-    for (let i = 0; i < tries; i++) {
-      try {
-        const r = await fetch(this.base + this.prefix + room, { method: 'POST', body: JSON.stringify(obj) });
-        if (r.ok) return true;
-      } catch (e) {}
-      await sleep(3000 * (i + 1) + Math.random() * 3000);
-    }
-    return false;
+  /* dos servidores públicos a la vez: si uno falla, funciona el otro */
+  brokers: ['wss://broker.hivemq.com:8884/mqtt', 'wss://broker.emqx.io:8084/mqtt'],
+  cl: [], seen: new Set(), base: '', onState: null,
+  start(room, subs, will, onMsg, onConnect) {
+    this.stop();
+    this.base = 'szarlotka-clase/' + room + '/';
+    if (!window.mqtt) return false;
+    this.cl = this.brokers.map(url => {
+      const c = mqtt.connect(url, {
+        clientId: 'sz' + rid(12), clean: true, keepalive: 30, connectTimeout: 8000, reconnectPeriod: 4000,
+        will: will ? { topic: this.base + 'up', payload: JSON.stringify(will), qos: 0, retain: false } : undefined,
+      });
+      c.on('connect', () => {
+        c.subscribe(subs.map(x => this.base + x), { qos: 1 });
+        onConnect && onConnect(); this.onState && this.onState();
+      });
+      c.on('close', () => this.onState && this.onState());
+      c.on('error', () => {});
+      c.on('message', (topic, buf) => {
+        let m;
+        try { m = JSON.parse(buf.toString()); } catch (e) { return; }
+        if (!m || typeof m !== 'object') return;
+        if (m.mid) { if (this.seen.has(m.mid)) return; this.seen.add(m.mid); }
+        onMsg(topic.slice(this.base.length), m);
+      });
+      return c;
+    });
+    return true;
   },
-  listen(room, since, cb) {
-    const es = new EventSource(this.base + this.prefix + room + '/sse?since=' + since);
-    es.onmessage = e => {
-      try {
-        const d = JSON.parse(e.data);
-        if (d.event !== 'message') return;
-        cb(JSON.parse(d.message), d.time);
-      } catch (err) {}
-    };
-    return es;
+  pub(sub, obj, retain) {
+    const p = JSON.stringify({ ...obj, mid: rid(10) });
+    for (const c of this.cl) if (c.connected) c.publish(this.base + sub, p, { qos: 1, retain: !!retain });
   },
+  online() { return this.cl.some(c => c.connected); },
+  stop() { for (const c of this.cl) c.end(true); this.cl = []; },
 };
 
 /* =========================================================
@@ -641,8 +695,23 @@ const STEPS = [
   { k: 'oven2',  t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: '✋ Arrastra el molde al horno.' },
   { k: 'sugar',  get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: '✋ Frota la tarta.' },
   { k: 'cut2',   get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: '🔪 Toca la tarta cuatro veces.' },
-  { k: 'serve',  free: ['helado', 'nata', 'fresa'], t: 'Se sirve con helado, nata o fresas.', tip: '👆 Saca algo de la nevera, decora y toca «¡Servir!».' },
 ];
+const STEP_AT = k => STEPS.findIndex(s => s.k === k);
+const NEEDED = new Set(STEPS.flatMap(s => s.get || []));
+/* qué hay en cada mueble al empezar el paso i: lo que ya no se necesita, desaparece */
+function placesFor(i) {
+  const later = new Set(STEPS.slice(i).flatMap(s => s.get || []));
+  const out = {};
+  for (const [k, v] of Object.entries(PLACES)) out[k] = v.items.map(it => !NEEDED.has(it) || later.has(it) ? it : null);
+  if (i > STEP_AT('fridge') && i <= STEP_AT('grate')) out.nevera.push('bola');
+  return out;
+}
+/* cómo está la tarta al empezar el paso i */
+function cakeFor(i) {
+  const past = k => i > STEP_AT(k);
+  return { base: past('mold'), baked1: past('oven1'), apples: past('apples'), crumb: past('grate'),
+           baked2: past('oven2'), sugar: past('sugar'), cuts: past('cut2') ? 4 : 0 };
+}
 const GOOD = ['¡Muy bien!', '¡Perfecto!', '¡Genial!', '¡Qué bien!', '¡Excelente!', '¡Bravo!'];
 const BAD = ['¡Uy, no!', 'No, eso no. 🙂', 'Lee otra vez.', '¡Casi! Otra vez.'];
 
@@ -738,7 +807,7 @@ function progress() {
 /* Imágenes opcionales en img/<nombre>.png. Si no existen, se usa el emoji. */
 const IMG = {};
 const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO),
-  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno'];
+  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana', 'encimera'];
 function loadImages() {
   return Promise.race([
     Promise.all(IMG_KEYS.map(k => new Promise(r => {
@@ -833,7 +902,7 @@ function buildKitchen() {
     const door = h('div', { class: 'door' + (IMG[PLACES[k].img] ? ' has-img' : '') }, doorFace(PLACES[k].img));
     const el = h('div', { class: 'furn f-' + k }, inside, door);
     door.onclick = () => openPlace(k);
-    inside.onclick = e => { if (e.target === inside) closePlaces(); };
+    inside.onclick = e => { if (!e.target.closest('.slot')) closePlaces(); };
     places[k] = { el, inside };
     root.append(el);
   }
@@ -852,9 +921,13 @@ function fillPlaces() {
   for (const k of Object.keys(PLACES)) {
     const inn = K.places[k].inside; inn.innerHTML = '';
     for (const it of G.places[k]) {
-      const sl = h('button', { class: 'slot' + (st.taken.has(it) ? ' out' : ''), 'aria-label': NAMES[it] }, thing(it));
-      sl.onclick = e => { e.stopPropagation(); take(it, sl); };
-      inn.append(sl);
+      const cell = h('div', { class: 'cell' });
+      if (it) {
+        const sl = h('button', { class: 'slot' + (st.taken.has(it) ? ' out' : ''), 'aria-label': NAMES[it] }, thing(it));
+        sl.onclick = e => { e.stopPropagation(); take(it, sl); };
+        cell.append(sl);
+      }
+      inn.append(cell);
     }
   }
 }
@@ -866,6 +939,8 @@ function openPlace(k) {
 function closePlaces(except) {
   for (const [k, pl] of Object.entries(K.places)) if (k !== except) pl.el.classList.remove('open');
 }
+/* un toque fuera del mueble abierto lo cierra */
+document.addEventListener('click', e => { if (K && G && !e.target.closest('.furn')) closePlaces(); });
 const placeOf = it => Object.keys(G.places).find(k => G.places[k].includes(it));
 function nextGetTip() {
   const it = [...G.step.pending][0];
@@ -883,20 +958,29 @@ function fly(from, to, it) {
 function take(it, slot) {
   const st = G.step;
   if (!st || st.over || st.taken.has(it)) return;
-  const free = (st.s.free || []).includes(it);
-  if (!free && !st.pending.has(it)) return st.a.fail(slot, 'Ahora no se ' + (/^(los|las) /.test(NAMES[it]) ? 'necesitan ' : 'necesita ') + NAMES[it] + '.');
+  if (!st.pending.has(it)) return st.a.fail(slot, 'Ahora no se ' + (/^(los|las) /.test(NAMES[it]) ? 'necesitan ' : 'necesita ') + NAMES[it] + '.');
   st.pending.delete(it); st.taken.add(it); slot.classList.add('out');
   const tile = h('div', { class: 'tile', 'data-k': it }, h('div', { class: 'tile-pic' }, thing(it)), h('span', { class: 'tile-lbl' }, NAMES[it]));
   st.tiles[it] = tile; st.row.append(tile);
   fly(slot, tile, it); st.a.ok();
-  if (free) return st.a.onFree && st.a.onFree(it, tile);
-  if (st.pending.size) nextGetTip();
+  const pl = placeOf(it);
+  if (st.pending.size) {
+    if (![...st.pending].some(q => placeOf(q) === pl)) setTimeout(() => closePlaces(), 450);
+    nextGetTip();
+  }
   else setTimeout(() => { closePlaces(); ready(); }, 500);
 }
+const NO_ZOOM = ['fridge', 'oven1', 'oven2'];
 function ready() {
   if (!G) return;
   const st = G.step;
   K.counter.classList.remove('locked');
+  closePlaces();
+  /* primer plano: la cocina desaparece y solo se ve la encimera */
+  if (!NO_ZOOM.includes(st.s.k)) {
+    K.root.classList.add('zoom');
+    if (IMG.encimera) K.counter.style.background = `url(${IMG.encimera}) center/cover`;
+  }
   G.ui.tip.textContent = st.s.tip;
   if (st.s.get) say('¡Ya tienes todo! 👍');
   st.a.onReady && st.a.onReady();
@@ -905,7 +989,7 @@ function ready() {
 /* =========================================================
    Los pasos del juego (todo pasa en la encimera)
    ========================================================= */
-const knifeIcon = () => h('div', { class: 'knife', style: 'position:static' }, '🔪');
+const knifeIcon = () => h('div', { class: 'knife', style: 'position:static' }, thing('cuchillo'));
 function chop(k) { k.classList.remove('chop'); void k.offsetWidth; k.classList.add('chop'); }
 const RUN = {
   peel(w, a) {
@@ -914,7 +998,7 @@ const RUN = {
       const b = h('div', { class: 'board' });
       let n = 0;
       for (let i = 0; i < 5; i++) {
-        const ap = h('div', { class: 'apple' }, '🍎');
+        const ap = h('div', { class: 'apple' }, pic('manzana', '🍎', 'th'));
         ap.onclick = () => {
           if (ap.dataset.p) return;
           ap.dataset.p = 1;
@@ -929,7 +1013,7 @@ const RUN = {
   },
   cut(w, a) {
     const b = h('div', { class: 'board' }, Array.from({ length: 5 }, () => h('div', { class: 'peeled' })));
-    const knife = h('div', { class: 'knife' }, '🔪'); b.append(knife);
+    const knife = h('div', { class: 'knife' }, thing('cuchillo')); b.append(knife);
     a.onReady = () => a.consume('cuchillo');
     let n = 0; const N = 8;
     b.onclick = () => {
@@ -1035,7 +1119,6 @@ const RUN = {
     const mo = molde(); w.append(mo);
     a.onReady = () => {
       a.consume('bola'); a.consume('rallador');
-      G.places.nevera = G.places.nevera.filter(x => x !== 'bola');
       const crumb = mo.querySelector('.lay-crumb');
       const ball = h('div', { class: 'ball small', style: 'transition:transform .1s;cursor:default' });
       const gr = h('div', { class: 'grater' });
@@ -1062,24 +1145,6 @@ const RUN = {
     };
     w.append(mo, knife);
   },
-  serve(w, a) {
-    const plate = h('div', { class: 'plate drop' }, pic('tarta', '🥧', 'cake'));
-    let n = 0;
-    const put = (k, x, y) => {
-      const r = plate.getBoundingClientRect();
-      const px = x == null ? 25 + Math.random() * 50 : Math.max(12, Math.min(88, (x - r.left) / r.width * 100));
-      const py = y == null ? 25 + Math.random() * 50 : Math.max(12, Math.min(88, (y - r.top) / r.height * 100));
-      plate.append(h('div', { class: 'deco-on pop', style: `left:${px}%;top:${py}%` }, thing(k)));
-      n++; beep(820 + n * 40, .08, 'triangle'); a.ok();
-    };
-    a.onFree = (k, tile) => drag(tile, (d, x, y) => { if (d === plate) put(k, x, y); });
-    const btn = h('button', { class: 'btn green', onclick: () => {
-      if (!n) return say('Primero decora la szarlotka. 🙂');
-      G.plate = plate.cloneNode(true); G.plate.classList.remove('drop', 'hot');
-      a.done();
-    } }, '🍽️ ¡Servir!');
-    w.append(plate, btn);
-  },
 };
 
 /* =========================================================
@@ -1087,27 +1152,25 @@ const RUN = {
    ========================================================= */
 let G = null;
 function startGame({ name, room, demo }) {
-  CAKE = {};
-  G = { name, room, demo, id: rid(), i: 0, mistakes: 0, t0: Date.now(),
-        places: Object.fromEntries(Object.entries(PLACES).map(([k, v]) => [k, [...v.items]])) };
+  const key = 'szarlotka-id-' + room;
+  G = { name, room, demo, id: (room && store.get(key)) || rid(), i: 0, mistakes: 0, skipped: 0, active: 0 };
+  if (room) store.set(key, G.id);
   MODE = 'game';
-  const dots = h('div', { class: 'dots' }, STEPS.map(() => h('i')));
   const mist = h('div', { class: 'mist' }, '❌ 0');
-  const num = h('div', { class: 'num' }), instr = h('p', { class: 'instr' }), tip = h('p', { class: 'tip' });
+  const num = h('span', { class: 'num' }), instr = h('p', { class: 'instr' }), tip = h('p', { class: 'tip' });
   const stage = h('div', { class: 'stage' }, buildKitchen());
   const bubble = h('div', { class: 'bubble' }, '¡Hola, ' + name + '! ¡Vamos a cocinar!');
-  G.ui = { dots, mist, num, instr, tip, scene: stage, bubble };
+  G.ui = { mist, num, instr, tip, scene: stage, bubble };
   restart(
     demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); clearInterval(OVEN_IV); G = null; startTV(); } }, '⟵ 📺') : null,
     h('div', { class: 'game', style: IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
-      h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, dots, mist),
-      h('div', { class: 'ribbon' }, num, instr, tip),
+      h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, num, mist),
+      h('div', { class: 'ribbon' }, instr, tip),
       stage,
       h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble)));
-  if (room && !demo) NET.send(room, { t: 'join', id: G.id, name, step: 0, total: STEPS.length }).then(netWarn);
+  if (room && !demo) phoneNet(room);
   runStep();
 }
-const netWarn = ok => { if (!ok) say('📺 ¡Uy! La tele no te ve. Dile al profesor.'); };
 function say(txt) {
   if (!G) return;
   const b = G.ui.bubble; b.textContent = txt;
@@ -1115,8 +1178,9 @@ function say(txt) {
 }
 function runStep() {
   const s = STEPS[G.i], u = G.ui;
-  SEL = null;
-  [...u.dots.children].forEach((d, j) => d.className = j < G.i ? 'on' : j === G.i ? 'now' : '');
+  SEL = null; hideWait();
+  CAKE = cakeFor(G.i); G.places = placesFor(G.i); G.tStep = Date.now();
+  K.root.classList.remove('zoom'); K.counter.style.background = '';
   u.num.textContent = 'Paso ' + (G.i + 1) + ' de ' + STEPS.length;
   u.instr.textContent = s.t; u.tip.textContent = s.tip;
   closePlaces();
@@ -1142,6 +1206,7 @@ function runStep() {
     },
     done() {
       if (st.over || !G) return; st.over = true;
+      G.active += Date.now() - G.tStep;
       clearTimeout(G.idle); chord(); say(pick(GOOD));
       setTimeout(nextStep, 1200);
     },
@@ -1156,25 +1221,90 @@ function runStep() {
 function nextStep() {
   if (!G) return;
   G.i++;
-  if (G.room && !G.demo && (G.i === 5 || G.i === 10))
-    NET.send(G.room, { t: 'step', id: G.id, name: G.name, step: G.i, total: STEPS.length }).then(netWarn);
-  if (G.i >= STEPS.length) finishGame(); else runStep();
+  if (G.room && !G.demo && G.i < STEPS.length) NET.pub('up', { t: 'step', id: G.id, name: G.name, step: G.i, total: STEPS.length });
+  catchUp();
+  if (G.i >= STEPS.length) finishGame();
+  else if (mustWait()) showWait();
+  else runStep();
+}
+
+/* =========================================================
+   La clase: la tele dice en qué paso está todo el grupo.
+   Quien termina, espera a los demás.
+   ========================================================= */
+const PH = { cls: null, ping: null, seq: 0 };
+function phoneNet(room) {
+  PH.cls = null; PH.ping = null; PH.seq = 0;
+  NET.start(room, ['ctl'], { t: 'leave', id: G.id }, (sub, m) => {
+    if (sub !== 'ctl' || !G || G.room !== room || typeof m.step !== 'number') return;
+    if ((m.seq || 0) < PH.seq) return;
+    PH.seq = m.seq || 0;
+    /* la clase ya terminó: se juega solo, sin la tele */
+    if (PH.cls == null && m.step >= STEPS.length) { G.solo = true; return; }
+    PH.cls = m.step;
+    if (m.ping !== PH.ping) { PH.ping = m.ping; hello(); }
+    classMoved();
+  }, hello);
+  setTimeout(() => { if (G && G.room === room && !NET.online()) say('📺 ¡Uy! La tele no te ve. Dile al profesor.'); }, 9000);
+}
+function hello() {
+  if (!G || !G.room || G.demo) return;
+  NET.pub('up', G.final ? { ...G.final } : { t: 'hi', id: G.id, name: G.name, step: G.i, total: STEPS.length });
+}
+const mustWait = () => G.room && !G.demo && !G.solo && PH.cls != null && PH.cls < G.i && NET.online();
+/* la clase va más adelante: se salta lo que falta (cada paso saltado cuenta como un error) */
+function catchUp() {
+  if (PH.cls == null || G.solo) return false;
+  const c = Math.min(PH.cls, STEPS.length);
+  if (c <= G.i) return false;
+  G.skipped += c - G.i;
+  G.i = c;
+  if (c < STEPS.length) hello();
+  return true;
+}
+function classMoved() {
+  if (!G || G.final || !G.step) return;
+  if (!G.waiting && G.step.over) return;   /* ya va al paso siguiente */
+  if (catchUp() || (G.waiting && PH.cls >= G.i)) {
+    clearInterval(OVEN_IV);
+    if (G.i >= STEPS.length) finishGame(); else runStep();
+  }
+}
+function showWait() {
+  G.waiting = true;
+  K.root.classList.remove('zoom'); closePlaces();
+  const more = h('button', { class: 'btn small light', hidden: true, onclick: () => { G.solo = true; runStep(); } }, '▶ Seguir');
+  const box = h('div', { class: 'waitbox pop' },
+    h('div', { class: 'big' }, '✅'),
+    h('h2', {}, pick(GOOD)),
+    h('p', {}, h('span', { class: 'spin' }, '⏳'), ' Esperamos a los demás…'),
+    h('p', {}, '📺 Mira la tele.'), more);
+  K.root.append(box);
+  G.ui.tip.textContent = '⏳ Espera: la clase cocina contigo.';
+  let off = 0;
+  G.waitIv = setInterval(() => { off = NET.online() ? 0 : off + 1; if (off >= 6) more.hidden = false; }, 1000);
+}
+function hideWait() {
+  if (!G) return;
+  G.waiting = false; clearInterval(G.waitIv);
+  if (K) K.root.querySelectorAll('.waitbox').forEach(b => b.remove());
 }
 function finishGame() {
-  const secs = Math.round((Date.now() - G.t0) / 1000);
-  const score = Math.max(100, 1000 - 40 * G.mistakes - Math.max(0, secs - 150));
-  const stars = G.mistakes <= 2 ? 3 : G.mistakes <= 6 ? 2 : 1;
-  if (G.room && !G.demo)
-    NET.send(G.room, { t: 'done', id: G.id, name: G.name, step: STEPS.length, total: STEPS.length, score, mistakes: G.mistakes, secs }, 8).then(netWarn);
+  hideWait();
+  const secs = Math.round(G.active / 1000), bad = G.mistakes + G.skipped;
+  const score = Math.max(100, 1000 - 40 * bad - Math.max(0, secs - 150));
+  const stars = bad <= 2 ? 3 : bad <= 6 ? 2 : 1;
+  G.final = { t: 'done', id: G.id, name: G.name, step: STEPS.length, total: STEPS.length, score, mistakes: G.mistakes, secs };
+  hello();
   const u = G.ui;
-  [...u.dots.children].forEach(d => d.className = 'on');
+  K.root.classList.remove('zoom');
   u.num.textContent = '¡Terminado!';
   u.instr.textContent = '¡Se sirve! ¡Que aproveche!';
   u.tip.textContent = G.room && !G.demo ? '📺 Mira la tele: ¿cuál es tu puesto?' : '';
   u.scene.innerHTML = ''; u.scene.classList.add('end');
   const mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, '0');
   u.scene.append(h('div', { class: 'final' },
-    G.plate || molde(),
+    molde(),
     h('h2', {}, '¡Qué rica!'),
     h('div', { class: 'stars' }, '⭐'.repeat(stars) + '☆'.repeat(3 - stars)),
     h('div', { class: 'stats' },
@@ -1183,7 +1313,7 @@ function finishGame() {
       h('div', {}, h('b', {}, mm + ':' + ss), 'tiempo')),
     G.demo
       ? h('button', { class: 'btn', onclick: () => { G = null; startTV(); } }, '📺 Volver a la presentación')
-      : h('button', { class: 'btn light', onclick: () => startGame({ name: G.name, room: G.room }) }, '🔁 Jugar otra vez')));
+      : h('button', { class: 'btn light', onclick: () => { NET.stop(); startGame({ name: G.name, room: null }); } }, '🔁 Jugar otra vez')));
   say('¡Muy bien, ' + G.name + '! ¡Eres un chef!');
   confetti(); chord(); setTimeout(chord, 400);
 }
@@ -1230,27 +1360,48 @@ function showJoin(code) {
    Presentación en la tele
    ========================================================= */
 const ROOM_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-const TV = { room: null, since: 0, students: {}, es: null, idx: 0, live: false };
+const TV = { room: null, since: 0, students: {}, idx: 0, live: false, cls: 0, ping: '', timer: null };
 function tvRoom(fresh) {
   let r = !fresh && store.get('szarlotka-room');
-  if (!r || !r.code || Date.now() / 1000 - r.ts > 10 * 3600) {
-    r = { code: rid(5, ROOM_ABC), ts: Math.floor(Date.now() / 1000) };
-    store.set('szarlotka-room', r);
-  }
+  if (!r || !r.code || Date.now() / 1000 - r.ts > 10 * 3600) r = { code: rid(5, ROOM_ABC), ts: Math.floor(Date.now() / 1000) };
   TV.room = r.code; TV.since = r.ts; TV.students = {};
-  if (TV.es) TV.es.close();
-  TV.es = NET.listen(TV.room, TV.since, onTVMsg);
-  TV.es.onopen = () => { TV.live = true; refreshTV(); };
-  TV.es.onerror = () => { TV.live = false; refreshTV(); };
+  /* una clase que ya terminó empieza otra vez desde el paso 1 */
+  TV.cls = r.cls > 0 && r.cls < STEPS.length ? r.cls : 0;
+  tvSave();
+  NET.onState = () => { TV.live = NET.online(); refreshTV(); };
+  NET.start(TV.room, ['up'], null, (sub, m) => { if (sub === 'up') onTVMsg(m); }, () => tvCtl(true));
+}
+const tvSave = () => store.set('szarlotka-room', { code: TV.room, ts: TV.since, cls: TV.cls });
+/* el paso de la clase se guarda en el servidor (retain) para quien entra tarde */
+function tvCtl(newPing) {
+  if (newPing) TV.ping = rid(6);
+  NET.pub('ctl', { step: TV.cls, ping: TV.ping, seq: Date.now() }, true);
+}
+function tvNext() {
+  clearTimeout(TV.timer);
+  if (TV.cls >= STEPS.length) return;
+  TV.cls++; tvSave(); tvCtl(false); beep(990, .12); refreshTV(); tvCheck();
+}
+const activeStudents = () => Object.values(TV.students).filter(s => !s.away);
+/* todos han terminado el paso: la clase sigue sola */
+function tvCheck() {
+  clearTimeout(TV.timer);
+  const act = activeStudents();
+  if (TV.cls < STEPS.length && act.length && act.every(s => s.step > TV.cls)) TV.timer = setTimeout(tvNext, 1800);
 }
 function onTVMsg(m) {
   if (!m || typeof m.id !== 'string') return;
+  if (m.t === 'leave') {
+    if (TV.students[m.id]) { TV.students[m.id].away = true; refreshTV(); tvCheck(); }
+    return;
+  }
   const s = TV.students[m.id] || (TV.students[m.id] = { id: m.id, step: 0 });
+  s.away = false;
   s.name = String(m.name || '?').slice(0, 18);
   s.total = +m.total || STEPS.length;
   if (typeof m.step === 'number') s.step = Math.max(s.step, Math.min(m.step, s.total));
   if (m.t === 'done') { s.done = true; s.score = +m.score || 0; s.mistakes = +m.mistakes || 0; s.secs = +m.secs || 0; }
-  refreshTV();
+  refreshTV(); tvCheck();
 }
 function ranked() {
   return Object.values(TV.students).sort((a, b) =>
@@ -1298,7 +1449,7 @@ const SLIDES = [
     h('h2', {}, '🏆 ¡Los mejores chefs!'), h('div', { id: 'podium', style: 'width:100%' })),
   () => h('div', { class: 'slide' },
     h('h2', {}, 'La receta'),
-    h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.map(s => h('li', {}, s.t))))),
+    h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.map(s => h('li', {}, s.t)), h('li', {}, 'Se sirve con nata o con helado.')))),
   () => h('div', { class: 'slide' },
     pic('tarta', '🥧', 'hero'),
     h('h1', {}, '¡Que aproveche!')),
@@ -1334,12 +1485,20 @@ function refreshTV() {
     board.innerHTML = '';
     const done = list.filter(s => s.done).length;
     board.append(h('div', { class: 'board-head' },
-      h('span', {}, list.length ? '👩‍🍳 ' + list.length + (list.length === 1 ? ' cocinero' : ' cocineros') + ' · ✅ ' + done : '👩‍🍳 Nadie todavía'),
+      h('span', {}, list.length ? '👩‍🍳 ' + list.length + (list.length === 1 ? ' cocinero' : ' cocineros') + ' · 🏁 ' + done : '👩‍🍳 Nadie todavía'),
       h('span', { class: 'conn' }, TV.live ? '🟢 en directo' : '🟡 conectando…')));
+    const N = STEPS.length, act = activeStudents(), fin = act.filter(s => s.step > TV.cls).length;
+    board.append(TV.cls < N
+      ? h('div', { class: 'cls' },
+          h('div', { class: 'cls-t' }, h('b', {}, 'Paso ' + (TV.cls + 1) + ' de ' + N + ': '), STEPS[TV.cls].t),
+          h('div', { class: 'cls-r' },
+            h('span', {}, '✅ ' + fin + ' / ' + act.length + ' listos'),
+            h('button', { class: 'btn small light', onclick: tvNext }, '⏭ Siguiente paso')))
+      : h('div', { class: 'cls' }, h('div', { class: 'cls-t' }, h('b', {}, '🎉 ¡Todos han terminado!'))));
     const bl = h('div', { class: 'board-list' });
     if (!list.length) bl.append(h('div', { class: 'empty' }, '📱 Escanea el código QR y escribe tu nombre.'));
     list.slice(0, 14).forEach((s, i) => bl.append(h('div', { class: 'stu' + (s.done ? ' fin' : '') },
-      h('span', {}, s.done ? String(i + 1) + '.' : ''),
+      h('span', {}, s.done ? String(i + 1) + '.' : s.away ? '💤' : s.step > TV.cls ? '✅' : '🍳'),
       h('span', { class: 'n' }, s.name),
       h('div', { class: 'pb' }, h('i', { style: 'width:' + Math.round(100 * s.step / s.total) + '%' })),
       h('span', { class: 's' }, s.done ? s.score + ' pts' : s.step + '/' + s.total))));
