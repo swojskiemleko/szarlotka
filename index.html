@@ -326,6 +326,10 @@ input[type=range]{width:100%;height:36px;accent-color:var(--red)}
 .face .pic{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .ing .pic.e{width:clamp(48px,5vw,84px);height:clamp(48px,5vw,84px)}
 .hero:not(img){font-size:clamp(5rem,16vw,13rem);line-height:1}
+.spice .pic{width:44px;height:44px}
+.bowl .mini .pic{width:34px;height:34px}
+.item.has-img .em-img{width:88%;height:88%}
+.item.jar .em-img.small{width:62%;height:62%}
 
 @media (max-width:700px){
   .gram,.lobby{grid-template-columns:1fr}
@@ -743,7 +747,7 @@ const RUN = {
         if (t !== pan) return;
         if (!need.has(k)) return a.fail(n);
         need.delete(k); n.classList.add('used');
-        const sp = h('div', { class: 'spice', style: `left:${30 + Math.random() * 30}%;top:30%` }, IT[k].e);
+        const sp = h('div', { class: 'spice', style: `left:${30 + Math.random() * 30}%;top:30%` }, pic(k, IT[k].e));
         pan.append(sp); a.ok();
         if (!need.size) a.done();
       });
@@ -762,7 +766,7 @@ const RUN = {
         if (t !== bowl) return;
         if (!need.has(k)) return a.fail(n);
         need.delete(k); n.classList.add('used');
-        bowl.insertBefore(h('span', { class: 'mini' }, IT[k].e), ball); a.ok();
+        bowl.insertBefore(h('span', { class: 'mini' }, pic(k, IT[k].e)), ball); a.ok();
         if (need.size) return;
         bowl.classList.remove('drop'); shelf.style.display = 'none';
         a.tip('🥄 Mezcla: frota el bol con el dedo.');
