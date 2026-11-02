@@ -53,3 +53,164 @@ no window, no lamps.
 - Blat nie ma własnego tła, widać po prostu blat z obrazka. Rzeczy stoją na jego przedniej krawędzi.
 - Lodówka ma zawsze ten sam rozmiar, otwarta i zamknięta.
 - Dopóki nie ma `img/kuchnia.jpg`, gra używa obecnych osobnych mebli w tym samym układzie.
+
+# Rzeczy na blacie, widok z góry: 2 plansze dla Gemini
+
+W zbliżeniu blat jest widziany z góry, tak jak deska, miska i patelnia (`tablaTop`, `bolTop`, `sartenTop`). Składniki i narzędzia obok muszą być narysowane tak samo, jakby naprawdę leżały na blacie.
+
+**Jak to zrobić:** do każdej planszy wgraj jako wzór `img/bolTop.png`, `img/tablaTop.png` i `img/manzanas.png`, a potem wklej prompt. Gotowe plansze wklej mi w czacie.
+
+## Plansza 1: składniki (siatka 3 × 3)
+
+```
+I attached 3 images. They show the ART STYLE and the CAMERA ANGLE: cute cartoon, thick dark-brown
+outlines, flat warm colors with one simple highlight, seen from DIRECTLY ABOVE (top-down flat lay),
+like objects lying on a kitchen countertop.
+
+Draw ONE picture: a 3 x 3 grid of 9 separate objects on a plain pure white background, lots of empty
+white space between them, every object the same size, all seen from directly above, in this order
+(left to right, top to bottom):
+1. three red apples lying together
+2. a small round bowl full of yellow corn flour
+3. a small round bowl full of white potato starch
+4. a small round bowl full of powdered sugar (white, fluffy)
+5. one whole egg next to a small bowl with one egg yolk
+6. a block of butter on a small plate, unwrapped
+7. a small paper sachet of baking powder with a teaspoon
+8. a small paper sachet of vanilla sugar
+9. three cinnamon sticks and a little pile of ground cinnamon
+
+No shadows on the floor, no table, no text, no letters, no labels.
+```
+
+## Plansza 2: narzędzia (siatka 2 × 3)
+
+```
+I attached 3 images. They show the ART STYLE and the CAMERA ANGLE: cute cartoon, thick dark-brown
+outlines, flat warm colors with one simple highlight, seen from DIRECTLY ABOVE (top-down flat lay),
+like objects lying on a kitchen countertop.
+
+Draw ONE picture: a grid of 2 rows and 3 columns, 6 separate objects on a plain pure white background,
+lots of empty white space between them, all seen from directly above, lying flat, in this order
+(left to right, top to bottom):
+1. a kitchen knife lying diagonally
+2. a vegetable peeler lying diagonally
+3. a wooden spoon lying diagonally
+4. a flat box grater lying on its side
+5. a round fine-mesh sieve with a handle
+6. a small ball of light-yellow shortcrust dough
+
+No shadows on the floor, no table, no text, no letters, no labels.
+```
+
+Gra sama znajdzie te obrazki (`manzanasTop.png`, `harinaTop.png`… `bolaTop.png`) i pokaże je w zbliżeniu, z cieniem na blacie. Dopóki ich nie ma, zostają obecne ikonki.
+
+# Rzeczy na blacie, widok z przodu (zwykły widok kuchni): 2 plansze dla Gemini
+
+W zwykłym widoku kuchnia jest widziana prosto z przodu (`img/kuchnia.jpg`). Rzeczy wyjęte z szafek stoją wtedy na blacie, więc muszą być narysowane z tej samej strony: z przodu i tylko troszkę z góry, z płaskim spodem, jakby stały na stole. Wielkość względem siebie (jajko małe, tarka wysoka) ustawia gra, więc na planszy wszystkie mogą być podobnej wielkości.
+
+**Jak to zrobić:** do każdej planszy wgraj jako wzór `img/kuchnia.jpg`, `img/manzanas.png` i `img/queso.png`, a potem wklej prompt.
+
+## Plansza 3: składniki z przodu (siatka 3 × 3)
+
+```
+I attached 3 images. Image 1 is the KITCHEN where these objects will stand on the countertop.
+Images 2 and 3 show the ART STYLE: cute cartoon, thick dark-brown outlines, flat warm colors
+with one simple highlight.
+
+Draw ONE picture: a 3 x 3 grid of 9 separate objects on a plain pure white background, lots of empty
+white space between them. Every object is seen FROM THE FRONT, at eye level, only very slightly from
+above, STANDING on a flat surface with a flat bottom (as if standing on the countertop of image 1).
+Same perspective as the furniture in image 1. Order (left to right, top to bottom):
+1. three red apples standing in a small group
+2. a small round bowl full of yellow corn flour
+3. a small round bowl full of white potato starch
+4. a small round bowl full of powdered sugar (white, fluffy)
+5. one whole egg standing in a little egg cup
+6. a block of butter on a small plate
+7. a small paper sachet of baking powder standing upright
+8. a small paper sachet of vanilla sugar standing upright
+9. a small glass jar of ground cinnamon with three cinnamon sticks
+
+No shadows, no table, no text, no letters, no labels.
+```
+
+## Plansza 4: narzędzia z przodu (siatka 2 × 5)
+
+```
+I attached 3 images. Image 1 is the KITCHEN where these objects will stand on the countertop.
+Images 2 and 3 show the ART STYLE: cute cartoon, thick dark-brown outlines, flat warm colors
+with one simple highlight.
+
+Draw ONE picture: a grid of 2 rows and 5 columns, 10 separate objects on a plain pure white background,
+lots of empty white space between them. Every object is seen FROM THE FRONT, at eye level, only very
+slightly from above, resting on a flat surface with a flat bottom (as if on the countertop of image 1).
+Same perspective as the furniture in image 1. Order (left to right, top to bottom):
+1. a kitchen knife lying flat, seen from the side
+2. a vegetable peeler lying flat, seen from the side
+3. a wooden spoon lying flat, seen from the side
+4. a tall box grater standing upright
+5. a round fine-mesh sieve with a handle, lying on its rim
+6. a small ball of light-yellow shortcrust dough
+7. a wooden cutting board with a handle, leaning upright
+8. a frying pan with a long handle, seen from the side
+9. a light-blue mixing bowl, seen from the side
+10. a round springform baking tin, seen from the side
+
+No shadows, no table, no text, no letters, no labels.
+```
+
+Gra sama znajdzie te obrazki (`manzanasFront.png`, `harinaFront.png`… `moldeFront.png`) i postawi je na blacie, każdą rzecz w jej prawdziwej wielkości i z cieniem.
+
+# Szarlotka w formie na blacie, widok z przodu: plansza 5 (siatka 2 × 4)
+
+Etapy pieczenia w zbliżeniu są widziane z góry (`moldeVacio` … `moldeCortado`). Ta plansza pokazuje te same 8 etapów z przodu, żeby forma wyglądała dobrze na blacie w zwykłym widoku kuchni.
+
+**Jak to zrobić:** wgraj jako wzór `img/kuchnia.jpg`, `img/moldeHorneado.png` i `img/moldeCortado.png`, a potem wklej prompt.
+
+```
+I attached 3 images. Image 1 is the KITCHEN where this baking tin will stand on the countertop.
+Images 2 and 3 show the ART STYLE and the CAKE: cute cartoon, thick dark-brown outlines, flat warm
+colors with one simple highlight.
+
+Draw ONE picture: a grid of 2 rows and 4 columns on a plain pure white background, lots of empty white
+space between them. Every cell shows THE SAME square metal baking tin, same size, same position, same
+angle: seen FROM THE FRONT and a bit from above (about 30 degrees), standing on a flat surface with
+a flat bottom, so you can see the front side of the tin AND what is inside. Same perspective as the
+furniture in image 1. Only the inside changes, step by step (left to right, top to bottom):
+1. the empty tin
+2. a flat layer of raw light-yellow dough pressed into the bottom
+3. the dough base baked golden
+4. golden fried apple pieces spread on the base
+5. grated raw dough crumbs covering the apples
+6. the whole cake baked golden brown with a crumbly top
+7. the baked cake dusted with white powdered sugar
+8. the cake with powdered sugar cut into 9 square pieces
+
+No shadows, no table, no text, no letters, no labels.
+
+## Plansza 5, wersja 2: forma prawie z boku (pierwsza wersja była za bardzo z góry)
+
+Na blacie w kuchni patrzymy prawie na wysokości blatu. Widać więc głównie ściankę formy, a z ciasta tylko kawałek nad brzegiem.
+
+```
+I attached 3 images. Image 1 is the KITCHEN, seen straight from the front at eye level.
+Images 2 and 3 show the ART STYLE and the CAKE.
+
+Draw ONE picture: a grid of 2 rows and 4 columns on a plain pure white background, lots of empty white
+space between them. Every cell shows THE SAME deep square metal baking tin standing on a table, same size,
+same position, seen from the front at TABLE HEIGHT, only a tiny bit from above (about 10 degrees).
+You mostly see the tall front metal wall of the tin; it takes about three quarters of the picture.
+Of the inside you only see a THIN strip at the top, just above the rim. Same perspective as the
+furniture in image 1. Only that thin strip changes, step by step (left to right, top to bottom):
+1. nothing: the empty tin, you see only the far inner wall
+2. a thin edge of raw light-yellow dough at the bottom, barely visible
+3. a thin edge of golden baked dough, barely visible
+4. golden apple pieces just peeking over the rim
+5. pale crumbly dough crumbs heaped a little above the rim
+6. a golden brown crumbly cake top, a little above the rim
+7. the same cake top dusted with white powdered sugar
+8. the same cake with sugar, with two cut lines visible in the top
+
+No shadows, no table, no text, no letters, no labels.
+```

@@ -16,11 +16,10 @@
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
 body{
-  font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background-color:var(--wall);
-  background-image:
-    linear-gradient(45deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.4) 75%),
-    linear-gradient(45deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.4) 75%);
-  background-size:56px 56px;background-position:0 0,28px 28px;
+  font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background-color:#fdf4e7;
+  /* mantel de cuadros de cocina */
+  background-image:linear-gradient(90deg,rgba(226,61,61,.09) 50%,transparent 0),linear-gradient(rgba(226,61,61,.09) 50%,transparent 0);
+  background-size:min(9vw,13vh) min(9vw,13vh);
   overflow-x:hidden;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;
 }
 button{font-family:inherit}
@@ -225,6 +224,53 @@ input{font-family:inherit}
 .slide .big{font-size:clamp(1.3rem,3vw,2.8rem);margin:0;line-height:1.35}
 .slide .huge-emoji{font-size:clamp(5rem,16vw,13rem);line-height:1}
 .slide .note{font-size:clamp(1rem,1.8vw,1.6rem);color:var(--ink2)}
+/* design system de las diapositivas (DESIGN.md) */
+:root{--ds-bw:clamp(3px,.45vh,5px);--ds-sh:0 clamp(5px,.9vh,9px) 0 var(--line);--ds-r:clamp(16px,2.6vh,30px);--ds-gap:clamp(10px,2.4vh,28px);
+  --t-display:min(9vw,13vh);--t-title:min(5.6vw,8.5vh);--t-body:min(2.8vw,4.6vh);--t-cap:min(1.6vw,2.6vh)}
+.slide.ds{padding:4vh 5vw 10vh;gap:var(--ds-gap)}
+.join.slide.ds{gap:1.6vh}
+.ds h1{font-size:var(--t-display)}
+.ds h2{font-size:var(--t-title);line-height:1.05}
+.ds-kicker{font-size:var(--t-cap);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--line);margin:0;padding:.4vh 1.4vw;background:var(--gold);border:var(--ds-bw) solid var(--line);border-radius:999px;rotate:-2deg}
+.ds-card{background:#fff;border:var(--ds-bw) solid var(--line);border-radius:var(--ds-r);box-shadow:var(--ds-sh)}
+.ds-split{display:grid;grid-template-columns:auto 1fr;gap:5vw;align-items:center;width:100%;max-width:1600px}
+.ds-list{display:flex;flex-direction:column;gap:var(--ds-gap);text-align:left}
+.ds-row{display:flex;align-items:center;gap:1.6vw;padding:1.4vh 1.6vw;font-size:var(--t-body);line-height:1.2;font-weight:500}
+.ds-ico{flex:none;width:1.9em;height:1.9em;border-radius:calc(var(--ds-r)*.6);background:var(--wall);border:var(--ds-bw) solid var(--line);display:grid;place-items:center;font-size:.95em}
+.ds-ico .pic{width:80%;height:80%}
+.ds-sticker{position:relative;padding:2.4vh;rotate:-3deg;background:var(--cream)}
+.ds-sticker .pic{width:min(30vw,48vh);height:min(30vw,48vh)}
+.ds-tag{position:absolute;padding:.6vh 1.2vw;font-size:var(--t-cap);font-weight:700;background:var(--gold);border:var(--ds-bw) solid var(--line);border-radius:999px;box-shadow:var(--ds-sh);rotate:6deg;white-space:nowrap}
+.ds-sticker .ds-tag{right:-1.5vw;bottom:2vh}
+.ds-stamp{display:grid;place-items:center;width:min(15vw,24vh);aspect-ratio:1;border-radius:50%;background:var(--gold);border:var(--ds-bw) solid var(--line);box-shadow:var(--ds-sh);
+  font-size:min(2.4vw,3.8vh);font-weight:700;line-height:1;color:var(--line);text-align:center;rotate:-10deg}
+.ds-stamp b{display:block;font-size:2.2em}
+.ds-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vw;width:100%;max-width:1600px}
+.ds-tile{display:flex;flex-direction:column;align-items:center;gap:1.6vh;padding:3vh 1.6vw 2.6vh;font-size:var(--t-body);line-height:1.2;font-weight:500}
+.ds-tile .art2{position:relative;height:min(15vw,24vh);display:flex;align-items:center;justify-content:center;gap:.5vw;font-size:min(10vw,16vh)}
+.ds-tile .art2 .pic{height:100%;width:auto;max-width:min(13vw,20vh)}
+.ds-tile.no .art2::after{content:'';position:absolute;inset:8% 18%;background:linear-gradient(45deg,transparent 45%,var(--red) 45% 55%,transparent 55%),linear-gradient(-45deg,transparent 45%,var(--red) 45% 55%,transparent 55%)}
+.ds-tile.no{background:#fff1ee}
+.ds-in>*{animation:ds-in .45s cubic-bezier(.3,1.4,.5,1) both}
+.ds-in>*:nth-child(2){animation-delay:.06s}.ds-in>*:nth-child(3){animation-delay:.12s}.ds-in>*:nth-child(4){animation-delay:.18s}
+@keyframes ds-in{from{opacity:0;transform:translateY(3vh) scale(.96)}}
+@media (prefers-reduced-motion:reduce){.ds-in>*{animation:none}}
+/* pantalla 1: todos se conectan */
+.join-grid{display:grid;grid-template-columns:auto 1fr;gap:4vw;align-items:center;width:100%;max-width:1600px}
+.join-qr{padding:2.2vh;display:flex;flex-direction:column;align-items:center;gap:1vh}
+.join-qr .qr{width:min(30vw,46vh);height:min(30vw,46vh)}
+.join h1{font-size:min(7vw,10.5vh)}
+.join .ds-steps{gap:1.4vh}
+.join .ds-steps li{font-size:min(2.5vw,4vh)}
+.ds-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2vh;text-align:left}
+.ds-steps li{display:flex;align-items:center;gap:1.2vw;font-size:var(--t-body);font-weight:500;line-height:1.2;flex-wrap:wrap}
+.ds-steps .n{flex:none;display:grid;place-items:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--green);color:#fff;font-weight:700;border:var(--ds-bw) solid var(--line)}
+.ds-url{display:block;padding:.4vh .6vw;font-size:min(2.4vw,3.9vh);font-weight:700;color:var(--ink);user-select:text;-webkit-user-select:text;word-break:break-all}
+.ds-code b{color:var(--red);letter-spacing:.14em;font-size:1.25em}
+.ds-panel{background:var(--cream);padding:3vh 2.4vw;text-align:left}
+.joined{display:flex;flex-wrap:wrap;gap:1vh .8vw;min-height:5vh;align-items:center;font-size:var(--t-cap);margin-top:1vh}
+.joined .chip2{padding:.5vh 1vw;background:#fff;border:var(--ds-bw) solid var(--line);border-radius:999px;font-weight:600;animation:ds-in .4s both}
+.joined .cnt2{font-weight:700;color:var(--green)}
 .paper{background:var(--cream);border-radius:30px;padding:3vh 4vw}
 .lines{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.4vh;text-align:left}
 .lines li{font-size:clamp(1.3rem,3vw,2.7rem)}
@@ -242,6 +288,15 @@ input{font-family:inherit}
 .lobby{display:grid;grid-template-columns:auto 1fr;gap:4vw;width:100%;max-width:1600px;align-items:start}
 .qrbox{background:#fff;border-radius:26px;padding:2.4vh;display:flex;flex-direction:column;align-items:center;gap:1vh}
 .qr{width:min(30vw,42vh);height:min(30vw,42vh);display:flex;align-items:center;justify-content:center}
+.ds-board{width:100%;max-width:1400px;background:var(--cream);padding:2vh 1.6vw;text-align:left}
+.tvbtns{display:flex;gap:10px}
+.dot{display:inline-block;flex:none;width:.75em;height:.75em;border-radius:50%;background:var(--gold);border:2px solid var(--line);margin-right:.4em;vertical-align:-.05em}
+.dot.on,.dot.st-ok{background:var(--green)}
+.dot.st-away{background:#c9bdb2}
+.wheat{display:inline-flex;height:100%;aspect-ratio:.64}
+.wheat svg{width:100%;height:100%;fill:#f0c35a;stroke:var(--line);stroke-width:3}
+.wheat.st{height:1.4em;margin-bottom:.15em}
+.join-qr .ds-url{border-top:var(--ds-bw) dashed var(--tan);margin-top:.6vh;padding-top:1.2vh;text-align:center}
 .qr img,.qr canvas{width:100%!important;height:100%!important;image-rendering:pixelated}
 .code-big{font-size:clamp(2rem,5vw,4.5rem);font-weight:700;letter-spacing:.15em;color:var(--red)}
 .url-small{font-size:clamp(.8rem,1.2vw,1.1rem);color:var(--ink2);word-break:break-all;max-width:min(30vw,42vh);user-select:text}
@@ -284,7 +339,7 @@ input{font-family:inherit}
 .kitchen2.one>.furn{border:0;border-radius:2px;box-shadow:inset 0 0 0 3px rgba(59,35,20,.35)}
 .kitchen2.one .door{inset:0;border:0;border-radius:0;box-shadow:none;background:none;perspective:900px}
 /* las hojas giran sobre sus bisagras hacia fuera y se quedan abiertas, con la cara de atrás más oscura */
-.leaf{position:absolute;top:0;bottom:0;transform-origin:left center;transition:transform .55s cubic-bezier(.3,.8,.35,1.1)}
+.leaf{position:absolute;top:0;bottom:0;transform-origin:left center;transition:transform .55s cubic-bezier(.3,.8,.35,1.1),opacity .4s}
 .leaf>.lface{position:absolute;inset:0;background-repeat:no-repeat}
 .leaf.r{transform-origin:right center}
 .leaf::after{content:'';position:absolute;inset:0;background:#3b2314;opacity:0;transition:opacity .35s;pointer-events:none}
@@ -300,6 +355,9 @@ input{font-family:inherit}
 .f-horno.open .oven-leaf{transform:rotateX(-80deg)}
 .f-horno .leaf:not(.oven-leaf)::after{display:none}
 .furn.open .leaf::after{opacity:.45}
+.kitchen2 .f-armario1 .leaf,.kitchen2 .f-armario2 .leaf,.kitchen2 .f-armario3 .leaf{transform-origin:center;transition:transform .45s ease-out,opacity .4s ease-in}
+.kitchen2 .f-armario1.open .leaf,.kitchen2 .f-armario2.open .leaf,.kitchen2 .f-armario3.open .leaf{transform:scale(1.22);opacity:0}
+.kitchen2 .f-armario1.open .leaf::after,.kitchen2 .f-armario2.open .leaf::after,.kitchen2 .f-armario3.open .leaf::after{opacity:0}
 /* la puerta de la nevera por dentro: blanca, con dos baldas */
 .f-nevera .leaf::after{background:linear-gradient(transparent 31%,#c9d6de 31% 33%,transparent 33% 64%,#c9d6de 64% 66%,transparent 66%),linear-gradient(90deg,#fbfdfe,#dde6ec);transition:opacity .1s .2s}
 .f-nevera.open .leaf::after{opacity:1}
@@ -369,6 +427,17 @@ img.th{width:100%;height:100%;object-fit:contain}
 .counter{border:0!important;box-shadow:0 3px 0 rgba(59,35,20,.35)}
 /* lo sacado se pone de verdad sobre la encimera: sin tarjeta blanca, con su sombra */
 .taken .tile-pic{background:none;border:0;box-shadow:none;padding:0;filter:drop-shadow(0 4px 2px rgba(59,35,20,.35))}
+/* en primer plano la encimera se ve desde arriba: las cosas también, más grandes y con su sombra en la piedra */
+.taken .tile-pic .top,.taken .tile-pic .front{display:none}
+/* en la cocina: de frente, de pie en la encimera, apoyadas abajo y con sombra en la piedra */
+.kitchen2:not(.zoom) .taken .tile:has(.has-front){width:auto}
+.kitchen2:not(.zoom) .taken .tile-pic.has-front{width:auto;height:min(17cqh,90px);display:flex;align-items:flex-end;filter:drop-shadow(0 3px 1.5px rgba(59,35,20,.35))}
+.kitchen2:not(.zoom) .taken .tile-pic.has-front>:not(.front){display:none}
+.kitchen2:not(.zoom) .taken .tile-pic.has-front>.front{display:block;height:calc(100% * var(--s,1));width:auto}
+.zoom .taken .tile{width:min(19dvh,104px)}
+.zoom .taken .tile-pic{width:min(17dvh,92px);height:min(17dvh,92px);filter:drop-shadow(3px 6px 4px rgba(59,35,20,.28))}
+.zoom .taken .tile-pic.has-top>:not(.top){display:none}
+.zoom .taken .tile-pic.has-top>.top{display:block;width:100%;height:100%;object-fit:contain}
 /* sin rótulo: solo el objeto sobre la encimera */
 .taken .tile-lbl{display:none}
 /* las cosas están delante, sobre el borde de la encimera */
@@ -379,6 +448,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .taken{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;padding:4px 4px 0}
 .work{flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;flex-wrap:wrap;gap:8px;padding:2px 6px 20px}
 .counter.locked .work{visibility:hidden;pointer-events:none}
+.counter.locked .work.show{visibility:visible}
 .tile{width:56px;display:flex;flex-direction:column;align-items:center;cursor:grab;touch-action:none}
 .tile-pic{width:42px;height:42px;padding:3px;background:#fff;border:3px solid var(--line);border-radius:12px;box-shadow:0 3px 0 var(--line);display:grid;place-items:center}
 .tile-pic .th{font-size:24px}
@@ -417,7 +487,12 @@ img.th{width:100%;height:100%;object-fit:contain}
 /* ---------- primer plano: solo la encimera ---------- */
 .kitchen2.zoom .furn{display:none}
 .kitchen2.zoom .counter{left:0!important;top:0!important;width:100%!important;height:100%!important;animation:zoomin .35s ease-out}
-.kitchen2.one.zoom>.counter{background:linear-gradient(to top,var(--wood2) 0 6px,var(--wood) 6px 22px,transparent 22px),var(--surf)}
+.kitchen2.one.zoom>.counter{background:none;box-shadow:none}
+.kitchen2.one.zoom{background-image:none!important}
+.game{--surf:radial-gradient(rgba(90,70,50,.10) 1.2px,transparent 1.8px) 0 0/13px 13px,
+    radial-gradient(rgba(255,255,255,.7) 1.2px,transparent 1.8px) 6px 7px/17px 17px,
+    linear-gradient(160deg,#f3ece2,#e3d8c9)}
+.game:has(.kitchen2.one.zoom){background:var(--surf)!important}
 .kitchen2.zoom .work{align-items:center;align-content:center;padding-bottom:26px}
 .zoom .tile{width:66px}
 .zoom .tile-pic{width:52px;height:52px}
@@ -456,6 +531,21 @@ img.th{width:100%;height:100%;object-fit:contain}
 .waitbox h2{margin:0;color:var(--green)}
 .waitbox p{margin:0;font-size:1.15rem;font-weight:600}
 .waitbox .spin{display:inline-block;animation:spin 1.6s linear infinite}
+.hglass{width:min(22cqh,120px);aspect-ratio:2/3;animation:hg-flip 3s ease-in-out infinite}
+.hglass svg{width:100%;height:100%;overflow:visible}
+.hglass .sand-top{transform-origin:40px 54px;animation:hg-top 3s linear infinite}
+.hglass .sand-bot{transform-origin:40px 100px;animation:hg-bot 3s linear infinite}
+@keyframes hg-flip{0%,82%{rotate:0deg}100%{rotate:180deg}}
+@keyframes hg-top{0%{transform:scale(1)}82%,100%{transform:scale(.15)}}
+@keyframes hg-bot{0%{transform:scale(.15)}82%,100%{transform:scale(1)}}
+.waitbox .wait-t{font-size:clamp(1.3rem,6cqh,2rem);font-weight:700;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.hglass,.hglass path{animation:none}}
+.holdbox .who{font-size:1.6rem;font-weight:700;color:var(--red)}
+.holdbox .ios{font-size:.95rem;font-weight:500;max-width:30em;color:var(--ink2)}
+.fs-btn{position:fixed;left:10px;top:6px;z-index:70;padding:2px 10px!important}
+.mute-btn{position:fixed;left:62px;top:6px;z-index:70;padding:2px 10px!important}
+.full .mute-btn{left:10px}
+.full .fs-btn,.full .holdbox .fs{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 /* ---------- tele: paso de la clase ---------- */
 .cls{display:flex;flex-direction:column;gap:1vh;background:#fff;border:3px solid var(--line);border-radius:16px;padding:1.2vh 1.2vw;margin:1vh 0;text-align:left}
@@ -628,6 +718,8 @@ img.th{width:100%;height:100%;object-fit:contain}
 .ball.img>img{width:100%;height:100%;object-fit:contain}
 .molde.img{background:center/contain no-repeat;box-shadow:none;border:0}
 .molde.img .in{display:none}
+.kitchen2:not(.zoom) .counter .molde.front{background-image:var(--front)!important;aspect-ratio:400/177;width:min(34cqh,180px);box-shadow:none;filter:drop-shadow(0 3px 1.5px rgba(59,35,20,.35))}
+.kitchen2:not(.zoom) .counter .molde.front .cuts{display:none}
 .molde .cuts{position:absolute;inset:9px;pointer-events:none}
 .fade{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;pointer-events:none}
 .dust,.crumb-p{position:absolute;border-radius:50%;pointer-events:none;z-index:5;animation:dust .9s ease-in forwards}
@@ -677,6 +769,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .rotate p{margin:0;font-size:1.1rem}
 @keyframes turn{40%,60%{transform:rotate(-90deg)}}
 @media (orientation:portrait){ .game .rotate{display:flex} }
+.host{padding-bottom:max(10px,env(safe-area-inset-bottom))!important}
 </style>
 </head>
 <body>
@@ -866,8 +959,8 @@ const STEPS = [
   { k: 'apples', t: 'Se ponen las manzanas sobre la base.', tip: '✋ Arrastra la sartén al molde.' },
   { k: 'grate',  get: ['bola', 'rallador'], t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '↕️ Mueve la bola arriba y abajo en el rallador.' },
   { k: 'oven2',  t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: '✋ Arrastra el molde al horno.' },
-  { k: 'sugar',  get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: '↔️ Mueve el colador de un lado a otro.' },
-  { k: 'cut2',   get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: '🔪 Corta por las líneas de puntos.' },
+  { k: 'sugar',  show: true, get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: '↔️ Mueve el colador de un lado a otro.' },
+  { k: 'cut2',   show: true, get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: '🔪 Corta por las líneas de puntos.' },
 ];
 const STEP_AT = k => STEPS.findIndex(s => s.k === k);
 const NEEDED = new Set(STEPS.flatMap(s => s.get || []));
@@ -1105,6 +1198,17 @@ const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO
   'manzanaPelada', 'manzanaTrozos', 'masa', 'masaPeque', 'tablaTop',
   'sartenTop', 'sartenManzanas', 'sartenCanela', 'bolTop', 'bolMezcla', 'bolMasa',
   'moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado'];
+/* vistas desde arriba: así se ven las cosas sobre la encimera en primer plano */
+const TOP = { tabla: 'tablaTop', sarten: 'sartenTop', bol: 'bolTop', molde: 'moldeVacio' };
+['manzanas', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura', 'vainilla', 'canela',
+  'cuchillo', 'pelador', 'cuchara', 'rallador', 'colador', 'bola'].forEach(k => { TOP[k] = k + 'Top'; IMG_KEYS.push(k + 'Top'); });
+/* vistas de frente para la cocina: de pie sobre la encimera, cada cosa con su tamaño de verdad */
+const FRONT = {}, SIZE = { manzanas: .62, harina: .7, fecula: .7, azucarGlas: .7, huevo: .45, mantequilla: .5, levadura: .62,
+  vainilla: .62, canela: .55, cuchillo: .8, pelador: .7, cuchara: .9, rallador: 1, colador: .8, bola: .45,
+  tabla: .75, sarten: .8, bol: .85, molde: .7 };
+Object.keys(SIZE).forEach(k => { FRONT[k] = k + 'Front'; IMG_KEYS.push(k + 'Front'); });
+['moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado']
+  .forEach(k => IMG_KEYS.push(k + 'Front'));
 /* los fondos son dibujos grandes: en JPG pesan mucho menos */
 const BG_JPG = ['cocina', 'fondo', 'piedra', 'kuchnia'];
 /* alrededor del dibujo de la cocina: el color de su pared, para que no se vea el borde */
@@ -1184,6 +1288,10 @@ function paint(m) {
   const k = cakeKey(CAKE), img = IMG[k];
   m.classList.toggle('img', !!img);
   m.style.backgroundImage = img ? `url(${img})` : '';
+  /* en la cocina (sin primer plano) se ve de frente, de pie sobre la encimera */
+  const fr = IMG[k + 'Front'];
+  m.classList.toggle('front', !!(img && fr));
+  if (fr) m.style.setProperty('--front', `url(${fr})`);
   const c = m.querySelector('.cuts'); c.innerHTML = '';
   if (k !== 'moldeCortado') CUTS.slice(0, CAKE.cuts || 0).forEach(([d, pos]) =>
     c.append(h('div', { class: 'cutline ' + d, style: (d === 'v' ? 'left:' : 'top:') + pos + '%' })));
@@ -1387,7 +1495,12 @@ function take(it, slot) {
   if (!st || st.over || st.taken.has(it)) return;
   if (!st.pending.has(it)) return st.a.fail(slot, 'Ahora no se ' + (/^(los|las) /.test(NAMES[it]) ? 'necesitan ' : 'necesita ') + NAMES[it] + '.');
   st.pending.delete(it); st.taken.add(it); slot.classList.add('out');
-  const tile = h('div', { class: 'tile', 'data-k': it }, h('div', { class: 'tile-pic' }, thing(it)), h('span', { class: 'tile-lbl' }, NAMES[it]));
+  const top = IMG[TOP[it]], front = IMG[FRONT[it]];
+  const tile = h('div', { class: 'tile', 'data-k': it, style: front ? '--s:' + SIZE[it] : null },
+    h('div', { class: 'tile-pic' + (top ? ' has-top' : '') + (front ? ' has-front' : '') }, thing(it),
+      front ? h('img', { class: 'front', src: front, alt: '', draggable: 'false' }) : null,
+      top ? h('img', { class: 'top', src: top, alt: '', draggable: 'false' }) : null),
+    h('span', { class: 'tile-lbl' }, NAMES[it]));
   st.tiles[it] = tile; st.row.append(tile);
   fly(slot, tile, it); st.a.ok();
   const pl = placeOf(it);
@@ -1636,12 +1749,29 @@ function startGame({ name, room, demo }) {
       h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, h('span'), mist),
       stage,
       h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble),
+      demo ? null : fsButton(), muteButton(),
       h('div', { class: 'rotate' },
         h('div', { class: 'ico' }, '📱'),
         h('h2', {}, '¡Gira el móvil!'),
         h('p', {}, 'Se juega en horizontal.'))));
-  if (room && !demo) phoneNet(room);
-  runStep();
+  music(true);
+  if (room && !demo) { G.hold = true; phoneNet(room); showHold(); } else runStep();
+}
+/* conectado: se espera en la cocina hasta que la tele llega al juego */
+function showHold() {
+  const go = h('button', { class: 'btn green', hidden: true, onclick: () => { G.solo = true; G.hold = false; runStep(); } }, '▶ Jugar ya');
+  K.root.append(h('div', { class: 'waitbox holdbox pop' },
+    h('div', { class: 'big' }, '✅'),
+    h('div', { class: 'who' }, '¡Hola, ' + G.name + '!'),
+    h('p', {}, '📺 Mira la tele. El juego empieza pronto.'),
+    FS_OK ? h('button', { class: 'btn fs', onclick: goFull }, '⛶ Pantalla completa') : null,
+    !FS_OK && IOS && !isFull() ? h('p', { class: 'ios' }, 'iPhone: toca ', h('b', {}, 'Compartir ⬆️'), ' y después ', h('b', {}, 'Añadir a pantalla de inicio'), '. Así el juego ocupa toda la pantalla.') : null,
+    go));
+  G.ui.instr.textContent = '¡Ya estás en la clase!';
+  G.ui.tip.textContent = '⏳ Esperamos a la profe.';
+  /* sin la tele no se espera para siempre */
+  let off = 0;
+  G.waitIv = setInterval(() => { off = NET.online() ? 0 : off + 1; if (off >= 8) go.hidden = false; }, 1000);
 }
 function say(txt) {
   if (!G) return;
@@ -1687,6 +1817,7 @@ function runStep() {
   };
   fillPlaces();
   RUN[s.k](work, a);
+  if (s.show) work.classList.add('show');
   if (st.pending.size) { K.counter.classList.add('locked'); nextGetTip(); }
   else ready();
 }
@@ -1712,9 +1843,10 @@ function phoneNet(room) {
     if ((m.seq || 0) < PH.seq) return;
     PH.seq = m.seq || 0;
     /* la clase ya terminó: se juega solo, sin la tele */
-    if (PH.cls == null && m.step >= STEPS.length) { G.solo = true; return; }
+    if (PH.cls == null && m.step >= STEPS.length) { G.solo = true; if (G.hold) { G.hold = false; runStep(); } return; }
     PH.cls = m.step;
     if (m.ping !== PH.ping) { PH.ping = m.ping; hello(); }
+    if (G.hold && m.play !== false) { G.hold = false; runStep(); }
     classMoved();
   }, hello);
   setTimeout(() => { if (G && G.room === room && !NET.online()) say('📺 ¡Uy! La tele no te ve. Dile al profesor.'); }, 9000);
@@ -1742,15 +1874,19 @@ function classMoved() {
     if (G.i >= STEPS.length) finishGame(); else runStep();
   }
 }
+/* reloj de arena: la arena baja y el reloj se da la vuelta */
+const HGLASS = '<svg viewBox="0 0 80 120" aria-hidden="true">'
+  + '<path d="M18 14h44c0 22-14 32-20 46 6 14 20 24 20 46H18c0-22 14-32 20-46-6-14-20-24-20-46z" fill="#e8f6fb" stroke="#3b2314" stroke-width="4" stroke-linejoin="round"/>'
+  + '<path class="sand-top" d="M26 26h28c-2 12-10 20-14 28-4-8-12-16-14-28z" fill="#f4b400"/>'
+  + '<path class="sand-bot" d="M40 74c6 8 14 14 15 26H25c1-12 9-18 15-26z" fill="#f4b400"/>'
+  + '<rect x="8" y="4" width="64" height="12" rx="5" fill="#c8874f" stroke="#3b2314" stroke-width="4"/>'
+  + '<rect x="8" y="104" width="64" height="12" rx="5" fill="#c8874f" stroke="#3b2314" stroke-width="4"/></svg>';
 function showWait() {
   G.waiting = true;
   K.root.classList.remove('zoom'); closePlaces();
   const more = h('button', { class: 'btn small light', hidden: true, onclick: () => { G.solo = true; runStep(); } }, '▶ Seguir');
-  const box = h('div', { class: 'waitbox pop' },
-    h('div', { class: 'big' }, '✅'),
-    h('h2', {}, pick(GOOD)),
-    h('p', {}, h('span', { class: 'spin' }, '⏳'), ' Esperamos a los demás…'),
-    h('p', {}, '📺 Mira la tele.'), more);
+  const hg = h('div', { class: 'hglass' }); hg.innerHTML = HGLASS;
+  const box = h('div', { class: 'waitbox pop' }, hg, h('p', { class: 'wait-t' }, 'Esperamos a los demás…'), more);
   K.root.append(box);
   G.ui.tip.textContent = '⏳ Espera: la clase cocina contigo.';
   let off = 0;
@@ -1792,6 +1928,35 @@ function finishGame() {
 }
 
 /* =========================================================
+   Pantalla completa: en el móvil se pide en cada toque hasta conseguirla
+   (Android). En iPhone no existe: se explica cómo añadirla a la pantalla de inicio.
+   ========================================================= */
+const FS_OK = !!document.documentElement.requestFullscreen;
+const IOS = /iP(hone|od)/.test(navigator.userAgent);
+const isFull = () => !!(document.fullscreenElement || matchMedia('(display-mode:fullscreen),(display-mode:standalone)').matches || navigator.standalone);
+function goFull() {
+  if (!FS_OK || document.fullscreenElement) return;
+  document.documentElement.requestFullscreen({ navigationUI: 'hide' })
+    .then(() => screen.orientation && screen.orientation.lock && screen.orientation.lock('landscape').catch(() => {}))
+    .catch(() => {});
+}
+const markFull = () => document.body.classList.toggle('full', isFull());
+document.addEventListener('fullscreenchange', markFull);
+/* el móvil vuelve a pantalla completa con el siguiente toque */
+addEventListener('pointerup', () => { if (MODE === 'game' && G && !G.demo && matchMedia('(pointer:coarse)').matches) goFull(); }, true);
+/* música de fondo: empieza con el primer toque (los navegadores no dejan antes) */
+const MUSIC = new Audio('audio/musica.mp3');
+MUSIC.loop = true; MUSIC.volume = .3; MUSIC.preload = 'none';
+let MUTE = store.get('szarlotka-mute') === true;
+const music = on => { if (on && !MUTE) MUSIC.play().catch(() => {}); else MUSIC.pause(); };
+function muteButton() {
+  const b = h('button', { class: 'btn small light mute-btn', 'aria-label': 'Música' }, MUTE ? '🔇' : '🔊');
+  b.onclick = () => { MUTE = !MUTE; store.set('szarlotka-mute', MUTE); b.textContent = MUTE ? '🔇' : '🔊'; music(true); };
+  return b;
+}
+const fsButton = () => FS_OK ? h('button', { class: 'btn small light fs-btn', onclick: goFull }, '⛶') : null;
+
+/* =========================================================
    Pantallas: inicio y entrada
    ========================================================= */
 let MODE = 'home';
@@ -1803,28 +1968,20 @@ function showHome() {
     h('p', {}, 'La szarlotka: una tarta de manzana de Polonia ', flag()),
     h('div', { class: 'stack' },
       h('button', { class: 'btn', onclick: () => startTV(0) }, '📺 Presentación (en la tele)'),
-      h('button', { class: 'btn green', onclick: () => showJoin('') }, '📱 Jugar')))));
+      h('button', { class: 'btn green', onclick: () => showJoin() }, '📱 Jugar')))));
 }
-function showJoin(code) {
+function showJoin() {
   MODE = 'join';
   const name = h('input', { class: 'field', maxlength: 16, placeholder: 'Tu nombre', autocomplete: 'off' });
-  const codeIn = h('input', { class: 'field code', maxlength: 6, placeholder: 'CÓDIGO', autocomplete: 'off', value: code || '' });
   const msg = h('p', { style: 'min-height:1.4em;color:var(--red);margin:0' });
   const go = () => {
     const n = name.value.trim();
     if (!n) { msg.textContent = '¡Escribe tu nombre!'; name.classList.add('shake'); setTimeout(() => name.classList.remove('shake'), 400); return; }
     beep(880, .1);
-    const c = codeIn.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
     store.set('szarlotka-name', n);
     /* en el móvil: pantalla completa y en horizontal (Android; en iPhone se gira a mano) */
-    try {
-      const d = document.documentElement;
-      if (matchMedia('(pointer:coarse)').matches && d.requestFullscreen)
-        d.requestFullscreen({ navigationUI: 'hide' })
-          .then(() => screen.orientation && screen.orientation.lock && screen.orientation.lock('landscape'))
-          .catch(() => {});
-    } catch (e) {}
-    startGame({ name: n, room: c || null });
+    if (matchMedia('(pointer:coarse)').matches) goFull();
+    startGame({ name: n, room: ROOM });
   };
   name.value = store.get('szarlotka-name') || '';
   name.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
@@ -1832,7 +1989,7 @@ function showJoin(code) {
     h('div', { class: 'logo' }, pic('chef', '👩‍🍳')),
     h('h1', {}, '¡Hola!'),
     h('p', {}, 'Hoy cocinamos una szarlotka. ¿Cómo te llamas?'),
-    h('div', { class: 'stack' }, name, code ? null : codeIn, msg,
+    h('div', { class: 'stack' }, name, msg,
       h('button', { class: 'btn green', onclick: go }, '👩‍🍳 ¡A cocinar!')))));
   setTimeout(() => name.focus(), 50);
 }
@@ -1840,14 +1997,16 @@ function showJoin(code) {
 /* =========================================================
    Presentación en la tele
    ========================================================= */
-const ROOM_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-const TV = { room: null, since: 0, students: {}, idx: 0, live: false, cls: 0, ping: '', timer: null };
+/* toda la clase está en la misma sala: no hay códigos */
+const ROOM = 'SZARLOTKA';
+const TV = { room: null, since: 0, students: {}, idx: 0, live: false, cls: 0, play: false, ping: '', timer: null };
 function tvRoom(fresh) {
   let r = !fresh && store.get('szarlotka-room');
-  if (!r || !r.code || Date.now() / 1000 - r.ts > 10 * 3600) r = { code: rid(5, ROOM_ABC), ts: Math.floor(Date.now() / 1000) };
-  TV.room = r.code; TV.since = r.ts; TV.students = {};
+  if (!r || Date.now() / 1000 - r.ts > 10 * 3600) r = { ts: Math.floor(Date.now() / 1000) };
+  TV.room = ROOM; TV.since = r.ts; TV.students = {};
   /* una clase que ya terminó empieza otra vez desde el paso 1 */
   TV.cls = r.cls > 0 && r.cls < STEPS.length ? r.cls : 0;
+  TV.play = !!r.play && r.cls < STEPS.length;
   tvSave();
   NET.onState = () => { TV.live = NET.online(); refreshTV(); };
   NET.start(TV.room, ['up', 'pilot'], null, (sub, m) => {
@@ -1855,11 +2014,11 @@ function tvRoom(fresh) {
     if (sub === 'pilot') onPilot(m);
   }, () => { tvCtl(true); tvState(); });
 }
-const tvSave = () => store.set('szarlotka-room', { code: TV.room, ts: TV.since, cls: TV.cls });
+const tvSave = () => store.set('szarlotka-room', { ts: TV.since, cls: TV.cls, play: TV.play });
 /* el paso de la clase se guarda en el servidor (retain) para quien entra tarde */
 function tvCtl(newPing) {
   if (newPing) TV.ping = rid(6);
-  NET.pub('ctl', { step: TV.cls, ping: TV.ping, seq: Date.now() }, true);
+  NET.pub('ctl', { step: TV.cls, play: TV.play, ping: TV.ping, seq: Date.now() }, true);
 }
 function tvNext() {
   clearTimeout(TV.timer);
@@ -1889,7 +2048,7 @@ function tvState() {
   TV_ST = setTimeout(() => {
     const act = activeStudents();
     NET.pub('tv', {
-      idx: TV.idx, slides: SLIDES.length, cls: TV.cls, n: act.length, fin: act.filter(s => s.step > TV.cls).length,
+      idx: TV.idx, slides: SLIDES.length, cls: TV.cls, play: TV.play, n: act.length, fin: act.filter(s => s.step > TV.cls).length,
       list: ranked().slice(0, 40).map(s => ({ n: s.name, s: s.done ? 'done' : s.away ? 'away' : s.step > TV.cls ? 'ok' : 'cook' })),
       seq: Date.now(),
     }, true);
@@ -1913,46 +2072,59 @@ function ranked() {
   return Object.values(TV.students).sort((a, b) =>
     (b.done ? 1 : 0) - (a.done ? 1 : 0) || (b.score || 0) - (a.score || 0) || b.step - a.step || a.name.localeCompare(b.name));
 }
-function joinURL() { return location.href.split('#')[0].split('?')[0] + '?sala=' + TV.room; }
+const baseURL = () => location.href.split('#')[0].split('?')[0].replace(/index\.html$/, '');
+const joinURL = () => baseURL() + '?jugar';
+
+const siteName = () => (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
+/* espiga de trigo dibujada (sin emojis en las diapositivas) */
+const WHEAT = '<svg viewBox="0 0 64 100" aria-hidden="true"><path d="M32 97V22" stroke="#3b2314" stroke-width="5" stroke-linecap="round" fill="none"/>'
+  + [28, 44, 60, 76].map(y => `<ellipse cx="21" cy="${y}" rx="8" ry="14" transform="rotate(-38 21 ${y})"/><ellipse cx="43" cy="${y}" rx="8" ry="14" transform="rotate(38 43 ${y})"/>`).join('')
+  + '<ellipse cx="32" cy="15" rx="8" ry="13"/></svg>';
+const wheat = cls => { const e = h('span', { class: 'wheat ' + (cls || '') }); e.innerHTML = WHEAT; return e; };
+const row = (ico, ...txt) => h('div', { class: 'ds-card ds-row' }, h('span', { class: 'ds-ico' }, ico), h('span', {}, ...txt));
+const hl = t => h('span', { class: 'hl' }, t);
 
 const SLIDES = [
-  () => h('div', { class: 'slide' },
-    pic('tarta', '🥧', 'hero'),
+  /* 1. todos se conectan (en polaco: es lo primero que ve la clase) */
+  () => h('div', { class: 'slide ds join', lang: 'pl' },
+    h('p', { class: 'ds-kicker' }, 'Dziś gotujemy razem'),
     h('h1', {}, 'La szarlotka'),
-    h('p', { class: 'big' }, 'Una tarta de manzana de Polonia ', flag())),
-  () => h('div', { class: 'slide' },
+    h('div', { class: 'join-grid ds-in' },
+      h('div', { class: 'ds-card join-qr' }, h('div', { class: 'qr', id: 'qr' }), h('div', { class: 'ds-url' }, siteName())),
+      h('div', { class: 'ds-card ds-panel' },
+        h('ol', { class: 'ds-steps' },
+          h('li', {}, h('span', { class: 'n' }, '1'), h('span', {}, 'Zeskanuj kod QR telefonem', h('br'), 'albo wejdź na stronę spod kodu.')),
+          h('li', {}, h('span', { class: 'n' }, '2'), h('span', {}, 'Wpisz swoje imię.')),
+          h('li', {}, h('span', { class: 'n' }, '3'), h('span', {}, 'Obróć telefon poziomo.'))),
+        h('div', { class: 'joined', id: 'joined' })))),
+  /* 2. qué es */
+  () => h('div', { class: 'slide ds' },
     h('h2', {}, '¿Qué es la szarlotka?'),
-    h('div', { class: 'paper' }, h('ul', { class: 'lines' },
-      h('li', {}, '🥧 Es una tarta de ', h('span', { class: 'hl' }, 'manzana'), '.'),
-      h('li', {}, flag(), ' Es muy popular en Polonia.'),
-      h('li', {}, '🍂 ', h('span', { class: 'hl' }, 'Se come'), ' en otoño y en invierno.'),
-      h('li', {}, '☕ ', h('span', { class: 'hl' }, 'Se come'), ' con té, con nata o con helado.')))),
-  () => h('div', { class: 'slide' },
-    h('h2', {}, 'Nuestra szarlotka es sin gluten'),
-    h('div', { class: 'paper' }, h('ul', { class: 'lines' },
-      h('li', {}, '🚫🌾 No ', h('span', { class: 'hl' }, 'se usa'), ' harina de trigo.'),
-      h('li', {}, '🌽🥔 ', h('span', { class: 'hl' }, 'Se usan'), ' harina de maíz y fécula de patata.'),
-      h('li', {}, '🍏 ', h('span', { class: 'hl' }, 'Se pueden'), ' usar manzanas ácidas: ¡son las mejores!')))),
-  () => h('div', { class: 'slide' },
-    h('h2', {}, 'Se necesitan…'),
-    h('div', { class: 'ing-grid' }, NEED.map(k => {
-      const q = QTY[k], i = q.indexOf(' de ');
-      return h('div', { class: 'ing' }, pic(k, IT[k].e, 'e'),
-        h('span', { class: 't' }, h('b', {}, i > 0 ? q.slice(i + 4) : q), i > 0 ? q.slice(0, i) : ''));
-    }))),
+    h('div', { class: 'ds-split' },
+      h('div', { class: 'ds-card ds-sticker' }, pic('tarta', ''), h('span', { class: 'ds-tag' }, flag(), ' Polonia')),
+      h('div', { class: 'ds-list ds-in' },
+        row(pic('manzana', ''), 'Es una tarta de ', hl('manzana'), '.'),
+        row(flag(), 'Es muy popular en Polonia.'),
+        row(pic('manzanas', ''), hl('Se come'), ' en otoño y en invierno.'),
+        row(pic('helado', ''), hl('Se come'), ' con té, con nata o con helado.')))),
+  /* 3. sin gluten */
+  () => h('div', { class: 'slide ds' },
+    h('div', { style: 'display:flex;align-items:center;gap:3vw' },
+      h('h2', {}, 'Nuestra szarlotka', h('br'), 'es sin gluten'),
+      h('div', { class: 'ds-stamp' }, h('div', {}, wheat('st'), 'SIN', h('br'), 'GLUTEN'))),
+    h('div', { class: 'ds-trio ds-in' },
+      h('div', { class: 'ds-card ds-tile no' }, h('div', { class: 'art2' }, wheat()),
+        h('span', {}, 'No ', hl('se usa'), ' harina de trigo.')),
+      h('div', { class: 'ds-card ds-tile' }, h('div', { class: 'art2' }, pic('harina', ''), pic('fecula', '')),
+        h('span', {}, hl('Se usan'), ' harina de maíz y fécula de patata.')),
+      h('div', { class: 'ds-card ds-tile' }, h('div', { class: 'art2' }, pic('manzanas', '')),
+        h('span', {}, hl('Se pueden'), ' usar manzanas ácidas: ¡son las mejores!')))),
+  /* 4. el juego */
+  () => h('div', { class: 'slide ds', style: 'justify-content:flex-start' },
+    h('h2', {}, '¡A cocinar!'),
+    h('div', { id: 'board', class: 'ds-card ds-board' })),
   () => h('div', { class: 'slide', style: 'justify-content:flex-start;padding-top:4vh' },
-    h('h2', {}, '¡A cocinar! 👩‍🍳'),
-    h('div', { class: 'lobby' },
-      h('div', { class: 'qrbox' },
-        h('div', { class: 'qr', id: 'qr' }),
-        h('div', { class: 'code-big' }, TV.room),
-        h('div', { class: 'url-small' }, joinURL()),
-        h('div', { class: 'tvbtns' },
-          h('button', { class: 'btn small light', onclick: () => startGame({ name: 'Profe', demo: true }) }, '▶️ Jugar en la tele'),
-          h('button', { class: 'btn small light', onclick: () => { if (confirm('¿Nueva clase? (nuevo código)')) { tvRoom(true); renderTV(); } } }, '🔄'))),
-      h('div', { id: 'board' }))),
-  () => h('div', { class: 'slide', style: 'justify-content:flex-start;padding-top:4vh' },
-    h('h2', {}, '🏆 ¡Los mejores chefs!'), h('div', { id: 'podium', style: 'width:100%' })),
+    h('h2', {}, '¡Los mejores chefs!'), h('div', { id: 'podium', style: 'width:100%' })),
   () => h('div', { class: 'slide' },
     h('h2', {}, 'La receta'),
     h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.map(s => h('li', {}, s.t)), h('li', {}, 'Se sirve con nata o con helado.')))),
@@ -1962,18 +2134,35 @@ const SLIDES = [
 ];
 
 /* lo que dice quien presenta: sale solo en el móvil del pilot */
-const LOBBY = 4;
+const LOBBY = 3;
+/* durante el juego el pilot muestra el paso de la receta que la clase está haciendo */
+const NARR = [
+  { es: 'Primero se pelan las manzanas. Se necesita un kilo y medio de manzanas ácidas.', pl: 'Najpierw obiera się jabłka. Potrzeba półtora kilo kwaśnych jabłek.' },
+  { es: 'Después se cortan las manzanas en trozos pequeños.', pl: 'Potem kroi się jabłka na małe kawałki.' },
+  { es: 'Se fríen las manzanas en una sartén unos quince minutos.', pl: 'Smaży się jabłka na patelni około piętnastu minut.' },
+  { es: 'Se añaden el azúcar de vainilla y la canela. ¡Huele muy bien!', pl: 'Dodaje się cukier waniliowy i cynamon. Pięknie pachnie!' },
+  { es: 'Ahora se hace la masa. Se mezclan la harina de maíz, la fécula, el azúcar glas, la yema de huevo, la mantequilla fría y la levadura.',
+    pl: 'Teraz robi się ciasto. Miesza się mąkę kukurydzianą, skrobię, cukier puder, żółtko, zimne masło i proszek do pieczenia.' },
+  { es: 'Se divide la masa en dos bolas: una grande y una pequeña.', pl: 'Dzieli się ciasto na dwie kule: dużą i małą.' },
+  { es: 'La bola pequeña se pone en la nevera.', pl: 'Małą kulę wkłada się do lodówki.' },
+  { es: 'La bola grande se pone en el molde.', pl: 'Dużą kulę wkłada się do formy.' },
+  { es: 'Se hornea la base quince minutos a ciento ochenta grados.', pl: 'Piecze się spód piętnaście minut w stu osiemdziesięciu stopniach.' },
+  { es: 'Se ponen las manzanas fritas sobre la base.', pl: 'Na spód kładzie się usmażone jabłka.' },
+  { es: 'Se saca la bola pequeña de la nevera y se ralla sobre las manzanas.', pl: 'Wyjmuje się małą kulę z lodówki i ściera się ją na tarce na jabłka.' },
+  { es: 'Se hornea la szarlotka cuarenta y cinco minutos a ciento setenta y cinco grados.', pl: 'Piecze się szarlotkę czterdzieści pięć minut w stu siedemdziesięciu pięciu stopniach.' },
+  { es: 'Cuando la szarlotka está fría, se decora con azúcar glas.', pl: 'Kiedy szarlotka ostygnie, posypuje się ją cukrem pudrem.' },
+  { es: 'Al final se corta la szarlotka en trozos.', pl: 'Na koniec kroi się szarlotkę na kawałki.' },
+  { es: '¡La szarlotka está lista! Se sirve con nata o con helado.', pl: 'Szarlotka jest gotowa! Podaje się ją z bitą śmietaną albo lodami.' },
+];
 const NOTES = [
-  { es: '¡Hola a todos! Hoy os presento la szarlotka. Es una tarta de manzana de Polonia.',
-    pl: 'Cześć wszystkim! Dziś przedstawiam wam szarlotkę. To ciasto z jabłkami z Polski.' },
+  { es: '¡Hola a todos! Hoy os presento la szarlotka. Escanead el código QR con el móvil, escribid vuestro nombre y poned el móvil en horizontal.',
+    pl: 'Cześć wszystkim! Dziś przedstawiam wam szarlotkę. Zeskanujcie kod QR telefonem, wpiszcie swoje imię i obróćcie telefon poziomo.' },
   { es: 'La szarlotka es una tarta de manzana. Es muy popular en Polonia. Se come en otoño y en invierno. Se come con té, con nata o con helado.',
     pl: 'Szarlotka to ciasto z jabłkami. Jest bardzo popularna w Polsce. Je się ją jesienią i zimą. Je się ją z herbatą, bitą śmietaną albo lodami.' },
   { es: 'Nuestra szarlotka es sin gluten. No se usa harina de trigo. Se usan harina de maíz y fécula de patata. Se pueden usar manzanas ácidas: ¡son las mejores!',
     pl: 'Nasza szarlotka jest bezglutenowa. Nie używa się mąki pszennej. Używa się mąki kukurydzianej i skrobi ziemniaczanej. Można użyć kwaśnych jabłek: są najlepsze!' },
-  { es: 'Para la szarlotka se necesitan: un kilo y medio de manzanas, doscientos gramos de harina de maíz, ciento sesenta gramos de fécula de patata, doscientos gramos de mantequilla fría, ciento treinta gramos de azúcar glas, una yema de huevo, una cucharadita de levadura, una cucharada de azúcar de vainilla y un poco de canela.',
-    pl: 'Do szarlotki potrzeba: 1,5 kg jabłek, 200 g mąki kukurydzianej, 160 g skrobi ziemniaczanej, 200 g zimnego masła, 130 g cukru pudru, 1 żółtka, łyżeczki proszku do pieczenia, łyżki cukru waniliowego i odrobiny cynamonu.' },
-  { es: '¡Ahora cocinamos juntos! Escanead el código QR con el móvil y escribid vuestro nombre. Leed las frases: se cocina paso a paso.',
-    pl: 'Teraz gotujemy razem! Zeskanujcie kod QR telefonem i wpiszcie swoje imię. Czytajcie zdania: gotuje się krok po kroku.' },
+  { es: '¡Ahora cocinamos juntos! Mirad el móvil. Leed las frases: se cocina paso a paso.',
+    pl: 'Teraz gotujemy razem! Patrzcie w telefon. Czytajcie zdania: gotuje się krok po kroku.' },
   { es: '¡Felicidades! Aquí están los mejores chefs de la clase.',
     pl: 'Gratulacje! Oto najlepsi kucharze w klasie.' },
   { es: 'Repasamos la receta. Primero se pelan y se cortan las manzanas. Después se fríen. Se hace la masa, se hornea la base, se ponen las manzanas y se hornea otra vez. Al final se decora con azúcar glas.',
@@ -1985,37 +2174,24 @@ const NOTES = [
 /* =========================================================
    Pilot: el móvil de quien presenta (…/?pilot o …/pilot)
    ========================================================= */
-function pilotCode() {
+function showPilot() {
+  const code = ROOM;
   MODE = 'pilot';
-  const inp = h('input', { class: 'field code', maxlength: 6, placeholder: 'CÓDIGO', autocomplete: 'off' });
-  const enter = () => { const c = inp.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''); if (c) showPilot(c); };
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
-  restart(h('div', { class: 'center' }, h('div', { class: 'panel-card' },
-    h('h1', {}, '🎤 Pilot'),
-    h('p', {}, 'Escribe el código de la clase (🔑 en la tele).'),
-    h('div', { class: 'stack' }, inp, h('button', { class: 'btn green', onclick: enter }, '▶ Entrar')))));
-  setTimeout(() => inp.focus(), 50);
-}
-function showPilot(code) {
-  code = (code || store.get('szarlotka-pilot') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (!code) return pilotCode();
-  MODE = 'pilot';
-  store.set('szarlotka-pilot', code);
   let st = null;
   const send = m => NET.pub('pilot', m);
   const live = h('span', {}, '🟡'), num = h('span', { class: 'p-num' }, '… / ' + SLIDES.length);
   const es = h('p', { class: 'p-es' }, 'Conectando con la tele…'), pl = h('p', { class: 'p-pl' });
   const game = h('div', { class: 'p-game', hidden: true });
   restart(h('div', { class: 'pilot' },
-    h('div', { class: 'p-top' }, h('b', {}, '🎤 Pilot · ' + code), num, live,
-      h('button', { class: 'btn small light', title: 'Otro código', onclick: () => { store.set('szarlotka-pilot', ''); NET.stop(); pilotCode(); } }, '🔑')),
+    h('div', { class: 'p-top' }, h('b', {}, '🎤 Pilot'), num, live),
     h('div', { class: 'p-notes' }, es, pl),
     game,
     h('div', { class: 'p-nav' },
       h('button', { class: 'btn light', 'aria-label': 'Anterior', onclick: () => send({ t: 'go', d: -1 }) }, '◀'),
       h('button', { class: 'btn', 'aria-label': 'Siguiente', onclick: () => send({ t: 'go', d: 1 }) }, '▶'))));
   const draw = () => {
-    const n = NOTES[st.idx] || { es: '', pl: '' }, N = STEPS.length;
+    const N = STEPS.length;
+    const n = st.idx === LOBBY && st.play ? NARR[Math.min(st.cls, N)] : NOTES[st.idx] || { es: '', pl: '' };
     num.textContent = (st.idx + 1) + ' / ' + st.slides;
     es.textContent = n.es; pl.textContent = n.pl;
     game.hidden = st.idx !== LOBBY;
@@ -2034,21 +2210,22 @@ function showPilot(code) {
     if (sub !== 'tv' || typeof m.idx !== 'number' || (st && (m.seq || 0) < (st.seq || 0))) return;
     st = m; draw();
   }, () => send({ t: 'hi' }));
-  setTimeout(() => { if (MODE === 'pilot' && !st) es.textContent = '📺 La tele no contesta. ¿Está abierta? ¿El código es correcto?'; }, 9000);
+  setTimeout(() => { if (MODE === 'pilot' && !st) es.textContent = '📺 La tele no contesta. ¿Está abierta la presentación?'; }, 9000);
 }
 
 function startTV(at) {
   MODE = 'tv';
+  music(false);
   if (!TV.room) tvRoom(false);
   if (typeof at === 'number') TV.idx = at;
+  if (TV.idx >= LOBBY && !TV.play) { TV.play = true; tvSave(); }
   renderTV();
 }
 function renderTV() {
   if (MODE !== 'tv') return;
   const nav = h('div', { class: 'tvnav' },
     h('button', { class: 'btn small light', onclick: () => go(-1) }, '◀'),
-    h('span', { class: 'cnt', id: 'tvconn' }, '🟡'),
-    h('span', { class: 'cnt', title: 'Código para el pilot' }, '🔑 ' + TV.room),
+    h('span', { class: 'cnt', id: 'tvconn' }, h('i', { class: 'dot' }), 'conectando…'),
     h('span', { class: 'cnt' }, (TV.idx + 1) + ' / ' + SLIDES.length),
     h('button', { class: 'btn small light', onclick: () => go(1) }, '▶'),
     h('button', { class: 'btn small light', title: 'Pantalla completa', onclick: () => { const d = document; d.fullscreenElement ? d.exitFullscreen() : d.documentElement.requestFullscreen && d.documentElement.requestFullscreen().catch(() => {}); } }, '⛶'));
@@ -2057,32 +2234,41 @@ function renderTV() {
   if (qr && window.QRCode) new QRCode(qr, { text: joinURL(), width: 512, height: 512, correctLevel: QRCode.CorrectLevel.M });
   refreshTV();
 }
-function go(d) { TV.idx = Math.max(0, Math.min(SLIDES.length - 1, TV.idx + d)); renderTV(); }
+function go(d) {
+  TV.idx = Math.max(0, Math.min(SLIDES.length - 1, TV.idx + d));
+  /* en la diapositiva del juego los móviles empiezan a cocinar */
+  if (TV.idx >= LOBBY && !TV.play) { TV.play = true; tvSave(); tvCtl(false); }
+  renderTV();
+}
 function refreshTV() {
   if (TV.room) tvState();
   if (MODE !== 'tv') return;
   const cn = $('#tvconn');
-  if (cn) { cn.hidden = TV.live; cn.textContent = '🟡 conectando…'; }
+  if (cn) cn.hidden = TV.live;
   const list = ranked();
+  const joined = $('#joined');
+  if (joined) {
+    joined.innerHTML = '';
+    const act = list.filter(s => !s.away);
+    joined.append(h('span', { class: 'cnt2' }, act.length ? 'Już są: ' + act.length : 'Czekamy na kucharzy…'),
+      ...act.slice(0, 30).map(s => h('span', { class: 'chip2' }, s.name)));
+  }
   const board = $('#board');
   if (board) {
     board.innerHTML = '';
     const done = list.filter(s => s.done).length;
     board.append(h('div', { class: 'board-head' },
-      h('span', {}, list.length ? '👩‍🍳 ' + list.length + (list.length === 1 ? ' cocinero' : ' cocineros') + ' · 🏁 ' + done : '👩‍🍳 Nadie todavía'),
-      h('span', { class: 'conn' }, TV.live ? '🟢 en directo' : '🟡 conectando…')));
-    const N = STEPS.length, act = activeStudents(), fin = act.filter(s => s.step > TV.cls).length;
+      h('span', {}, list.length ? list.length + (list.length === 1 ? ' cocinero' : ' cocineros') + (done ? ' · ' + done + ' terminados' : '') : 'Nadie todavía'),
+      h('span', { class: 'conn' }, h('i', { class: 'dot' + (TV.live ? ' on' : '') }), TV.live ? 'en directo' : 'conectando…')));
+    const N = STEPS.length;
     board.append(TV.cls < N
       ? h('div', { class: 'cls' },
-          h('div', { class: 'cls-t' }, h('b', {}, 'Paso ' + (TV.cls + 1) + ' de ' + N + ': '), STEPS[TV.cls].t),
-          h('div', { class: 'cls-r' },
-            h('span', {}, '✅ ' + fin + ' / ' + act.length + ' listos'),
-            h('button', { class: 'btn small light', onclick: tvNext }, '⏭ Siguiente paso')))
-      : h('div', { class: 'cls' }, h('div', { class: 'cls-t' }, h('b', {}, '🎉 ¡Todos han terminado!'))));
+          h('div', { class: 'cls-t' }, h('b', {}, 'Paso ' + (TV.cls + 1) + ' de ' + N + ': '), STEPS[TV.cls].t))
+      : h('div', { class: 'cls' }, h('div', { class: 'cls-t' }, h('b', {}, '¡Todos han terminado!'))));
     const bl = h('div', { class: 'board-list' });
-    if (!list.length) bl.append(h('div', { class: 'empty' }, '📱 Escanea el código QR y escribe tu nombre.'));
+    if (!list.length) bl.append(h('div', { class: 'empty' }, 'Todavía no hay nadie en la clase.'));
     list.slice(0, 14).forEach((s, i) => bl.append(h('div', { class: 'stu' + (s.done ? ' fin' : '') },
-      h('span', {}, s.done ? String(i + 1) + '.' : s.away ? '💤' : s.step > TV.cls ? '✅' : '🍳'),
+      s.done ? h('span', {}, String(i + 1) + '.') : h('i', { class: 'dot st-' + (s.away ? 'away' : s.step > TV.cls ? 'ok' : 'cook') }),
       h('span', { class: 'n' }, s.name),
       h('div', { class: 'pb' }, h('i', { style: 'width:' + Math.round(100 * s.step / s.total) + '%' })),
       h('span', { class: 's' }, s.done ? s.score + ' pts' : s.step + '/' + s.total))));
@@ -2093,18 +2279,22 @@ function refreshTV() {
   if (pod) {
     pod.innerHTML = '';
     const fin = list.filter(s => s.done);
-    if (!fin.length) { pod.append(h('div', { class: 'empty' }, '⏳ Todavía nadie ha terminado…')); return; }
+    if (!fin.length) { pod.append(h('div', { class: 'empty' }, 'Todavía nadie ha terminado…')); return; }
     const p = (s, cls, medal) => s ? h('div', { class: 'pod ' + cls },
-      h('div', { class: 'who' }, s.name), h('div', { class: 'pts' }, s.score + ' pts · ❌ ' + s.mistakes),
+      h('div', { class: 'who' }, s.name), h('div', { class: 'pts' }, s.score + ' pts · ' + s.mistakes + (s.mistakes === 1 ? ' error' : ' errores')),
       h('div', { class: 'blk' }, medal)) : h('div', { class: 'pod ' + cls });
-    pod.append(h('div', { class: 'podium' }, p(fin[1], 'p2', '🥈'), p(fin[0], 'p1', '🥇'), p(fin[2], 'p3', '🥉')));
+    pod.append(h('div', { class: 'podium' }, p(fin[1], 'p2', '2'), p(fin[0], 'p1', '1'), p(fin[2], 'p3', '3')));
     const rest = fin.slice(3);
     if (rest.length) pod.append(h('div', { class: 'rest', style: 'margin:3vh auto 0' },
       rest.map((s, i) => h('span', {}, (i + 4) + '. ' + s.name + ' · ' + s.score))));
   }
 }
+let TV_FS = false;
+const tvFull = () => { if (MODE === 'tv' && !TV_FS) { TV_FS = true; goFull(); } };
+addEventListener('pointerup', tvFull);
 document.addEventListener('keydown', e => {
   if (MODE !== 'tv') return;
+  tvFull();
   if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); go(1); }
   if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); go(-1); }
 });
@@ -2113,11 +2303,10 @@ document.addEventListener('keydown', e => {
    Inicio
    ========================================================= */
 const params = new URLSearchParams(location.search);
-const sala = (params.get('sala') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+markFull();
 loadImages().then(() => {
-  if (IMG.fondo) Object.assign(document.body.style, { backgroundImage: `url(${IMG.fondo})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' });
-  if (params.has('pilot')) showPilot(params.get('pilot'));
-  else if (sala) showJoin(sala); else if (params.has('tv')) startTV(0); else showHome();
+  if (params.has('pilot')) showPilot();
+  else if (params.has('jugar') || params.has('sala')) showJoin(); else if (params.has('tv')) startTV(Math.max(0, (+params.get('tv') || 1) - 1)); else showHome();
 });
 </script>
 </body>
