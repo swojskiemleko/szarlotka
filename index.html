@@ -210,7 +210,10 @@ input{font-family:inherit}
 .confetti{position:fixed;top:-40px;font-size:28px;pointer-events:none;z-index:997;animation:conf linear forwards}
 
 /* final */
-.final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;margin:auto}
+/* el final no se corta arriba en móviles bajos: se centra con margin, no con la caja */
+.stage.end{align-items:flex-start}
+.final .molde{width:min(250px,34dvh)}
 .final h2{font-size:clamp(2rem,8vw,3.2rem);margin:0;color:var(--red)}
 .stars{font-size:clamp(2.4rem,10vw,4rem);letter-spacing:.1em}
 .stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
