@@ -1259,15 +1259,9 @@ const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO
   'moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado'];
 /* vistas desde arriba: así se ven las cosas sobre la encimera en primer plano */
 const TOP = { tabla: 'tablaTop', sarten: 'sartenTop', bol: 'bolTop', molde: 'moldeVacio' };
-['manzanas', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura', 'vainilla', 'canela',
-  'cuchillo', 'pelador', 'cuchara', 'rallador', 'colador', 'bola'].forEach(k => { TOP[k] = k + 'Top'; IMG_KEYS.push(k + 'Top'); });
-/* vistas de frente para la cocina: de pie sobre la encimera, cada cosa con su tamaño de verdad */
-const FRONT = {}, SIZE = { manzanas: .62, harina: .7, fecula: .7, azucarGlas: .7, huevo: .45, mantequilla: .5, levadura: .62,
-  vainilla: .62, canela: .55, cuchillo: .8, pelador: .7, cuchara: .9, rallador: 1, colador: .8, bola: .45,
-  tabla: .75, sarten: .8, bol: .85, molde: .7 };
-Object.keys(SIZE).forEach(k => { FRONT[k] = k + 'Front'; IMG_KEYS.push(k + 'Front'); });
-['moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado',
-  'queso', 'pescado', 'helado', 'nata', 'fresa', 'tomate', 'cebolla', 'arroz', 'sal', 'zanahoria', 'masa', 'masaPeque']
+/* vistas de frente para la cocina: solo el molde por etapas; el resto usa sus iconos de siempre */
+const FRONT = {}, SIZE = {};
+['moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado']
   .forEach(k => IMG_KEYS.push(k + 'Front'));
 /* los fondos son dibujos grandes: en JPG pesan mucho menos */
 const BG_JPG = ['cocina', 'fondo', 'piedra', 'kuchnia'];
