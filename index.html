@@ -55,7 +55,8 @@ input{font-family:inherit}
 .game{height:100dvh;display:flex;flex-direction:column;max-width:900px;margin:0 auto}
 .hud{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px 6px}
 .hud .num{background:#fff;border-radius:12px;padding:4px 12px;font-weight:700}
-.mist{background:#fff;border-radius:12px;padding:4px 10px;font-weight:700;white-space:nowrap}
+.mist{background:#fff;border-radius:12px;padding:4px 10px;font-weight:700;white-space:nowrap;color:var(--red)}
+.mist.zero{visibility:hidden}
 .ribbon{
   margin:4px 12px 0;background:#fff;border-radius:20px;padding:10px 16px 10px;
 }
@@ -190,7 +191,7 @@ input{font-family:inherit}
 .oven.on .win{background:radial-gradient(#ffb15a,#a2370e 70%,#3d1407);box-shadow:inset 0 0 30px #ff7b00}
 .ctrls{display:flex;flex-direction:column;gap:10px;width:min(88vw,360px)}
 .bar{width:min(80vw,320px);height:18px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 3px 0 var(--tan)}
-.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ff8a00);border-radius:6px;transition:width .1s}
+.bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:6px;transition:width .1s}
 .clock{font-size:1.4rem;font-weight:700;background:#fff;border-radius:14px;padding:4px 14px}
 .tap{cursor:pointer}
 .ghost{position:fixed;z-index:999;pointer-events:none;opacity:.9;transform:scale(1.08) rotate(-4deg);margin:0!important}
@@ -207,7 +208,7 @@ input{font-family:inherit}
 @keyframes fall{from{transform:translateY(-60px);opacity:1}to{transform:translateY(10px);opacity:0}}
 @keyframes floatUp{to{transform:translateY(-70px);opacity:0}}
 @keyframes conf{to{transform:translateY(110vh) rotate(540deg)}}
-.confetti{position:fixed;top:-40px;font-size:28px;pointer-events:none;z-index:997;animation:conf linear forwards}
+.confetti{position:fixed;top:-40px;width:12px;height:18px;border:2px solid var(--line);border-radius:3px;pointer-events:none;z-index:997;animation:conf linear forwards}
 
 /* final */
 .final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;margin:auto}
@@ -215,7 +216,8 @@ input{font-family:inherit}
 .stage.end{align-items:flex-start}
 .final .molde{width:min(250px,34dvh)}
 .final h2{font-size:clamp(2rem,8vw,3.2rem);margin:0;color:var(--red)}
-.stars{font-size:clamp(2.4rem,10vw,4rem);letter-spacing:.1em}
+.stars{display:flex;gap:8px}
+.stars svg{width:clamp(40px,10vw,60px);height:clamp(40px,10vw,60px)}
 .stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .stats div{background:#fff;border-radius:16px;padding:8px 16px;font-size:1.2rem;font-weight:600}
 .stats b{display:block;font-size:1.8rem;color:var(--red)}
@@ -278,7 +280,7 @@ input{font-family:inherit}
 .lines{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.4vh;text-align:left}
 .lines li{font-size:clamp(1.3rem,3vw,2.7rem)}
 .hl{color:var(--red);font-weight:700}
-.flag{display:inline-block;width:1.4em;height:.9em;vertical-align:-.05em;background:linear-gradient(#fff 50%,#dc143c 50%);border:1px solid #ccc;border-radius:3px}
+.flag{display:inline-block;width:1.4em;height:.9em;vertical-align:-.05em;background:linear-gradient(#fff 50%,#dc143c 50%);border:2px solid var(--line);border-radius:4px}
 .gram{display:grid;grid-template-columns:1fr 1fr;gap:3vw;width:100%;max-width:1400px}
 .gram .paper{text-align:left}
 .gram h3{margin:0 0 1vh;font-size:clamp(1.3rem,2.6vw,2.4rem)}
@@ -291,7 +293,10 @@ input{font-family:inherit}
 .lobby{display:grid;grid-template-columns:auto 1fr;gap:4vw;width:100%;max-width:1600px;align-items:start}
 .qrbox{background:#fff;border-radius:26px;padding:2.4vh;display:flex;flex-direction:column;align-items:center;gap:1vh}
 .qr{width:min(30vw,42vh);height:min(30vw,42vh);display:flex;align-items:center;justify-content:center}
-.ds-board{width:100%;max-width:1400px;background:var(--cream);padding:2vh 1.6vw;text-align:left}
+.ds-board{width:100%;max-width:1400px;background:var(--cream);padding:2.4vh 2vw;text-align:left}
+.ds-board .board-head,.ds-board .cls-t{font-size:var(--t-body)}
+.ds-board .conn{font-size:var(--t-cap)}
+.ds-board .stu{font-size:min(2.2vw,3.6vh)}
 .tvbtns{display:flex;gap:10px}
 .dot{display:inline-block;flex:none;width:.75em;height:.75em;border-radius:50%;background:var(--gold);border:2px solid var(--line);margin-right:.4em;vertical-align:-.05em}
 .dot.on,.dot.st-ok{background:var(--green)}
@@ -308,7 +313,7 @@ input{font-family:inherit}
 .stu{display:grid;grid-template-columns:3ch 1fr 2fr auto;gap:1vw;align-items:center;background:#fff;border-radius:16px;padding:1vh 1.2vw;font-size:clamp(1rem,1.9vw,1.8rem)}
 .stu .n{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .stu .pb{height:1.6vh;min-height:10px;background:#f2e2d2;border-radius:10px;overflow:hidden}
-.stu .pb i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ff8a00);transition:width .6s}
+.stu .pb i{display:block;height:100%;background:var(--gold);transition:width .6s}
 .stu.fin .pb i{background:var(--green)}
 .stu .s{font-weight:700;white-space:nowrap}
 .empty{font-size:clamp(1.1rem,2.2vw,2rem);color:var(--ink2);padding:3vh 0}
@@ -326,6 +331,7 @@ input{font-family:inherit}
 .steps-sum{columns:2;column-gap:4vw;text-align:left;margin:0;padding-left:2.4em;max-width:1600px}
 .steps-sum li{font-size:clamp(1rem,2vw,1.9rem);margin:.7vh 0;break-inside:avoid}
 .steps-sum li::marker{color:var(--red);font-weight:700}
+.serve{margin:1.4vh 0 0;font-size:clamp(1rem,2vw,1.9rem);font-weight:700;color:var(--red);text-align:center}
 .tvnav{position:fixed;right:2vw;bottom:2vh;display:flex;gap:10px;align-items:center;z-index:50}
 .tvnav .cnt{background:#fff;border-radius:12px;padding:6px 12px;font-weight:600}
 .tvbtns{display:flex;gap:1.5vw;flex-wrap:wrap;justify-content:center}
@@ -483,7 +489,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .oven-modal{position:absolute;inset:0;z-index:10;background:rgba(59,35,20,.35);display:flex;align-items:center;justify-content:center;padding:8px;border-radius:12px}
 .oven-modal .box{width:100%;max-width:360px;background:var(--cream);border:3px solid var(--line);border-radius:18px;box-shadow:0 6px 0 var(--line);padding:10px;display:flex;flex-direction:column;gap:7px}
 .oven-modal .ov-panel{display:flex;gap:8px;justify-content:center}
-.oven-modal .disp{background:#1e2a22;color:#7dffa6;font-weight:700;border-radius:10px;padding:4px 10px;border:3px solid var(--line)}
+.oven-modal .disp{background:var(--cream);color:var(--ink);font-weight:700;border-radius:10px;padding:4px 12px;border:3px solid var(--line);box-shadow:0 3px 0 var(--line)}
 .pop-h{display:flex;align-items:center;justify-content:space-between;font-size:1.15rem}
 .x{width:42px;height:42px;border-radius:50%;border:3px solid var(--line);background:#fff;font-weight:700;cursor:pointer;color:var(--ink)}
 @keyframes nudge{to{transform:translateY(4px)}}
@@ -534,15 +540,23 @@ img.th{width:100%;height:100%;object-fit:contain}
 .waitbox h2{margin:0;color:var(--green)}
 .waitbox p{margin:0;font-size:1.15rem;font-weight:600}
 .waitbox .spin{display:inline-block;animation:spin 1.6s linear infinite}
-.hglass{width:min(22cqh,120px);aspect-ratio:2/3;animation:hg-flip 3s ease-in-out infinite}
-.hglass svg{width:100%;height:100%;overflow:visible}
-.hglass .sand-top{transform-origin:40px 54px;animation:hg-top 3s linear infinite}
-.hglass .sand-bot{transform-origin:40px 100px;animation:hg-bot 3s linear infinite}
-@keyframes hg-flip{0%,82%{rotate:0deg}100%{rotate:180deg}}
-@keyframes hg-top{0%{transform:scale(1)}82%,100%{transform:scale(.15)}}
-@keyframes hg-bot{0%{transform:scale(.15)}82%,100%{transform:scale(1)}}
+.hglass{width:min(22cqh,120px);aspect-ratio:2/3}
+/* 6 s: cae la arena, se da la vuelta, cae otra vez, vuelve a girar */
+.hglass svg{width:100%;height:100%;overflow:visible;animation:hg-flip 6s ease-in-out infinite}
+.hglass .sand-a{transform-origin:40px 56px;animation:hg-a 6s linear infinite}
+.hglass .sand-b{transform-origin:40px 96px;animation:hg-b 6s linear infinite}
+.hglass .stream-a{animation:hg-sa 6s linear infinite,hg-flow .4s linear infinite}
+.hglass .stream-b{animation:hg-sb 6s linear infinite,hg-flow .4s linear infinite}
+@keyframes hg-flip{0%,42%{transform:rotate(0)}50%,92%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}
+@keyframes hg-a{0%{transform:scale(1)}40%,52%{transform:scale(.05)}92%,100%{transform:scale(1)}}
+@keyframes hg-b{0%{transform:scale(.05)}40%,52%{transform:scale(1)}92%,100%{transform:scale(.05)}}
+@keyframes hg-sa{0%,40%{opacity:1}41%,100%{opacity:0}}
+@keyframes hg-sb{0%,51%{opacity:0}52%,92%{opacity:1}93%,100%{opacity:0}}
+@keyframes hg-flow{to{stroke-dashoffset:-8}}
 .waitbox .wait-t{font-size:clamp(1.3rem,6cqh,2rem);font-weight:700;color:var(--ink)}
-@media (prefers-reduced-motion:reduce){.hglass,.hglass path{animation:none}}
+@media (prefers-reduced-motion:reduce){.hglass svg,.hglass path,.hglass line{animation:none}}
+.okmark{width:56px;height:56px;border-radius:50%;background:var(--green);border:4px solid var(--line);box-shadow:0 4px 0 var(--line);position:relative}
+.okmark::after{content:'';position:absolute;left:16px;top:9px;width:13px;height:24px;border:solid #fff;border-width:0 6px 6px 0;rotate:45deg}
 .holdbox .who{font-size:1.6rem;font-weight:700;color:var(--red)}
 .holdbox .ios{font-size:.95rem;font-weight:500;max-width:30em;color:var(--ink2)}
 .fs-btn{position:fixed;left:10px;top:6px;z-index:70;padding:2px 10px!important}
@@ -690,6 +704,9 @@ img.th{width:100%;height:100%;object-fit:contain}
 @keyframes swx{from{margin-left:-50px}to{margin-left:50px}}
 @keyframes swy{from{margin-top:-40px}to{margin-top:40px}}
 .mg.started .hand,.mg.started .orbit,.mg.started .swing{display:none}
+.tap{display:block;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);border:4px solid var(--line);box-shadow:0 0 0 6px rgba(244,180,0,.55);translate:-50% -50%;animation:tap 1.1s ease-in-out infinite}
+.orbit .tap{translate:none}
+@keyframes tap{50%{box-shadow:0 0 0 11px rgba(244,180,0,.2)}}
 .tool-follow{position:absolute;z-index:6;pointer-events:none;width:64px;height:64px;translate:-25% -75%;display:grid;place-items:center;font-size:46px;line-height:1}
 .tool-follow[hidden]{display:none}
 .tool-follow img,.tool-follow .th{width:100%;height:100%;object-fit:contain;font-size:46px}
@@ -731,6 +748,21 @@ img.th{width:100%;height:100%;object-fit:contain}
 @keyframes dust{to{transform:translateY(46px);opacity:0}}
 /* ---------- móvil en horizontal: todo en su sitio, solo más compacto ---------- */
 @media (orientation:landscape) and (max-height:540px){
+  .center{padding:8px 16px}
+  .panel-card{padding:12px 20px}
+  .panel-card .logo{font-size:44px}
+  .panel-card .logo .pic{height:56px}
+  .panel-card h1{font-size:1.6rem;margin:0}
+  .panel-card p{margin:.3em 0}
+  .panel-card .stack{margin-top:8px;gap:8px}
+  .panel-card .field{padding:8px 14px;font-size:1.2rem}
+  /* final en una fila: el molde a la izquierda, todo lo demás a la derecha */
+  .final{display:grid;grid-template-columns:auto auto;column-gap:28px;row-gap:6px;align-items:center;justify-items:center}
+  .final>.molde{grid-row:1/span 4}
+  .final h2{font-size:1.8rem}
+  .stars svg{width:38px;height:38px}
+  .stats div{padding:4px 12px;font-size:1rem}
+  .stats b{font-size:1.3rem}
   .game{max-width:none}
   .hud{padding:4px 10px 2px;min-height:0}
   .mist{padding:1px 8px;font-size:.85rem}
@@ -830,9 +862,9 @@ function floaty(node, txt) {
   document.body.append(f); setTimeout(() => f.remove(), 1000);
 }
 function confetti() {
-  const set = ['🍎', '🥧', '⭐', '🎉', '🍰', '✨'];
+  const set = ['#e23d3d', '#f4b400', '#2f9e55', '#c8874f', '#fff8ee'];
   for (let i = 0; i < 40; i++) {
-    const c = h('div', { class: 'confetti', style: `left:${Math.random() * 100}vw;animation-duration:${2 + Math.random() * 2.5}s;animation-delay:${Math.random() * 1.5}s` }, pick(set));
+    const c = h('div', { class: 'confetti', style: `left:${Math.random() * 100}vw;background:${pick(set)};animation-duration:${2 + Math.random() * 2.5}s;animation-delay:${Math.random() * 1.5}s` });
     document.body.append(c); setTimeout(() => c.remove(), 6500);
   }
 }
@@ -1069,7 +1101,7 @@ function cutLines(el, lines, { tool = 'cuchillo', onCut, done }) {
     const g = svgEl('line', { x1, y1, x2, y2, class: 'guide' }); svg.append(g);
     return { a: { x: x1, y: y1 }, b: { x: x2, y: y2 }, g, cov: new Set(), cut: false };
   });
-  const hand = h('div', { class: 'hand' }, '👆');
+  const hand = h('div', { class: 'hand' }, h('i', { class: 'tap' }));
   el.append(svg, hand);
   const tl = follower(el, tool);
   const showHand = () => {
@@ -1115,7 +1147,7 @@ function cutLines(el, lines, { tool = 'cuchillo', onCut, done }) {
 /* remover / pelar: dar vueltas con el dedo alrededor del centro (cada toque también suma un poco) */
 function stir(el, { turns = 3, tool, prog, done }) {
   el.classList.add('mg');
-  const ring = h('div', { class: 'ring' }), orbit = h('div', { class: 'orbit' }, h('span', {}, '👆'));
+  const ring = h('div', { class: 'ring' }), orbit = h('div', { class: 'orbit' }, h('span', {}, h('i', { class: 'tap' })));
   el.append(ring, orbit);
   const tl = follower(el, tool);
   const need = turns * 2 * Math.PI;
@@ -1311,17 +1343,17 @@ let OVEN_IV = null;
 function ovenModal(a, { temp, min, flag }, mold) {
   let t = null, m = null;
   const tv = h('span', {}, '--- °C'), mv = h('span', {}, '-- min');
-  const btn = h('button', { class: 'btn', disabled: true }, '🔥 ¡Al horno!');
+  const btn = h('button', { class: 'btn', disabled: true }, '¡Al horno!');
   const chips = (vals, unit, set) => h('div', { class: 'chips' }, vals.map(v => h('button', { class: 'chip', onclick: e => {
     e.currentTarget.parentNode.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
     e.currentTarget.classList.add('on'); beep(700, .06); set(v);
     btn.disabled = t == null || m == null;
   } }, v + unit)));
   const modal = h('div', { class: 'oven-modal' }, h('div', { class: 'box pop' },
-    h('div', { class: 'pop-h' }, h('b', {}, '🔥 El horno'), h('button', { class: 'x', 'aria-label': 'Cerrar', onclick: () => { modal.remove(); K.oven.classList.remove('open'); } }, '✕')),
-    h('div', { class: 'ov-panel' }, h('div', { class: 'disp' }, '🌡️ ', tv), h('div', { class: 'disp' }, '⏱️ ', mv)),
-    h('div', { class: 'ctrl' }, h('b', {}, '🌡️ ¿Cuántos grados?'), chips([150, 175, 180, 200], '°', v => { t = v; tv.textContent = v + ' °C'; })),
-    h('div', { class: 'ctrl' }, h('b', {}, '⏱️ ¿Cuántos minutos?'), chips([15, 30, 45, 60], ' min', v => { m = v; mv.textContent = v + ' min'; })),
+    h('div', { class: 'pop-h' }, h('b', {}, 'El horno'), h('button', { class: 'x', 'aria-label': 'Cerrar', onclick: () => { modal.remove(); K.oven.classList.remove('open'); } }, '✕')),
+    h('div', { class: 'ov-panel' }, h('div', { class: 'disp' }, tv), h('div', { class: 'disp' }, mv)),
+    h('div', { class: 'ctrl' }, h('b', {}, '¿Cuántos grados?'), chips([150, 175, 180, 200], '°', v => { t = v; tv.textContent = v + ' °C'; })),
+    h('div', { class: 'ctrl' }, h('b', {}, '¿Cuántos minutos?'), chips([15, 30, 45, 60], ' min', v => { m = v; mv.textContent = v + ' min'; })),
     btn));
   btn.onclick = () => {
     if (t !== temp || m !== min)
@@ -1740,7 +1772,7 @@ function startGame({ name, room, demo }) {
   G = { name, room, demo, id: (room && store.get(key)) || rid(), i: 0, mistakes: 0, skipped: 0, active: 0 };
   if (room) store.set(key, G.id);
   MODE = 'game';
-  const mist = h('div', { class: 'mist' }, '❌ 0');
+  const mist = h('div', { class: 'mist zero' }, '✕ 0');
   const num = h('span', { class: 'num' }), instr = h('p', { class: 'instr' }), tip = h('p', { class: 'tip' });
   const stage = h('div', { class: 'stage' }, buildKitchen());
   /* el cocinero dice la frase del paso y, debajo, la pista o el comentario */
@@ -1764,9 +1796,9 @@ function startGame({ name, room, demo }) {
 function showHold() {
   const go = h('button', { class: 'btn green', hidden: true, onclick: () => { G.solo = true; G.hold = false; runStep(); } }, '▶ Jugar ya');
   K.root.append(h('div', { class: 'waitbox holdbox pop' },
-    h('div', { class: 'big' }, '✅'),
+    h('div', { class: 'okmark' }),
     h('div', { class: 'who' }, '¡Hola, ' + G.name + '!'),
-    h('p', {}, '📺 Mira la tele. El juego empieza pronto.'),
+    h('p', {}, 'Mira la tele. El juego empieza pronto.'),
     FS_OK ? h('button', { class: 'btn fs', onclick: goFull }, '⛶ Pantalla completa') : null,
     !FS_OK && IOS && !isFull() ? h('p', { class: 'ios' }, 'iPhone: toca ', h('b', {}, 'Compartir ⬆️'), ' y después ', h('b', {}, 'Añadir a pantalla de inicio'), '. Así el juego ocupa toda la pantalla.') : null,
     go));
@@ -1804,7 +1836,7 @@ function runStep() {
     tiles: st.tiles,
     ok() { beep(880, .1); resetIdle(); },
     fail(node, msg) {
-      G.mistakes++; u.mist.textContent = '❌ ' + G.mistakes;
+      G.mistakes++; u.mist.textContent = '✕ ' + G.mistakes; u.mist.classList.remove('zero');
       beep(160, .25, 'square', .06); resetIdle();
       if (node) { node.classList.remove('shake'); void node.offsetWidth; node.classList.add('shake'); }
       say(msg || pick(BAD));
@@ -1880,8 +1912,10 @@ function classMoved() {
 /* reloj de arena: la arena baja y el reloj se da la vuelta */
 const HGLASS = '<svg viewBox="0 0 80 120" aria-hidden="true">'
   + '<path d="M18 14h44c0 22-14 32-20 46 6 14 20 24 20 46H18c0-22 14-32 20-46-6-14-20-24-20-46z" fill="#e8f6fb" stroke="#3b2314" stroke-width="4" stroke-linejoin="round"/>'
-  + '<path class="sand-top" d="M26 26h28c-2 12-10 20-14 28-4-8-12-16-14-28z" fill="#f4b400"/>'
-  + '<path class="sand-bot" d="M40 74c6 8 14 14 15 26H25c1-12 9-18 15-26z" fill="#f4b400"/>'
+  + '<path class="sand-a" d="M26 24h28c-2 12-10 22-14 32-4-10-12-20-14-32z" fill="#f4b400"/>'
+  + '<path class="sand-b" d="M40 66c6 8 14 16 16 30H24c2-14 10-22 16-30z" fill="#f4b400"/>'
+  + '<line class="stream-a" x1="40" y1="56" x2="40" y2="98" stroke="#f4b400" stroke-width="3" stroke-dasharray="4 4"/>'
+  + '<line class="stream-b" x1="40" y1="64" x2="40" y2="22" stroke="#f4b400" stroke-width="3" stroke-dasharray="4 4"/>'
   + '<rect x="8" y="4" width="64" height="12" rx="5" fill="#c8874f" stroke="#3b2314" stroke-width="4"/>'
   + '<rect x="8" y="104" width="64" height="12" rx="5" fill="#c8874f" stroke="#3b2314" stroke-width="4"/></svg>';
 function showWait() {
@@ -1900,6 +1934,8 @@ function hideWait() {
   G.waiting = false; clearInterval(G.waitIv);
   if (K) K.root.querySelectorAll('.waitbox').forEach(b => b.remove());
 }
+const STAR = '<svg viewBox="0 0 50 48" aria-hidden="true"><path d="M25 3l6.6 14.2 15.4 1.9-11.4 10.6 3 15.3L25 37.4 11.4 45l3-15.3L3 19.1l15.4-1.9z" stroke="#3b2314" stroke-width="3.5" stroke-linejoin="round"/></svg>';
+const starRow = n => { const e = h('div', { class: 'stars', 'aria-label': n + ' de 3' }); e.innerHTML = [0, 1, 2].map(i => STAR.replace('<path', '<path fill="' + (i < n ? '#f4b400' : '#fff8ee') + '"')).join(''); return e; };
 function finishGame() {
   hideWait();
   const secs = Math.round(G.active / 1000), bad = G.mistakes + G.skipped;
@@ -1911,21 +1947,21 @@ function finishGame() {
   K.root.classList.remove('zoom');
   u.num.textContent = '¡Terminado!';
   u.instr.textContent = '¡Se sirve! ¡Que aproveche!';
-  u.tip.textContent = G.room && !G.demo ? '📺 Mira la tele: ¿cuál es tu puesto?' : '';
+  u.tip.textContent = G.room && !G.demo ? 'Mira la tele: ¿cuál es tu puesto?' : '';
   u.scene.innerHTML = ''; u.scene.classList.add('end');
   const mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, '0');
   u.scene.append(h('div', { class: 'final' },
     molde(),
     h('h2', {}, '¡Qué rica!'),
-    h('div', { class: 'stars' }, '⭐'.repeat(stars) + '☆'.repeat(3 - stars)),
+    starRow(stars),
     h('div', { class: 'stats' },
       h('div', {}, h('b', {}, String(score)), 'puntos'),
       h('div', {}, h('b', {}, String(G.mistakes)), 'errores'),
       G.skipped ? h('div', {}, h('b', {}, String(G.skipped)), G.skipped === 1 ? 'paso saltado' : 'pasos saltados') : null,
       h('div', {}, h('b', {}, mm + ':' + ss), 'tiempo')),
     G.demo
-      ? h('button', { class: 'btn', onclick: () => { G = null; startTV(); } }, '📺 Volver a la presentación')
-      : h('button', { class: 'btn light', onclick: () => { NET.stop(); startGame({ name: G.name, room: null }); } }, '🔁 Jugar otra vez')));
+      ? h('button', { class: 'btn', onclick: () => { G = null; startTV(); } }, 'Volver a la presentación')
+      : h('button', { class: 'btn light', onclick: () => { NET.stop(); startGame({ name: G.name, room: null }); } }, 'Jugar otra vez')));
   say('¡Muy bien, ' + G.name + '! ¡Eres un chef!');
   confetti(); chord(); setTimeout(chord, 400);
 }
@@ -2123,14 +2159,16 @@ const SLIDES = [
       h('div', { class: 'ds-card ds-tile' }, h('div', { class: 'art2' }, pic('manzanas', '')),
         h('span', {}, hl('Se pueden'), ' usar manzanas ácidas: ¡son las mejores!')))),
   /* 4. el juego */
-  () => h('div', { class: 'slide ds', style: 'justify-content:flex-start' },
+  () => h('div', { class: 'slide ds' },
     h('h2', {}, '¡A cocinar!'),
     h('div', { id: 'board', class: 'ds-card ds-board' })),
   () => h('div', { class: 'slide', style: 'justify-content:flex-start;padding-top:4vh' },
     h('h2', {}, '¡Los mejores chefs!'), h('div', { id: 'podium', style: 'width:100%' })),
   () => h('div', { class: 'slide' },
     h('h2', {}, 'La receta'),
-    h('div', { class: 'paper' }, h('ol', { class: 'steps-sum' }, STEPS.map(s => h('li', {}, s.t)), h('li', {}, 'Se sirve con nata o con helado.')))),
+    h('div', { class: 'paper' },
+      h('ol', { class: 'steps-sum' }, STEPS.map(s => h('li', {}, s.t.replace(/ (\d+) /g, '\u00a0$1\u00a0')))),
+      h('p', { class: 'serve' }, 'Se sirve con nata o con helado.'))),
   () => h('div', { class: 'slide' },
     pic('tarta', '🥧', 'hero'),
     h('h1', {}, '¡Que aproveche!')),
@@ -2186,7 +2224,7 @@ function showPilot() {
   const es = h('p', { class: 'p-es' }, 'Conectando con la tele…'), pl = h('p', { class: 'p-pl' });
   const game = h('div', { class: 'p-game', hidden: true });
   restart(h('div', { class: 'pilot' },
-    h('div', { class: 'p-top' }, h('b', {}, '🎤 Pilot'), num, live),
+    h('div', { class: 'p-top' }, h('b', {}, 'Mando'), num, live),
     h('div', { class: 'p-notes' }, es, pl),
     game,
     h('div', { class: 'p-nav' },
@@ -2261,7 +2299,7 @@ function refreshTV() {
     board.innerHTML = '';
     const done = list.filter(s => s.done).length;
     board.append(h('div', { class: 'board-head' },
-      h('span', {}, list.length ? list.length + (list.length === 1 ? ' cocinero' : ' cocineros') + (done ? ' · ' + done + ' terminados' : '') : 'Nadie todavía'),
+      h('span', {}, list.length ? list.length + (list.length === 1 ? ' cocinero' : ' cocineros') + (done ? ' · ' + done + ' terminados' : '') : 'Todavía nadie'),
       h('span', { class: 'conn' }, h('i', { class: 'dot' + (TV.live ? ' on' : '') }), TV.live ? 'en directo' : 'conectando…')));
     const N = STEPS.length;
     board.append(TV.cls < N
@@ -2274,7 +2312,7 @@ function refreshTV() {
       s.done ? h('span', {}, String(i + 1) + '.') : h('i', { class: 'dot st-' + (s.away ? 'away' : s.step > TV.cls ? 'ok' : 'cook') }),
       h('span', { class: 'n' }, s.name),
       h('div', { class: 'pb' }, h('i', { style: 'width:' + Math.round(100 * s.step / s.total) + '%' })),
-      h('span', { class: 's' }, s.done ? s.score + ' pts' : s.step + '/' + s.total))));
+      h('span', { class: 's' }, s.done ? s.score + ' pts' : 'paso ' + Math.min(s.step + 1, s.total)))));
     if (list.length > 14) bl.append(h('div', { class: 'conn' }, '+ ' + (list.length - 14) + ' más'));
     board.append(bl);
   }
