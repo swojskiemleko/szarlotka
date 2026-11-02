@@ -358,15 +358,22 @@ input{font-family:inherit}
 .f-cajon.open .leaf,.f-horno.open .leaf{transform:none}
 .kitchen2.one .f-horno.open .door{transform:none}
 .kitchen2.one .f-horno .door.has-img{background:none}
-.kitchen2.one .f-horno{background:radial-gradient(ellipse at 50% 75%,#5a2a12,#1e130d 70%)}
-.kitchen2.one .f-horno.baking{background:radial-gradient(ellipse at 50% 75%,#ffb15a,#a2370e 60%,#3d1407)}
+.kitchen2.one .f-horno{background:linear-gradient(transparent 55%,#8b8076 55% 57%,transparent 57% 80%,#8b8076 80% 82%,transparent 82%),radial-gradient(ellipse at 50% 75%,#5a2a12,#1e130d 70%)}
+.kitchen2.one .f-horno.baking{background:linear-gradient(transparent 55%,#8b8076 55% 57%,transparent 57% 80%,#8b8076 80% 82%,transparent 82%),radial-gradient(ellipse at 50% 75%,#ffb15a,#a2370e 60%,#3d1407)}
 .f-horno .oven-leaf{transform-origin:center bottom}
-.f-horno.open .oven-leaf{transform:rotateX(-80deg)}
+.f-horno.open .oven-leaf{transform:rotateX(-58deg)}
 .f-horno .leaf:not(.oven-leaf)::after{display:none}
 .furn.open .leaf::after{opacity:.45}
-.kitchen2 .f-armario1 .leaf,.kitchen2 .f-armario2 .leaf,.kitchen2 .f-armario3 .leaf{transform-origin:center;transition:transform .45s ease-out,opacity .4s ease-in}
-.kitchen2 .f-armario1.open .leaf,.kitchen2 .f-armario2.open .leaf,.kitchen2 .f-armario3.open .leaf{transform:scale(1.22);opacity:0}
-.kitchen2 .f-armario1.open .leaf::after,.kitchen2 .f-armario2.open .leaf::after,.kitchen2 .f-armario3.open .leaf::after{opacity:0}
+.kitchen2.one .f-armario1.open .leaf.l,.kitchen2.one .f-armario2.open .leaf.l,.kitchen2.one .f-armario3.open .leaf.l{transform:rotateY(-112deg)}
+.kitchen2.one .f-armario1.open .leaf.r,.kitchen2.one .f-armario2.open .leaf.r,.kitchen2.one .f-armario3.open .leaf.r{transform:rotateY(112deg)}
+/* la cara de dentro de la puerta: madera clara con su marco, no una mancha oscura */
+.kitchen2.one .f-armario1 .leaf::after,.kitchen2.one .f-armario2 .leaf::after,.kitchen2.one .f-armario3 .leaf::after{
+  background:linear-gradient(90deg,#c48347,#e2a86b 45%,#cf9055);box-shadow:inset 0 0 0 3px var(--line),inset 0 0 0 9px #b5743c;transition:opacity 0s .2s}
+.kitchen2.one .f-armario1.open .leaf::after,.kitchen2.one .f-armario2.open .leaf::after,.kitchen2.one .f-armario3.open .leaf::after{opacity:1}
+/* por dentro: fondo de madera oscura con sombra arriba, baldas claras */
+.kitchen2.one .f-armario1,.kitchen2.one .f-armario2,.kitchen2.one .f-armario3{
+  background:linear-gradient(#6e4220,#9a5f31 18%,#ad6d3a);box-shadow:inset 0 0 0 3px var(--line),inset 0 12px 14px -6px rgba(0,0,0,.45)}
+.kitchen2.one .f-armario1 .cell,.kitchen2.one .f-armario2 .cell,.kitchen2.one .f-armario3 .cell{border-bottom:6px solid #e0a86a;box-shadow:0 3px 0 var(--line)}
 /* la puerta de la nevera por dentro: blanca, con dos baldas */
 .f-nevera .leaf::after{background:linear-gradient(transparent 31%,#c9d6de 31% 33%,transparent 33% 64%,#c9d6de 64% 66%,transparent 66%),linear-gradient(90deg,#fbfdfe,#dde6ec);transition:opacity .1s .2s}
 .f-nevera.open .leaf::after{opacity:1}
@@ -384,6 +391,12 @@ input{font-family:inherit}
 .f-armario1 .inside{grid-template-columns:repeat(3,1fr)}
 .f-cajon .inside{grid-template-columns:1fr}
 .f-cajon{overflow:hidden}
+.kitchen2.one .f-cajon{overflow:visible;background:linear-gradient(#4f301a,#7d4f2a 40%,#93603a);box-shadow:inset 0 0 0 3px var(--line),inset 10px 0 8px -6px rgba(0,0,0,.4),inset -10px 0 8px -6px rgba(0,0,0,.4)}
+.kitchen2.one .f-cajon .inside{bottom:38%}
+.kitchen2.one .f-cajon.open .door{transform-origin:center top;transform:translateY(64%) scale(1.06);z-index:4;filter:drop-shadow(0 6px 4px rgba(59,35,20,.4))}
+.kitchen2.one .f-cajon .door{transition:transform .45s cubic-bezier(.3,.8,.35,1.1)}
+.kitchen2.one .f-cajon .leaf{transform:none!important}
+.kitchen2.one .f-cajon .leaf::after{display:none}
 .f-cajon .inside{bottom:22%}
 /* baldas: cada hueco tiene su estante */
 .cell{display:grid;min-height:0;border-bottom:5px solid #c98a52;box-shadow:0 2px 0 rgba(59,35,20,.45)}
@@ -394,6 +407,11 @@ input{font-family:inherit}
 .f-nevera .slot>.th{max-width:58px;max-height:58px;font-size:clamp(26px,9vw,40px)}
 .slot:active{background:rgba(255,255,255,.7)}
 .slot.out{visibility:hidden}
+.ball>.front{display:none}
+.kitchen2:not(.zoom) .ball.has-front{background:none;border:0;box-shadow:none;filter:drop-shadow(0 3px 1.5px rgba(59,35,20,.35))}
+.kitchen2:not(.zoom) .ball.has-front>:not(.front){display:none}
+.kitchen2:not(.zoom) .ball.has-front>.front{display:block;width:100%;height:100%;object-fit:contain;object-position:bottom}
+.slot>.front{max-width:92%;max-height:86%;width:auto;height:auto;align-self:end;filter:drop-shadow(0 2px 1px rgba(59,35,20,.35))}
 .th{font-size:clamp(20px,6vw,28px);line-height:1}
 img.th{width:100%;height:100%;object-fit:contain}
 .th-ball{width:70%!important;height:auto!important;aspect-ratio:1}
@@ -447,6 +465,9 @@ img.th{width:100%;height:100%;object-fit:contain}
 .zoom .taken .tile-pic{width:min(17dvh,92px);height:min(17dvh,92px);filter:drop-shadow(3px 6px 4px rgba(59,35,20,.28))}
 .zoom .taken .tile-pic.has-top>:not(.top){display:none}
 .zoom .taken .tile-pic.has-top>.top{display:block;width:100%;height:100%;object-fit:contain}
+/* sin dibujo desde arriba: mejor el de frente (mismo estilo) que el icono viejo */
+.zoom .taken .tile-pic.has-front:not(.has-top)>:not(.front){display:none}
+.zoom .taken .tile-pic.has-front:not(.has-top)>.front{display:block;width:100%;height:100%;object-fit:contain;object-position:bottom}
 /* sin rótulo: solo el objeto sobre la encimera */
 .taken .tile-lbl{display:none}
 /* las cosas están delante, sobre el borde de la encimera */
@@ -561,6 +582,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .holdbox .ios{font-size:.95rem;font-weight:500;max-width:30em;color:var(--ink2)}
 .fs-btn{position:fixed;left:10px;top:6px;z-index:70;padding:2px 10px!important}
 .mute-btn{position:fixed;left:62px;top:6px;z-index:70;padding:2px 10px!important}
+.mute-btn img{display:block;height:22px;width:auto}
 .full .mute-btn{left:10px}
 .full .fs-btn,.full .holdbox .fs{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -805,6 +827,8 @@ img.th{width:100%;height:100%;object-fit:contain}
 @keyframes turn{40%,60%{transform:rotate(-90deg)}}
 @media (orientation:portrait){ .game .rotate{display:flex} }
 .host{padding-bottom:max(10px,env(safe-area-inset-bottom))!important}
+/* el cajón abierto sale por debajo del bocadillo, no lo tapa */
+.host{position:relative;z-index:6}
 </style>
 </head>
 <body>
@@ -1228,7 +1252,7 @@ function progress() {
 const IMG = {}, IMG_SIZE = {};
 const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO),
   'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana',
-  'armarioArriba3', 'armarioArriba2', 'armarioAbajo2', 'cajones', 'piedra', 'kuchnia',
+  'armarioArriba3', 'armarioArriba2', 'armarioAbajo2', 'cajones', 'piedra', 'kuchnia', 'sonidoOn', 'sonidoOff',
   /* minijuegos */
   'manzanaPelada', 'manzanaTrozos', 'masa', 'masaPeque', 'tablaTop',
   'sartenTop', 'sartenManzanas', 'sartenCanela', 'bolTop', 'bolMezcla', 'bolMasa',
@@ -1242,7 +1266,8 @@ const FRONT = {}, SIZE = { manzanas: .62, harina: .7, fecula: .7, azucarGlas: .7
   vainilla: .62, canela: .55, cuchillo: .8, pelador: .7, cuchara: .9, rallador: 1, colador: .8, bola: .45,
   tabla: .75, sarten: .8, bol: .85, molde: .7 };
 Object.keys(SIZE).forEach(k => { FRONT[k] = k + 'Front'; IMG_KEYS.push(k + 'Front'); });
-['moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado']
+['moldeVacio', 'moldeMasa', 'moldeBase', 'moldeManzanas', 'moldeCrumble', 'moldeHorneado', 'moldeAzucar', 'moldeCortado',
+  'queso', 'pescado', 'helado', 'nata', 'fresa', 'tomate', 'cebolla', 'arroz', 'sal', 'zanahoria', 'masa', 'masaPeque']
   .forEach(k => IMG_KEYS.push(k + 'Front'));
 /* los fondos son dibujos grandes: en JPG pesan mucho menos */
 const BG_JPG = ['cocina', 'fondo', 'piedra', 'kuchnia'];
@@ -1298,6 +1323,7 @@ function setBowl(b, st) {
 function ballEl(big) {
   const b = h('div', { class: 'ball ' + (big ? 'big' : 'small') }), k = big ? 'masa' : 'masaPeque';
   if (IMG[k]) { b.classList.add('img'); b.append(art(k)); }
+  if (IMG[k + 'Front']) { b.classList.add('has-front'); b.append(h('img', { class: 'front', src: IMG[k + 'Front'], alt: '', draggable: 'false' })); }
   return b;
 }
 let CAKE = {};
@@ -1493,7 +1519,9 @@ function fillPlaces() {
     for (const it of G.places[k]) {
       const cell = h('div', { class: 'cell' });
       if (it) {
-        const sl = h('button', { class: 'slot' + (st.taken.has(it) ? ' out' : ''), 'aria-label': NAMES[it] }, thing(it));
+        const fr = IMG[it + 'Front'];
+        const sl = h('button', { class: 'slot' + (st.taken.has(it) ? ' out' : ''), 'aria-label': NAMES[it] },
+          fr ? h('img', { class: 'pic th front', src: fr, alt: '', draggable: 'false' }) : thing(it));
         sl.onclick = e => { e.stopPropagation(); take(it, sl); };
         cell.append(sl);
       }
@@ -1988,9 +2016,12 @@ const MUSIC = new Audio('audio/musica.mp3');
 MUSIC.loop = true; MUSIC.volume = .3; MUSIC.preload = 'none';
 let MUTE = store.get('szarlotka-mute') === true;
 const music = on => { if (on && !MUTE) MUSIC.play().catch(() => {}); else MUSIC.pause(); };
+/* si el navegador no dejó empezar, empieza con el siguiente toque en el juego */
+addEventListener('pointerdown', () => { if (MODE === 'game' && !MUTE && MUSIC.paused) music(true); }, true);
+const muteIcon = () => IMG.sonidoOn ? h('img', { src: MUTE ? IMG.sonidoOff : IMG.sonidoOn, alt: '', draggable: 'false' }) : (MUTE ? '🔇' : '🔊');
 function muteButton() {
-  const b = h('button', { class: 'btn small light mute-btn', 'aria-label': 'Música' }, MUTE ? '🔇' : '🔊');
-  b.onclick = () => { MUTE = !MUTE; store.set('szarlotka-mute', MUTE); b.textContent = MUTE ? '🔇' : '🔊'; music(true); };
+  const b = h('button', { class: 'btn small light mute-btn', 'aria-label': 'Música' }, muteIcon());
+  b.onclick = () => { MUTE = !MUTE; store.set('szarlotka-mute', MUTE); b.replaceChildren(muteIcon()); music(true); };
   return b;
 }
 const fsButton = () => FS_OK ? h('button', { class: 'btn small light fs-btn', onclick: goFull }, '⛶') : null;
@@ -2019,6 +2050,7 @@ function showJoin() {
     beep(880, .1);
     store.set('szarlotka-name', n);
     /* en el móvil: pantalla completa y en horizontal (Android; en iPhone se gira a mano) */
+    music(true);
     if (matchMedia('(pointer:coarse)').matches) goFull();
     startGame({ name: n, room: ROOM });
   };

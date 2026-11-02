@@ -214,3 +214,44 @@ furniture in image 1. Only that thin strip changes, step by step (left to right,
 
 No shadows, no table, no text, no letters, no labels.
 ```
+
+# Plansza 6: reszta rzeczy w szafkach i lodówce, z przodu (siatka 3 × 4)
+
+W szafkach i w lodówce rzeczy stoją na półkach, więc też muszą być narysowane z przodu, jak na planszach 3 i 4. Ta plansza to rzeczy, które są tylko „przeszkadzajkami” w meblach, i dwie kule ciasta (krok z lodówką). Gra sama ich użyje: `quesoFront.png`, `pescadoFront.png`… `masaFront.png`, `masaPequeFront.png`.
+
+**Jak to zrobić:** wgraj jako wzór `img/kuchnia.jpg`, `img/manzanas.png` i `img/queso.png`, a potem wklej prompt.
+
+```
+I attached 3 images. Image 1 is the KITCHEN where these objects will stand on shelves and on the
+countertop. Images 2 and 3 show the ART STYLE: cute cartoon, thick dark-brown outlines, flat warm
+colors with one simple highlight.
+
+Draw ONE picture: a grid of 3 rows and 4 columns, 12 separate objects on a plain pure white background,
+lots of empty white space between them. Every object is seen FROM THE FRONT, at eye level, only very
+slightly from above, STANDING on a flat surface with a flat bottom. Same perspective as the furniture
+in image 1. Order (left to right, top to bottom):
+1. a piece of yellow cheese with holes
+2. a whole fish lying on its side on a small plate
+3. a small tub of vanilla ice cream
+4. a carton of whipping cream
+5. a small bowl of strawberries
+6. a red tomato
+7. a brown onion
+8. a small bag of rice standing upright
+9. a salt shaker
+10. an orange carrot lying on its side
+11. a BIG ball of light-yellow shortcrust dough resting on the table (slightly flattened at the bottom)
+12. a SMALL ball of the same dough resting on the table (slightly flattened at the bottom)
+
+No shadows, no table, no text, no letters, no labels.
+```
+
+## Uzupełnienie planszy 2 (widok z góry): dwa jabłka
+
+W zbliżeniu przy obieraniu jabłko leży na desce widzianej z góry, więc też musi być z góry. Dopisz do planszy 2 jeszcze jeden rząd (będzie siatka 3 × 3):
+
+```
+7. a whole red apple seen from directly above (round, stem and a small leaf in the middle)
+8. the same apple peeled, seen from directly above (pale yellow flesh, stem in the middle)
+9. a deep light-blue mixing bowl seen from directly above, so you can see it is deep (inner wall and shadow inside)
+```
