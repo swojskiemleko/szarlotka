@@ -657,7 +657,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .item.jar .em-img.small{width:62%;height:62%}
 
 .loading{text-align:center;font-size:1.4rem;font-weight:600;color:var(--ink2)}
-.loading .spin{font-size:72px;animation:bob 1s ease-in-out infinite alternate}
+.loading .spin{width:56px;height:56px;margin:0 auto 12px;border:6px solid #f2e2d2;border-top-color:var(--red);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes bob{to{transform:translateY(-14px) rotate(8deg)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 
@@ -714,6 +714,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 .p-list{display:flex;flex-wrap:wrap;gap:4px;max-height:20vh;overflow:auto}
 .p-stu{background:var(--cream);border-radius:8px;padding:2px 8px;font-size:.9rem}
 .p-stu.away{opacity:.5}
+.p-stu.done{font-weight:700}
 .p-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .p-nav .btn{font-size:2rem;padding:16px 0}
 /* ---------- minijuegos: gestos como en los juegos de cocina ---------- */
@@ -848,7 +849,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 }
 /* ---------- móvil en vertical: se pide girarlo ---------- */
 .rotate{position:fixed;inset:0;z-index:80;background:rgba(255,248,236,.97);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px}
-.rotate .ico{font-size:4.5rem;animation:turn 1.8s ease-in-out infinite}
+.rotate .ico{width:46px;height:76px;border:5px solid var(--line);border-radius:12px;background:#fff;box-shadow:inset 0 -9px 0 -5px #f2e2d2;animation:turn 1.8s ease-in-out infinite}
 .rotate h2{margin:0}
 .rotate p{margin:0;font-size:1.1rem}
 @keyframes turn{40%,60%{transform:rotate(-90deg)}}
@@ -859,7 +860,7 @@ img.th{width:100%;height:100%;object-fit:contain}
 </style>
 </head>
 <body>
-<div id="app"><div class="center"><div class="loading"><div class="spin">🥧</div><p>Cargando…</p></div></div></div>
+<div id="app"><div class="center"><div class="loading"><div class="spin"></div><p>Cargando…</p></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js"></script>
 <script>
@@ -1033,20 +1034,20 @@ for (const [k, v] of Object.entries({ ...TOOLS, ...DECO })) NAMES[k] = v.n;
 
 /* get: lo que hay que sacar de los muebles antes de la acción */
 const STEPS = [
-  { k: 'peel',   get: ['tabla', 'manzanas', 'pelador'], t: 'Se pelan las manzanas.', tip: '🔄 Da vueltas con el dedo alrededor de la manzana.' },
-  { k: 'cut',    get: ['cuchillo'], t: 'Se cortan las manzanas en trozos.', tip: '🔪 Corta por las líneas de puntos.' },
-  { k: 'fry',    get: ['sarten', 'cuchara'], t: 'Se fríen las manzanas 15 minutos.', tip: '✋ Arrastra la tabla a la sartén.' },
-  { k: 'add',    get: ['vainilla', 'canela'], t: 'Se añaden el azúcar de vainilla y la canela.', tip: '✋ Arrastra el azúcar y la canela a la sartén.' },
-  { k: 'dough',  get: ['bol', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'], t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema de huevo, la mantequilla y la levadura.', tip: '✋ Arrastra los ingredientes al bol.' },
-  { k: 'divide', get: ['cuchillo'], t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: '🔪 Corta por la línea de puntos.' },
-  { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: '✋ Arrastra la bola pequeña a la nevera.' },
-  { k: 'mold',   get: ['molde'], t: 'Se pone la bola grande en el molde.', tip: '✋ Arrastra la bola al molde.' },
-  { k: 'oven1',  t: 'Se hornea la base 15 minutos a 180 grados.', tip: '✋ Arrastra el molde al horno.' },
-  { k: 'apples', t: 'Se ponen las manzanas sobre la base.', tip: '✋ Arrastra la sartén al molde.' },
-  { k: 'grate',  get: ['bola', 'rallador'], t: 'Se ralla la bola pequeña sobre las manzanas.', tip: '↕️ Mueve la bola arriba y abajo en el rallador.' },
-  { k: 'oven2',  t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: '✋ Arrastra el molde al horno.' },
-  { k: 'sugar',  show: true, get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: '↔️ Mueve el colador de un lado a otro.' },
-  { k: 'cut2',   show: true, get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: '🔪 Corta por las líneas de puntos.' },
+  { k: 'peel',   get: ['tabla', 'manzanas', 'pelador'], t: 'Se pelan las manzanas.', tip: 'Da vueltas con el dedo alrededor de la manzana.' },
+  { k: 'cut',    get: ['cuchillo'], t: 'Se cortan las manzanas en trozos.', tip: 'Corta por las líneas de puntos.' },
+  { k: 'fry',    get: ['sarten', 'cuchara'], t: 'Se fríen las manzanas 15 minutos.', tip: 'Arrastra la tabla a la sartén.' },
+  { k: 'add',    get: ['vainilla', 'canela'], t: 'Se añaden el azúcar de vainilla y la canela.', tip: 'Arrastra el azúcar y la canela a la sartén.' },
+  { k: 'dough',  get: ['bol', 'harina', 'fecula', 'azucarGlas', 'huevo', 'mantequilla', 'levadura'], t: 'Se mezclan la harina, la fécula, el azúcar glas, la yema de huevo, la mantequilla y la levadura.', tip: 'Arrastra los ingredientes al bol.' },
+  { k: 'divide', get: ['cuchillo'], t: 'Se hacen dos bolas de masa: una grande y una pequeña.', tip: 'Corta por la línea de puntos.' },
+  { k: 'fridge', t: 'Se pone la bola pequeña en la nevera.', tip: 'Arrastra la bola pequeña a la nevera.' },
+  { k: 'mold',   get: ['molde'], t: 'Se pone la bola grande en el molde.', tip: 'Arrastra la bola al molde.' },
+  { k: 'oven1',  t: 'Se hornea la base 15 minutos a 180 grados.', tip: 'Arrastra el molde al horno.' },
+  { k: 'apples', t: 'Se ponen las manzanas sobre la base.', tip: 'Arrastra la sartén al molde.' },
+  { k: 'grate',  get: ['bola', 'rallador'], t: 'Se ralla la bola pequeña sobre las manzanas.', tip: 'Mueve la bola arriba y abajo en el rallador.' },
+  { k: 'oven2',  t: 'Se hornea la szarlotka 45 minutos a 175 grados.', tip: 'Arrastra el molde al horno.' },
+  { k: 'sugar',  show: true, get: ['azucarGlas', 'colador'], t: 'Se decora con azúcar glas.', tip: 'Mueve el colador de un lado a otro.' },
+  { k: 'cut2',   show: true, get: ['cuchillo'], t: 'Se corta la szarlotka en trozos.', tip: 'Corta por las líneas de puntos.' },
 ];
 const STEP_AT = k => STEPS.findIndex(s => s.k === k);
 const NEEDED = new Set(STEPS.flatMap(s => s.get || []));
@@ -1065,7 +1066,7 @@ function cakeFor(i) {
            baked2: past('oven2'), sugar: past('sugar'), cuts: past('cut2') ? 4 : 0 };
 }
 const GOOD = ['¡Muy bien!', '¡Perfecto!', '¡Genial!', '¡Qué bien!', '¡Excelente!', '¡Bravo!'];
-const BAD = ['¡Uy, no!', 'No, eso no. 🙂', 'Lee otra vez.', '¡Casi! Otra vez.'];
+const BAD = ['¡Uy, no!', 'No, eso no.', 'Lee otra vez.', '¡Casi! Otra vez.'];
 
 /* =========================================================
    Arrastrar y soltar (ratón y dedo). Si solo se toca, el
@@ -1278,8 +1279,7 @@ function progress() {
 /* Imágenes opcionales en img/<nombre>.png. Si no existen, se usa el emoji. */
 const IMG = {}, IMG_SIZE = {};
 const IMG_KEYS = [...Object.keys(IT), ...Object.keys(TOOLS), ...Object.keys(DECO),
-  'chef', 'tarta', 'fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'manzana',
-  'armarioArriba3', 'armarioArriba2', 'armarioAbajo2', 'cajones', 'piedra', 'kuchnia', 'sonidoOn', 'sonidoOff',
+  'chef', 'tarta', 'manzana', 'piedra', 'kuchnia', 'sonidoOn', 'sonidoOff',
   /* minijuegos */
   'manzanaPelada', 'manzanaTrozos', 'masa', 'masaPeque', 'tablaTop',
   'sartenTop', 'sartenManzanas', 'sartenCanela', 'bolTop', 'bolMezcla', 'bolMasa',
@@ -1302,14 +1302,17 @@ function wallColor(i) {
     WALL = `rgb(${r},${g},${b})`;
   } catch (e) { /* sin color: queda el fondo normal */ }
 }
+/* los muebles sueltos de antes: solo se descargan si falta el dibujo de toda la cocina */
+const OLD_KITCHEN = ['fondo', 'cocina', 'nevera', 'armario', 'cajon', 'horno', 'armarioArriba3', 'armarioArriba2', 'armarioAbajo2', 'cajones'];
 function loadImages() {
+  const load = keys => Promise.all(keys.map(k => new Promise(r => {
+    const i = new Image();
+    i.onload = () => { IMG[k] = i.src; IMG_SIZE[k] = i.naturalWidth / i.naturalHeight; if (k === 'kuchnia') wallColor(i); r(); };
+    i.onerror = r;
+    i.src = 'img/' + k + (BG_JPG.includes(k) ? '.jpg' : '.png');
+  })));
   return Promise.race([
-    Promise.all(IMG_KEYS.map(k => new Promise(r => {
-      const i = new Image();
-      i.onload = () => { IMG[k] = i.src; IMG_SIZE[k] = i.naturalWidth / i.naturalHeight; if (k === 'kuchnia') wallColor(i); r(); };
-      i.onerror = r;
-      i.src = 'img/' + k + (BG_JPG.includes(k) ? '.jpg' : '.png');
-    }))),
+    load(IMG_KEYS).then(() => IMG.kuchnia ? null : load(OLD_KITCHEN)),
     sleep(5000),
   ]);
 }
@@ -1521,7 +1524,7 @@ function buildKitchen() {
   }
   const ovenWin = h('div', { class: 'ov-glass' });
   const ovenDoor = h('div', { class: 'door' + (IMG.horno ? ' has-img' : ''), 'data-img': IMG.horno ? 'horno' : null },
-    IMG.horno ? null : h('div', { class: 'knobs' }, h('i'), h('i'), h('i')), ovenWin);
+    IMG.horno || IMG.kuchnia ? null : h('div', { class: 'knobs' }, h('i'), h('i'), h('i')), ovenWin);
   const oven = h('div', { class: 'furn f-horno' }, h('div', { class: 'inside' }), ovenDoor);
   ovenDoor.onclick = () => { if (!oven.classList.contains('drop')) say('Ahora no se necesita el horno.'); };
   const counter = h('div', { class: 'counter' });
@@ -1564,7 +1567,7 @@ const placeOf = it => Object.keys(G.places).find(k => G.places[k].includes(it));
 function nextGetTip() {
   const it = [...G.step.pending][0];
   const txt = 'Saca ' + NAMES[it] + ' ' + PLACES[placeOf(it)].de + '.';
-  G.ui.tip.textContent = '👆 ' + txt; say(txt);
+  G.ui.tip.textContent = txt; say(txt);
 }
 function fly(from, to, it) {
   const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
@@ -1605,7 +1608,7 @@ function ready() {
     K.root.classList.add('zoom');
   }
   G.ui.tip.textContent = st.s.tip;
-  if (st.s.get) say('¡Ya tienes todo! 👍');
+  if (st.s.get) say('¡Ya tienes todo!');
   st.a.onReady && st.a.onReady();
 }
 
@@ -1623,7 +1626,7 @@ const RUN = {
       w.append(h('div', { class: 'col' }, cnt, b));
       let n = 0;
       const next = () => {
-        cnt.textContent = '🍎 ' + (n + 1) + ' / ' + N;
+        cnt.textContent = 'Manzana ' + (n + 1) + ' de ' + N;
         const skin = art('manzana', h('span', { class: 'th' }, '🍎'));
         skin.classList.add('skin');
         const flesh = art('manzanaPelada', h('div', { class: 'peeled' }));
@@ -1666,11 +1669,11 @@ const RUN = {
       drag(b, t => {
         if (t !== pan) return;
         b.remove(); setPan(pan, 'raw'); pan.classList.remove('drop'); pan.classList.add('sizzle'); a.ok();
-        a.tip('🥄 Remueve: da vueltas con el dedo en la sartén.');
+        a.tip('Remueve: da vueltas con el dedo en la sartén.');
         a.consume('cuchara');
-        const clock = h('div', { class: 'clock' }, "⏱️ 0'"); pan.before(clock);
+        const clock = h('div', { class: 'clock' }, '0 min'); pan.before(clock);
         stir(pan, { turns: 3, tool: 'cuchara',
-          prog: q => { clock.textContent = '⏱️ ' + Math.round(q * 15) + "'"; },
+          prog: q => { clock.textContent = Math.round(q * 15) + ' min'; },
           done: () => { pan.classList.remove('sizzle'); a.done(); } });
       });
     };
@@ -1716,7 +1719,7 @@ const RUN = {
         if (++n < need.length) return;
         bowl.classList.remove('drop');
         if (pics) mix.style.maskImage = mix.style.webkitMaskImage = 'none';
-        a.tip('🥄 Mezcla: da vueltas con el dedo en el bol.');
+        a.tip('Mezcla: da vueltas con el dedo en el bol.');
         stir(bowl, { turns: 3,
           prog: q => {
             if (fade) fade.style.opacity = q;
@@ -1828,14 +1831,14 @@ function startGame({ name, room, demo }) {
   const bubble = h('div', { class: 'bubble' }, instr, tip);
   G.ui = { mist, num, instr, tip, scene: stage, bubble };
   restart(
-    demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); clearInterval(OVEN_IV); G = null; startTV(); } }, '⟵ 📺') : null,
+    demo ? h('button', { class: 'btn light small back-tv', onclick: () => { clearTimeout(G.idle); clearInterval(OVEN_IV); G = null; startTV(); } }, '⟵ Tele') : null,
     h('div', { class: 'game', style: IMG.kuchnia ? `background:${WALL || '#f6e6cf'}` : IMG.cocina ? `background:url(${IMG.cocina}) center bottom/cover` : '' },
       h('div', { class: 'hud', style: demo ? 'padding-left:80px' : '' }, h('span'), mist),
       stage,
       h('div', { class: 'host' }, h('div', { class: 'face' }, pic('chef', '👩‍🍳')), bubble),
       demo ? null : fsButton(), muteButton(),
       h('div', { class: 'rotate' },
-        h('div', { class: 'ico' }, '📱'),
+        h('div', { class: 'ico' }),
         h('h2', {}, '¡Gira el móvil!'),
         h('p', {}, 'Se juega en horizontal.'))));
   music(true);
@@ -1849,10 +1852,10 @@ function showHold() {
     h('div', { class: 'who' }, '¡Hola, ' + G.name + '!'),
     h('p', {}, 'Mira la tele. El juego empieza pronto.'),
     FS_OK ? h('button', { class: 'btn fs', onclick: goFull }, '⛶ Pantalla completa') : null,
-    !FS_OK && IOS && !isFull() ? h('p', { class: 'ios' }, 'iPhone: toca ', h('b', {}, 'Compartir ⬆️'), ' y después ', h('b', {}, 'Añadir a pantalla de inicio'), '. Así el juego ocupa toda la pantalla.') : null,
+    !FS_OK && IOS && !isFull() ? h('p', { class: 'ios' }, 'iPhone: toca ', h('b', {}, 'Compartir'), ' y después ', h('b', {}, 'Añadir a pantalla de inicio'), '. Así el juego ocupa toda la pantalla.') : null,
     go));
   G.ui.instr.textContent = '¡Ya estás en la clase!';
-  G.ui.tip.textContent = '⏳ Esperamos a la profe.';
+  G.ui.tip.textContent = 'Esperamos a la profe.';
   /* sin la tele no se espera para siempre */
   let off = 0;
   G.waitIv = setInterval(() => { off = NET.online() ? 0 : off + 1; if (off >= 8) go.hidden = false; }, 1000);
@@ -1878,7 +1881,7 @@ function runStep() {
   const st = G.step = { s, pending: new Set(s.get || []), taken: new Set(), tiles: {}, row, work, over: false };
   const resetIdle = () => {
     clearTimeout(G.idle);
-    G.idle = setTimeout(() => say('¿Necesitas ayuda? Lee la frase otra vez. 😊'), 25000);
+    G.idle = setTimeout(() => say('¿Necesitas ayuda? Lee la frase otra vez.'), 25000);
   };
   resetIdle();
   const a = st.a = {
@@ -1935,7 +1938,7 @@ function phoneNet(room) {
     if (G.hold && m.play !== false) { G.hold = false; runStep(); }
     classMoved();
   }, hello);
-  setTimeout(() => { if (G && G.room === room && !NET.online()) say('📺 ¡Uy! La tele no te ve. Dile al profesor.'); }, 9000);
+  setTimeout(() => { if (G && G.room === room && !NET.online()) say('¡Uy! La tele no te ve. Dile al profesor.'); }, 9000);
 }
 function hello() {
   if (!G || !G.room || G.demo) return;
@@ -1976,7 +1979,7 @@ function showWait() {
   const hg = h('div', { class: 'hglass' }); hg.innerHTML = HGLASS;
   const box = h('div', { class: 'waitbox pop' }, hg, h('p', { class: 'wait-t' }, 'Esperamos a los demás…'), more);
   K.root.append(box);
-  G.ui.tip.textContent = '⏳ Espera: la clase cocina contigo.';
+  G.ui.tip.textContent = 'Espera: la clase cocina contigo.';
   let off = 0;
   G.waitIv = setInterval(() => { off = NET.online() ? 0 : off + 1; if (off >= 6) more.hidden = false; }, 1000);
 }
@@ -2060,8 +2063,8 @@ function showHome() {
     h('h1', {}, 'La szarlotka'),
     h('p', {}, 'La szarlotka: una tarta de manzana de Polonia ', flag()),
     h('div', { class: 'stack' },
-      h('button', { class: 'btn', onclick: () => startTV(0) }, '📺 Presentación (en la tele)'),
-      h('button', { class: 'btn green', onclick: () => showJoin() }, '📱 Jugar')))));
+      h('button', { class: 'btn', onclick: () => startTV(0) }, 'Presentación (en la tele)'),
+      h('button', { class: 'btn green', onclick: () => showJoin() }, 'Jugar')))));
 }
 function showJoin() {
   MODE = 'join';
@@ -2084,7 +2087,7 @@ function showJoin() {
     h('h1', {}, '¡Hola!'),
     h('p', {}, 'Hoy cocinamos una szarlotka. ¿Cómo te llamas?'),
     h('div', { class: 'stack' }, name, msg,
-      h('button', { class: 'btn green', onclick: go }, '👩‍🍳 ¡A cocinar!')))));
+      h('button', { class: 'btn green', onclick: go }, '¡A cocinar!')))));
   setTimeout(() => name.focus(), 50);
 }
 
@@ -2275,7 +2278,7 @@ function showPilot() {
   MODE = 'pilot';
   let st = null;
   const send = m => NET.pub('pilot', m);
-  const live = h('span', {}, '🟡'), num = h('span', { class: 'p-num' }, '… / ' + SLIDES.length);
+  const live = h('i', { class: 'dot' }), num = h('span', { class: 'p-num' }, '… / ' + SLIDES.length);
   const es = h('p', { class: 'p-es' }, 'Conectando con la tele…'), pl = h('p', { class: 'p-pl' });
   const game = h('div', { class: 'p-game', hidden: true });
   restart(h('div', { class: 'pilot' },
@@ -2295,18 +2298,18 @@ function showPilot() {
     if (game.hidden) return;
     game.append(
       h('div', { class: 'p-step' }, st.cls < N ? h('b', {}, 'Paso ' + (st.cls + 1) + ' de ' + N + ': ') : null,
-        st.cls < N ? STEPS[st.cls].t : '🎉 ¡Todos han terminado!'),
-      h('div', { class: 'p-row' }, h('span', {}, '✅ ' + st.fin + ' / ' + st.n + ' listos'),
-        st.cls < N ? h('button', { class: 'btn green small', onclick: () => send({ t: 'next' }) }, '⏭ Siguiente paso') : null),
+        st.cls < N ? STEPS[st.cls].t : '¡Todos han terminado!'),
+      h('div', { class: 'p-row' }, h('span', {}, st.fin + ' / ' + st.n + ' listos'),
+        st.cls < N ? h('button', { class: 'btn green small', onclick: () => send({ t: 'next' }) }, 'Siguiente paso') : null),
       h('div', { class: 'p-list' }, (st.list || []).map(x =>
-        h('span', { class: 'p-stu ' + x.s }, ({ done: '🏁', away: '💤', ok: '✅', cook: '🍳' })[x.s] + ' ' + x.n))));
+        h('span', { class: 'p-stu ' + x.s }, h('i', { class: 'dot ' + ({ done: 'st-ok', away: 'st-away', ok: 'st-ok', cook: '' })[x.s] }), x.n))));
   };
-  NET.onState = () => { live.textContent = NET.online() ? '🟢' : '🟡'; };
+  NET.onState = () => { live.classList.toggle('on', NET.online()); };
   NET.start(code, ['tv'], null, (sub, m) => {
     if (sub !== 'tv' || typeof m.idx !== 'number' || (st && (m.seq || 0) < (st.seq || 0))) return;
     st = m; draw();
   }, () => send({ t: 'hi' }));
-  setTimeout(() => { if (MODE === 'pilot' && !st) es.textContent = '📺 La tele no contesta. ¿Está abierta la presentación?'; }, 9000);
+  setTimeout(() => { if (MODE === 'pilot' && !st) es.textContent = 'La tele no contesta. ¿Está abierta la presentación?'; }, 9000);
 }
 
 function startTV(at) {
@@ -2404,7 +2407,12 @@ const params = new URLSearchParams(location.search);
 markFull();
 loadImages().then(() => {
   if (params.has('pilot')) showPilot();
-  else if (params.has('jugar') || params.has('sala')) showJoin(); else if (params.has('tv')) startTV(Math.max(0, (+params.get('tv') || 1) - 1)); else showHome();
+  else if (params.has('jugar') || params.has('sala')) showJoin();
+  else if (params.has('tv')) {
+    /* ?tv&nueva: clase nueva desde el paso 1 (después de un ensayo el mismo día) */
+    if (params.has('nueva')) tvRoom(true);
+    startTV(Math.max(0, (+params.get('tv') || 1) - 1));
+  } else showHome();
 });
 </script>
 </body>
