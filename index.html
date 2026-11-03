@@ -273,8 +273,8 @@ input{font-family:inherit}
 .ds-url{display:block;padding:.4vh .6vw;font-size:min(2.4vw,3.9vh);font-weight:700;color:var(--ink);user-select:text;-webkit-user-select:text;word-break:break-all}
 .ds-code b{color:var(--red);letter-spacing:.14em;font-size:1.25em}
 .ds-panel{background:var(--cream);padding:3vh 2.4vw;text-align:left}
-.joined{display:flex;flex-wrap:wrap;gap:1vh .8vw;min-height:5vh;align-items:center;font-size:var(--t-cap);margin-top:1vh}
-.joined .chip2{padding:.5vh 1vw;background:#fff;border:var(--ds-bw) solid var(--line);border-radius:999px;font-weight:600;animation:ds-in .4s both}
+.joined{display:flex;flex-wrap:wrap;gap:.7vh .6vw;min-height:5vh;align-items:center;font-size:var(--t-cap);margin-top:1vh}
+.joined .chip2{padding:.35vh .9vw;background:#fff;border:var(--ds-bw) solid var(--line);border-radius:999px;font-weight:600;animation:ds-in .4s both}
 .joined .cnt2{font-weight:700;color:var(--green)}
 .paper{background:var(--cream);border-radius:30px;padding:3vh 4vw}
 .lines{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.4vh;text-align:left}
@@ -309,6 +309,11 @@ input{font-family:inherit}
 .code-big{font-size:clamp(2rem,5vw,4.5rem);font-weight:700;letter-spacing:.15em;color:var(--red)}
 .url-small{font-size:clamp(.8rem,1.2vw,1.1rem);color:var(--ink2);word-break:break-all;max-width:min(30vw,42vh);user-select:text}
 .board-list{display:flex;flex-direction:column;gap:1.2vh;text-align:left;max-height:72vh;overflow:hidden}
+.board-list.c2,.board-list.c3{display:grid;grid-auto-flow:column;column-gap:1.2vw;row-gap:1vh}
+.board-list.c2 .stu,.board-list.c3 .stu{grid-template-columns:3ch minmax(0,1fr) minmax(0,1fr) auto;padding:.7vh 1vw}
+.ds-board .board-list.c2 .stu{font-size:min(1.6vw,2.9vh)}
+.ds-board .board-list.c3 .stu{font-size:min(1.25vw,2.2vh);padding:.4vh .8vw;grid-template-columns:2.6ch minmax(0,1.7fr) minmax(0,.8fr) auto}
+.board-list.c3{row-gap:.6vh}
 .board-head{display:flex;justify-content:space-between;align-items:center;font-size:clamp(1.2rem,2.4vw,2.2rem);font-weight:700}
 .stu{display:grid;grid-template-columns:3ch 1fr 2fr auto;gap:1vw;align-items:center;background:#fff;border-radius:16px;padding:1vh 1.2vw;font-size:clamp(1rem,1.9vw,1.8rem)}
 .stu .n{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -820,6 +825,26 @@ img.th{width:100%;height:100%;object-fit:contain}
   .zoom .counter .work.pair .board{min-height:min(28dvh,110px)}
   .grater-wrap>img{width:min(24dvh,120px)}
   .oven-modal .box{max-height:100%;overflow:auto;padding:8px;gap:5px}
+  /* horno en el móvil tumbado: más ancho y más bajo, para que "¡Al horno!" se vea sin desplazar */
+  .oven-modal .box{max-width:min(96vw,560px);display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:10px}
+  .oven-modal .pop-h{display:contents}
+  .oven-modal .pop-h>b{grid-row:1;grid-column:1}
+  .oven-modal .ov-panel{grid-row:1;grid-column:2}
+  .oven-modal .pop-h>.x{grid-row:1;grid-column:3}
+  .oven-modal .ctrl,.oven-modal .box>.btn{grid-column:1/-1}
+  .oven-modal .ctrl{flex-direction:row;align-items:center;padding:5px 10px}
+  .oven-modal .ctrl>b{flex:0 0 8.6em;font-size:.95rem}
+  .oven-modal .chips{flex:1}
+  .oven-modal .chip{min-height:36px;padding:4px 0}
+  .oven-modal .box>.btn{padding:7px 20px;justify-self:center}
+}
+@media (orientation:landscape) and (max-height:360px){
+  .oven-modal{padding:4px}
+  .oven-modal .box{gap:3px;padding:6px 8px}
+  .oven-modal .ctrl{padding:3px 8px}
+  .oven-modal .chip{min-height:32px;padding:2px 0}
+  .oven-modal .disp{padding:2px 10px}
+  .oven-modal .box>.btn{padding:5px 18px}
 }
 /* ---------- móvil en vertical: se pide girarlo ---------- */
 .rotate{position:fixed;inset:0;z-index:80;background:rgba(255,248,236,.97);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px}
@@ -2336,14 +2361,16 @@ function refreshTV() {
       ? h('div', { class: 'cls' },
           h('div', { class: 'cls-t' }, h('b', {}, 'Paso ' + (TV.cls + 1) + ' de ' + N + ': '), STEPS[TV.cls].t))
       : h('div', { class: 'cls' }, h('div', { class: 'cls-t' }, h('b', {}, '¡Todos han terminado!'))));
-    const bl = h('div', { class: 'board-list' });
+    /* con mucha gente, la lista va en dos o tres columnas para que quepa entera en la tele */
+    const MAX = 30, shown = Math.min(list.length, MAX), cols = shown > 16 ? 3 : shown > 7 ? 2 : 1;
+    const bl = h('div', { class: 'board-list c' + cols, style: cols > 1 ? `grid-template-rows:repeat(${Math.ceil(shown / cols)},auto)` : null });
     if (!list.length) bl.append(h('div', { class: 'empty' }, 'Todavía no hay nadie en la clase.'));
-    list.slice(0, 14).forEach((s, i) => bl.append(h('div', { class: 'stu' + (s.done ? ' fin' : '') },
+    list.slice(0, MAX).forEach((s, i) => bl.append(h('div', { class: 'stu' + (s.done ? ' fin' : '') },
       s.done ? h('span', {}, String(i + 1) + '.') : h('i', { class: 'dot st-' + (s.away ? 'away' : s.step > TV.cls ? 'ok' : 'cook') }),
       h('span', { class: 'n' }, s.name),
       h('div', { class: 'pb' }, h('i', { style: 'width:' + Math.round(100 * s.step / s.total) + '%' })),
       h('span', { class: 's' }, s.done ? s.score + ' pts' : 'paso ' + Math.min(s.step + 1, s.total)))));
-    if (list.length > 14) bl.append(h('div', { class: 'conn' }, '+ ' + (list.length - 14) + ' más'));
+    if (list.length > MAX) bl.append(h('div', { class: 'conn' }, '+ ' + (list.length - MAX) + ' más'));
     board.append(bl);
   }
   const pod = $('#podium');
