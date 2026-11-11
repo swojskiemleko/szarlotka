@@ -6,7 +6,7 @@
 <title>La szarlotka</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --red:#e23d3d; --red2:#b82828; --cream:#fff8ee; --ink:#4a2c1a; --ink2:#7a5a44;
@@ -16,7 +16,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
 body{
-  font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background-color:#fdf4e7;
+  font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background-color:#fdf4e7;
   /* mantel de cuadros de cocina */
   background-image:linear-gradient(90deg,rgba(226,61,61,.09) 50%,transparent 0),linear-gradient(rgba(226,61,61,.09) 50%,transparent 0);
   background-size:min(9vw,13vh) min(9vw,13vh);
@@ -2066,27 +2066,30 @@ function showHome() {
       h('button', { class: 'btn', onclick: () => startTV(0) }, 'Presentación (en la tele)'),
       h('button', { class: 'btn green', onclick: () => showJoin() }, 'Jugar')))));
 }
-function showJoin() {
+function showJoin(code) {
   MODE = 'join';
   const name = h('input', { class: 'field', maxlength: 16, placeholder: 'Tu nombre', autocomplete: 'off' });
+  const codeIn = h('input', { class: 'field code', maxlength: 6, placeholder: 'CÓDIGO', autocomplete: 'off', value: code || '' });
   const msg = h('p', { style: 'min-height:1.4em;color:var(--red);margin:0' });
   const go = () => {
-    const n = name.value.trim();
+    const n = name.value.trim(), c = codeIn.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
     if (!n) { msg.textContent = '¡Escribe tu nombre!'; name.classList.add('shake'); setTimeout(() => name.classList.remove('shake'), 400); return; }
+    if (!c) { msg.textContent = '¡Escribe el código de la clase!'; codeIn.classList.add('shake'); setTimeout(() => codeIn.classList.remove('shake'), 400); return; }
     beep(880, .1);
     store.set('szarlotka-name', n);
     /* en el móvil: pantalla completa y en horizontal (Android; en iPhone se gira a mano) */
     music(true);
     if (matchMedia('(pointer:coarse)').matches) goFull();
-    startGame({ name: n, room: ROOM });
+    startGame({ name: n, room: c });
   };
   name.value = store.get('szarlotka-name') || '';
   name.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  codeIn.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
   restart(h('div', { class: 'center' }, h('div', { class: 'panel-card' },
     h('div', { class: 'logo' }, pic('chef', '👩‍🍳')),
     h('h1', {}, '¡Hola!'),
     h('p', {}, 'Hoy cocinamos una szarlotka. ¿Cómo te llamas?'),
-    h('div', { class: 'stack' }, name, msg,
+    h('div', { class: 'stack' }, name, codeIn, msg,
       h('button', { class: 'btn green', onclick: go }, '¡A cocinar!')))));
   setTimeout(() => name.focus(), 50);
 }
@@ -2094,13 +2097,13 @@ function showJoin() {
 /* =========================================================
    Presentación en la tele
    ========================================================= */
-/* toda la clase está en la misma sala: no hay códigos */
-const ROOM = 'SZARLOTKA';
+/* cada clase tiene su código: el QR lleva a …?sala=CÓDIGO, y también se puede escribir a mano */
+const ROOM_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const TV = { room: null, since: 0, students: {}, idx: 0, live: false, cls: 0, play: false, ping: '', timer: null };
 function tvRoom(fresh) {
   let r = !fresh && store.get('szarlotka-room');
-  if (!r || Date.now() / 1000 - r.ts > 10 * 3600) r = { ts: Math.floor(Date.now() / 1000) };
-  TV.room = ROOM; TV.since = r.ts; TV.students = {};
+  if (!r || !r.code || Date.now() / 1000 - r.ts > 10 * 3600) r = { code: rid(5, ROOM_ABC), ts: Math.floor(Date.now() / 1000) };
+  TV.room = r.code; TV.since = r.ts; TV.students = {};
   /* una clase que ya terminó empieza otra vez desde el paso 1 */
   TV.cls = r.cls > 0 && r.cls < STEPS.length ? r.cls : 0;
   TV.play = !!r.play && r.cls < STEPS.length;
@@ -2111,7 +2114,7 @@ function tvRoom(fresh) {
     if (sub === 'pilot') onPilot(m);
   }, () => { tvCtl(true); tvState(); });
 }
-const tvSave = () => store.set('szarlotka-room', { ts: TV.since, cls: TV.cls, play: TV.play });
+const tvSave = () => store.set('szarlotka-room', { code: TV.room, ts: TV.since, cls: TV.cls, play: TV.play });
 /* el paso de la clase se guarda en el servidor (retain) para quien entra tarde */
 function tvCtl(newPing) {
   if (newPing) TV.ping = rid(6);
@@ -2170,7 +2173,7 @@ function ranked() {
     (b.done ? 1 : 0) - (a.done ? 1 : 0) || (b.score || 0) - (a.score || 0) || b.step - a.step || a.name.localeCompare(b.name));
 }
 const baseURL = () => location.href.split('#')[0].split('?')[0].replace(/index\.html$/, '');
-const joinURL = () => baseURL() + '?jugar';
+const joinURL = () => baseURL() + '?sala=' + TV.room;
 
 const siteName = () => (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
 /* espiga de trigo dibujada (sin emojis en las diapositivas) */
@@ -2187,7 +2190,7 @@ const SLIDES = [
     h('p', { class: 'ds-kicker' }, 'Dziś gotujemy razem'),
     h('h1', {}, 'La szarlotka'),
     h('div', { class: 'join-grid ds-in' },
-      h('div', { class: 'ds-card join-qr' }, h('div', { class: 'qr', id: 'qr' }), h('div', { class: 'ds-url' }, siteName())),
+      h('div', { class: 'ds-card join-qr' }, h('div', { class: 'qr', id: 'qr' }), h('div', { class: 'ds-url' }, siteName() + '?sala=' + TV.room)),
       h('div', { class: 'ds-card ds-panel' },
         h('ol', { class: 'ds-steps' },
           h('li', {}, h('span', { class: 'n' }, '1'), h('span', {}, 'Zeskanuj kod QR telefonem', h('br'), 'albo wejdź na stronę spod kodu.')),
@@ -2273,8 +2276,22 @@ const NOTES = [
 /* =========================================================
    Pilot: el móvil de quien presenta (…/?pilot o …/pilot)
    ========================================================= */
-function showPilot() {
-  const code = ROOM;
+/* el mando pide el código de la clase (sale en el QR de la tele) y lo recuerda en este móvil */
+function pilotCode() {
+  MODE = 'pilot';
+  const inp = h('input', { class: 'field code', maxlength: 6, placeholder: 'CÓDIGO', autocomplete: 'off' });
+  const enter = () => { const c = inp.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''); if (c) showPilot(c); };
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
+  restart(h('div', { class: 'center' }, h('div', { class: 'panel-card' },
+    h('h1', {}, 'Mando'),
+    h('p', {}, 'Escribe el código de la clase.'),
+    h('div', { class: 'stack' }, inp, h('button', { class: 'btn green', onclick: enter }, 'Entrar')))));
+  setTimeout(() => inp.focus(), 50);
+}
+function showPilot(code) {
+  code = (code || store.get('szarlotka-pilot') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!code) return pilotCode();
+  store.set('szarlotka-pilot', code);
   MODE = 'pilot';
   let st = null;
   const send = m => NET.pub('pilot', m);
@@ -2404,10 +2421,11 @@ document.addEventListener('keydown', e => {
    Inicio
    ========================================================= */
 const params = new URLSearchParams(location.search);
+const sala = (params.get('sala') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 markFull();
 loadImages().then(() => {
-  if (params.has('pilot')) showPilot();
-  else if (params.has('jugar') || params.has('sala')) showJoin();
+  if (params.has('pilot')) showPilot(params.get('pilot'));
+  else if (params.has('jugar') || params.has('sala')) showJoin(sala);
   else if (params.has('tv')) {
     /* ?tv&nueva: clase nueva desde el paso 1 (después de un ensayo el mismo día) */
     if (params.has('nueva')) tvRoom(true);
